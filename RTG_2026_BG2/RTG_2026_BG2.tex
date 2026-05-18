@@ -1,0 +1,203 @@
+\documentclass[letterpaper]{article}
+
+\usepackage{style}  % If you feel like procrastinating, mess with this file
+\usepackage{algo}   % Thank you Jeff, very cool!
+
+\addbibresource{refs.bib}
+
+% Required reading
+% https://jmlr.csail.mit.edu/reviewing-papers/knuth_mathematical_writing.pdf
+%   Along with required viewing:
+%   https://www.youtube.com/watch?v=N6QEgbPWUrg&list=PLOdeqCXq1tXihn5KmyB2YTOqgxaUkcNYG
+% https://dwest.web.illinois.edu/grammar.html
+% https://www.ams.org/notices/199701/comm-rota.pdf
+
+% % % % % % % % % %
+%     Cursor      %
+%     Parking     %
+%     Lot         %
+% % % % % % % % % %
+
+\title{Symmetric Functions and Affine $\mathfrak{S}_n$}
+\author{Anakin Dey}
+
+\begin{document}
+\maketitle
+
+\section{Symmetric Functions}
+
+\subsection{The Ring of Symmetric Functions}
+
+First we review the construction of the ring of symmetric functions as an inverse limit in the category of \emph{graded rings}.
+This follows~\cite{Mac95}.
+We will assume basic notations for partitions and (skew) tableaux following~\cite{Ful96}.
+
+\begin{defn}
+  For $n \geq 0$, let $\Lambda_n = \Z[x_1, \ldots, x_n]^{\mathfrak{S}_n}$ be the ring of symmetric polynomials over $\Z$ in $n$ variables.
+  For $k \geq 0$, let $\Lambda_n^k$ be the $k$-th graded component of $\Lambda_n$, where each $x_i$ has degree one.
+  Then for $m \geq n$, we have a restriction morphism $\rho_{m, n}\colon \Lambda_m \to \Lambda_n$ sending $x_{n + 1}, \ldots, x_{m}$ to zero and $x_1, \ldots, x_n$ to themselves.
+  Furthermore, $\rho_{m, n}$ respects the grading and so we have $\rho_{m, n}^k\colon \Lambda_m^k \to \Lambda_n^k$ for all $k \geq 0$ and all $m \geq n \geq 0$.
+
+  The \emph{ring of symmetric functions} $\Lambda$ has as the $k$-th graded component the inverse limit $\Lambda^k \defeq \varprojlim\limits_n \Lambda_n^k$ and $\Lambda \defeq \bigoplus_{k \geq 0} \Lambda^k$.
+  Note that this limit is over \emph{graded rings} and so we do not have elements such as $\prod_{i = 1}^\infty (1 + x_i)$.
+  To obtain the ring of symmetric functions $\Lambda_A$ over rings $A$ other than $\Z$, repeating the above construction gives $\Lambda_A \simeq \Lambda \otimes_\Z A$.
+\end{defn}
+
+\subsection{Common Bases for the ring of Symmetric Functions}
+
+We describe some basic examples of symmetric functions.
+
+\begin{defn}
+  \begin{itemize}
+    \item Let $\lambda = (\lambda_1 \geq \cdots \geq \lambda_n \geq 0)$ be any partition with length $\ell(\lambda) \leq n$.
+          Then the \emph{monomial symmetric function} $m_\lambda(x_1, \ldots, x_n)$ is defined by
+          \[
+            m_\lambda(x_1, \ldots, x_n) = \sum_{\alpha} x_1^{\alpha_1} \cdots x_n^{\alpha_n}
+          \]
+          where the summation is taken over all permutations of $\lambda$.
+          We have that $\Lambda^k$ is the free $\Z$-module of rank $p(k)$ with basis $m_\lambda(x_1, \ldots, x_n)$ for all $n \geq k$ as $\lambda \vdash k$ ranges over all partitions of $k$, where $p(k)$ is the number of partitions of $k$.
+          
+    \item For $r \geq 0$, the $r$-th \emph{elementary symmetric function} $e_r$ is defined by
+          \[
+            e_r = \sum_{i_1 < \cdots < i_r} x_{i_1} \cdots x_{i_r} = m_{(1^r)}.
+          \]
+          For a partition $\lambda = (\lambda_1, \lambda_2, \ldots)$ we define $e_\lambda = e_{\lambda_1} e_{\lambda_2} \cdots$.
+          The \emph{Fundamental Theorem of Symmetric Functions} states that over finitely many variables, say $x_1, \ldots, x_n$, the elementary symmetric functions $e_1, \ldots, e_n$ are algebraically independant and $\Lambda_n \simeq \Z[e_1, \ldots, e_]$.
+          For a clean proof of this fact due to van der Waerden, see~\cite[Theorem 1.1.1]{Stu08}.
+    \item For $r \geq 0$, the $r$-th \emph{complete homogeneous symmetric function} $h_r$ is defined by
+          \[
+            h_r = \sum_{i_1 \leq \cdots \leq i_r} x_{i_1} \cdots x_{i_r} = \sum_{\lambda \vdash r} m_{\lambda}.
+          \]
+          For a partition $\lambda = (\lambda_1, \lambda_2, \ldots)$ we define $h_\lambda = h_{\lambda_1} h_{\lambda_2} \cdots$.
+    \item For $r \geq 0$, the $r$-th \emph{power sum symmetric function} $p_r$ is defined by
+          \[
+            p_r = \sum_{i \geq 1} x_{i}^r = m_{(r)}.
+          \]
+          For a partition $\lambda = (\lambda_1, \lambda_2, \ldots)$ we define $h_\lambda = h_{\lambda_1} h_{\lambda_2} \cdots$.
+  \end{itemize}
+\end{defn}
+
+\subsection{Schur Functions}
+
+We follow~\cite[Chapter 7]{Sta23} for the exposition on Schur functions.
+
+\begin{defn}
+  For a Young tableaux $T$, its \emph{type} is the vector $\alpha = (\alpha_1, \alpha_2, \ldots)$ where $\alpha_i$ is the number of entries of $T$ labeled with $i$.
+  If $T$ has type $\alpha$, write $\overline{x}^T = x_1^{\alpha_1} x_2^{\alpha_2} \cdots$.
+  For a partition $\lambda$, the \emph{Schur function} $s_\lambda(\overline{x})$ is defined by
+  \[
+    s_\lambda(\overline{x}) = \sum_{\text{SSYT } T \text{ of shape } \lambda} \overline{x}^T
+  \]
+  where the summation is taken over all semistandard Young tableau of shape $\lambda$.
+\end{defn}
+
+Note that the Schur functions also form a basis of $\Lambda$.
+
+\begin{prop}
+  Let
+  \[
+    a_\delta = \det\pqty{x_i^{n - j}}_{1 \leq i, j \leq n} = \prod_{1 \leq i < j \leq n} (x_i - x_j)
+  \]
+  be the \emph{Vandermonde determinant}.
+  For a partition $\lambda = (\lambda_1 \geq \cdots \geq \lambda_n \geq 0)$, the \emph{alternant} $a_{\lambda + \delta}$ is the determinant
+  \[
+    a_{\lambda + \delta} = \det\pqty{x_i^{\lambda_j + n - j}}_{1 \leq i, j \leq n}.
+  \]
+  Then $s_\lambda(x_1, \ldots, x_n) = \frac{a_{\lambda + \delta}}{a_\delta}$.
+\end{prop}
+
+\begin{prop}
+  For a partition $\lambda$, we have that
+  \begin{align*}
+    s_\lambda(x_1, \ldots, x_n) = \det\pqty{h_{\lambda_i + j - i}(\overline{x})}_{1 \leq i, j \leq n}, \\
+    s_{\lambda'}(x_1, \ldots, x_n) = \det\pqty{e_{\lambda_i + j - i}(\overline{x})}_{1 \leq i, j \leq n},
+  \end{align*}
+  the \emph{Jacobi-Trudi} and \emph{N\"{a}gelsbach-Kostka} identities respectively.
+\end{prop}
+In particular we have that $e_r = s_{(1^r)}$ and $h_r = s_{(r)}$.
+
+\begin{thrm}[Pieri Rules]
+  For a partition $\lambda$ and an integer $r \geq 0$, we have that
+  \[
+    h_r(\overline{x}) \cdot s_\lambda(\overline{x}) = \sum_{\mu} s_\mu
+  \]
+  where the summation over $\mu$ is over all partitions $\mu$ formed by added $r$ boxes to the diagram of $\lambda$ such that no two boxes are added to the same column.
+
+  We also have that
+  \[
+    e_r(\overline{x}) \cdot s_\lambda(\overline{x}) = \sum_{\mu} s_\mu
+  \]
+  where the summation over $\mu$ is over all partitions $\mu$ formed by added $r$ boxes to the diagram of $\lambda$ such that no two boxes are added to the same row.
+\end{thrm}
+
+\subsection{An Involution and Inner Product}
+
+\begin{defn}
+  We have a map $\omega\colon \Lambda \to \Lambda$ given by $\omega(e_\lambda) = h_\lambda$.
+\end{defn}
+
+\begin{prop}
+  One can check that $\omega(h_\lambda) = e_\lambda$ so that $\omega$ is an involution.
+  Furthermore, we have that $\omega(p_\lambda) = (-1)^{\abs{\lambda} - \ell(\lambda)} p_\lambda$ and $\omega(s_\lambda) = s_{\lambda'}$.
+\end{prop}
+
+\begin{defn}
+  We define an inner product $\inner{\cdot ,\cdot}$ on $\Lambda$ by making the two bases $\Set{m_\lambda}_\lambda$ and $\Set{h_\mu}_\mu$ dual: $\inner{m_\lambda, h_\mu} = \delta_{\lambda, \mu}$ for all partitions $\lambda, \mu$.
+\end{defn}
+
+\begin{prop}
+  Let $z_\lambda = \prod_{k} k^{n_k(\lambda)} \cdot n_k(\lambda)!$ where $n_k(\lambda)$ is the number of parts of $\lambda$ of size $k$.
+  Then $\inner{p_\lambda, p_\mu} = z_\lambda \delta_{\lambda, \mu}$.
+  We also have that $\inner{s_\lambda, s_\mu} = \delta_{\lambda, \mu}$ so that the Schur functions form an orthonormal basis of $\Lambda$.
+\end{prop}
+
+\begin{prop}
+  The involution $\omega$ is self-adjoint: $\inner{f, \omega(g)} = \inner{\omega(f), g}$.
+  Thus, we have that $\inner{\omega(f), \omega(g)} = \inner{f, \omega^2(g)} = \inner{f, g}$ for all $f, g \in \Lambda$.
+\end{prop}
+
+\subsection{Skew-Schur Functions and Skewing}
+
+\begin{defn}
+  For two partitions $\lambda, \mu$, the \emph{skew Schur function} $s_{\lambda / \mu}(\overline{x})$ is defined by
+  \[
+    s_{\lambda / \mu}(\overline{x}) = \sum_{\text{SSYT } T \text{ of shape } \lambda / \mu} \overline{x}^T
+  \]
+  where the summation is taken over all semistandard Young tableau of shape $\lambda / \mu$.
+\end{defn}
+
+\begin{prop}
+  For partitions $\lambda, \mu$, we have that
+  \begin{align*}
+    s_{\lambda / \mu}(x_1, \ldots, x_n) = \det\pqty{h_{\lambda_i - \mu_j + j - i}(\overline{x})}_{1 \leq i, j \leq n}, \\
+    s_{\lambda' / \mu'}(x_1, \ldots, x_n) = \det\pqty{e_{\lambda_i - \mu_j + j - i}(\overline{x})}_{1 \leq i, j \leq n}.
+  \end{align*}
+\end{prop}
+
+\begin{defn}
+  For any symmetric function $f \in \Lambda$, the \emph{skewing operator} $f^\perp\colon \Lambda \to \Lambda$ is defined by the property that for all $g, h \in \Lambda$ we have that $\inner{f \cdot g, h} = \inner{g, f^\perp(h)}$.
+\end{defn}
+
+The discussion on skewing follows~\cite[Chapter 2]{GR26}.
+
+\begin{ex}
+  We have that $s_\mu^\perp(s_\lambda) = s_{\lambda / \mu}$.
+\end{ex}
+
+\begin{ex}
+  We have ``dual'' versions of the Pieri Rules.
+  For a partition $\lambda$ and an integer $r \geq 0$, we have that
+  \[
+    h_r^\perp (s_\lambda(\overline{x})) = \sum_{\mu} s_\mu
+  \]
+  where the summation over $\mu$ is over all partitions $\mu$ such that $\lambda / \mu$ is a \emph{horizontal strip} meaning no two boxes in the skew diagram are in the same column. 
+  We also have that
+  \[
+    e_r^\perp (s_\lambda(\overline{x})) = \sum_{\mu} s_\mu
+  \]
+  where the summation over $\mu$ is over all partitions $\mu$ such that $\lambda / \mu$ is a \emph{vertical strip} meaning no two boxes in the skew diagram are in the same row. 
+\end{ex}
+
+
+\printbibliography
+\end{document}
