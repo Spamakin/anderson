@@ -175,13 +175,13 @@
     notefont=\bfseries,
 ]{theorem}
 
-\declaretheorem[style=theorem, numbered=no, name=Definition]{defn}
-\declaretheorem[style=theorem, numbered=no, name=Example]{ex}
-\declaretheorem[style=theorem, numbered=no, name=Theorem]{thrm}
-\declaretheorem[style=theorem, numbered=no, name=Proposition]{prop}
-\declaretheorem[style=theorem, numbered=no, name=Lemma]{lem}
-\declaretheorem[style=theorem, numbered=no, name=Corollary]{cor}
-\declaretheorem[style=theorem, numbered=no, name=Exercise]{exercise}
+\declaretheorem[style=theorem, name=Definition]{defn}
+\declaretheorem[style=theorem, sibling=defn, name=Example]{ex}
+\declaretheorem[style=theorem, sibling=defn, name=Theorem]{thrm}
+\declaretheorem[style=theorem, sibling=defn, name=Proposition]{prop}
+\declaretheorem[style=theorem, sibling=defn, name=Lemma]{lem}
+\declaretheorem[style=theorem, sibling=defn, name=Corollary]{cor}
+\declaretheorem[style=theorem, sibling=defn, name=Exercise]{exercise}
 
 % TODO: Find a good way to typeset proofs without a QED
 \declaretheoremstyle[
