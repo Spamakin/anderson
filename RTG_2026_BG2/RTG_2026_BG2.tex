@@ -69,7 +69,7 @@ Let $\Z[x_1, x_2, \ldots]$ be the polynomial ring over $\Z$ in countably many va
             e_r = \sum_{i_1 < \cdots < i_r} x_{i_1} \cdots x_{i_r} = m_{(1^r)}.
           \]
           For a partition $\lambda = (\lambda_1, \lambda_2, \ldots)$ we define $e_\lambda = e_{\lambda_1} e_{\lambda_2} \cdots$.
-          The \emph{Fundamental Theorem of Symmetric Functions} states that over finitely many variables, say $x_1, \ldots, x_n$, the elementary symmetric functions $e_1, \ldots, e_n$ are algebraically independant and $\Lambda_n \simeq \Z[e_1, \ldots, e_]$.
+          The \emph{Fundamental Theorem of Symmetric Functions} states that over finitely many variables, say $x_1, \ldots, x_n$, the elementary symmetric functions $e_1, \ldots, e_n$ are algebraically independant and $\Lambda_n \simeq \Z[e_1, \ldots, e_n]$.
           For a clean proof of this fact due to van der Waerden, see~\cite[Theorem 1.1.1]{Stu08}.
     \item For $r \geq 0$, the $r$-th \emph{complete homogeneous symmetric function} $h_r$ is defined by
           \[
@@ -116,8 +116,8 @@ Note that the Schur functions also form a basis of $\Lambda$.
 \begin{prop}
   For a partition $\lambda$, we have that
   \begin{align*}
-    s_\lambda(x_1, \ldots, x_n) = \det\pqty{h_{\lambda_i + j - i}(\overline{x})}_{1 \leq i, j \leq n}, \\
-    s_{\lambda'}(x_1, \ldots, x_n) = \det\pqty{e_{\lambda_i + j - i}(\overline{x})}_{1 \leq i, j \leq n},
+    s_\lambda(\overline{x}) = \det\pqty{h_{\lambda_i + j - i}(\overline{x})}_{1 \leq i, j \leq n}, \\
+    s_{\lambda'}(\overline{x}) = \det\pqty{e_{\lambda_i + j - i}(\overline{x})}_{1 \leq i, j \leq n},
   \end{align*}
   the \emph{Jacobi-Trudi} and \emph{N\"{a}gelsbach-Kostka} identities respectively.
 \end{prop}
