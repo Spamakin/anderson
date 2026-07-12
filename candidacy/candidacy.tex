@@ -9,18 +9,25 @@
 
 \begin{document}
 
-\maketitle
-
 \begin{abstract}
 
 \end{abstract}
 
+\maketitle
+
 \section{Introduction}
+
+\quest{I will flesh out the whole introduction more at a later date.}
 
 Many problems in combinatorics, geometry, and computer science can be expressed in terms of the computation of some polynomials.
 For example, finding a perfect matching in a graph is equivalent to determining if it's \emph{Tutte Matrix} has determinant identically zero.
 With this, we see that it is important to study the complexity of computing polynomials in general, and specifically computing special polynomials such as the determinant or permanent polynomials.
 Algebraic complexity theory is the study of the complexity of such computations.
+
+Polynomial ideals arise in many parts of algebraic complexity theory.
+They have connections to polynomial identity testing, proof complexity, algebraically natural proofs, and algebraic circuit lower bounds.
+See~\cite{Gro20} for more details on these connections.
+
 
 \subsection{Lower Bounds and Polynomial Identity Testing}
 
@@ -28,41 +35,216 @@ Algebraic complexity theory is the study of the complexity of such computations.
 
 \subsection{Ideals in Algebraic Complexity}
 
+Roughly speaking, for an ideal $I \subseteq k[\overline{x}]$ we want give a lower bound on the complexity of some nonzero $f \in I$ under some model of computation.
+This is a more general problem than proving lower bounds for a given nonzero polynomial $f$.
+
 \section{Preliminaries on Algebraic Complexity}
 
 \subsection{Computational Models}
 
-\begin{defn}[Algebraic Circuits]
+\begin{defn}[Algebraic Circuits]\label{defn:ckt}
+  An \emph{algebraic circuit} over a field $\F$ is a directed acyclic graph whose \emph{input nodes}, nodes of in-degree zero, are labeled either by variables $x_1, \ldots, x_n$ or constants from $F$.
+  Nodes of in-degree greater than zero are labeled by $\Sigma$ or $\Pi$ which are \emph{addition gates} or \emph{multiplication gates} respectively.
+  Each edge or \emph{wire} is also labeled by a constant from $\F$.
+
+  Computation is defined inductively node by node.
+  Input nodes compute their label.
+  Every $\Sigma$ gate computes the sum of their children multiplied by the constants along each wire, and computation at $\Pi$ gates is defined similarly.
+  Nodes of out-degree zero are \emph{outputs}.
+  We say that an algebraic circuit \emph{computes} $\{f_1(\overline{x}), \ldots, f_k(\overline{x})\}$ if these are the polynomials computed by all the outputs.
+
+  The \emph{size} of a circuit is the total number of edges.
+  Some sources also define the size to be the number of vertices.
+  These are polynomially related as a directed simple graph with $v$ vertices has has $O(v^2)$ edges.
+  It's \emph{depth} is the length of the longest input-to-output path.
+  The \emph{fan-in} and \emph{fan-out} of a node are in-degree and out-degree respectively.
+  The \emph{fan-in} and \emph{fan-out} of the circuit is the maximum fan-in and fan-out respectively over all nodes in the circuit.
+  The \emph{degree} or \emph{syntactic degree} of a circuit is the maximum degree of a polynomial computed by any of the nodes of the circuit.
+\end{defn}
+
+\begin{defn}[Algebraic Formulas]\label{defn:formula}
+  An \emph{algebraic formula} over a field $\F$ is an algebraic circuit whose underlying graph is a tree.
+\end{defn}
+
+\begin{defn}[Oracle Circuits]\label{defn:oracle_ckt}
 
 \end{defn}
 
-\begin{defn}[Oracle Circuits]
+
+\begin{defn}[Algebraic Branching Programs]\label{defn:abp}
+  An \emph{algebraic branching program} (\emph{ABP}) over a field $\F$ is a directed acyclic graph $A$ such that:
+  \begin{itemize}
+    \item The nodes $V$ of $A$ are partitioned into non-empty subsets $V = V_0 \sqcup \cdots \sqcup V_d$ for some integer $d\geq 0$ and we call $V_i$ the $i$-th layer.
+          Layer $V_0$ has exactly one node called the \emph{source} $s$ and layer $V_d$ has exactly one node called the \emph{sink} $t$.
+    \item Each edge in $A$ goes from layer $V_{i-1}$ to $V_i$ for some $i \in [d]$.
+    \item Each edge $e$ in $A$ is labeled with a polynomial $\gamma_e \in \mathbb{F}[\overline{x}]$ of degree at most one.
+  \end{itemize}
+  For a path $\overline{e} = (e_1, \ldots, e_d)$ from $s$ to $t$, where each edge $e_i$ goes from layer $i - 1$ to layer $i$, define the polynomial $\gamma_{\overline{e}} \coloneqq \prod_{i = 1}^d \gamma_{e_i}$.
+  Then $A$ computes the polynomial $\sum_{\substack{\text{path } \overline{e} \\ \text{from } s \text{ to } t}} \gamma_{\overline{e}}$.
+
+  The \emph{size} of an ABP $A$ is the number of edges in $A$.
+  Some sources also define the size to be the number of vertices.
+  These are polynomially related as a directed simple graph with $v$ vertices has has $O(v^2)$ edges.
+  The \emph{width} of $A$ is the maximum number of vertices in any layer of $A$.
+  The \emph{depth} of $A$ is the number of layers.
+\end{defn}
+
+\begin{rmk}
+  \Cref{defn:abp} is really the definition of a \emph{layered} ABP, where each edge only goes from one layer to the next without skipping any layers.
+  However, one can convert a non-layered ABP to a layered ABP with only a quadratic blowup in size.
+\end{rmk}
+
+\begin{defn}[Determinantal Complexity]\label{defn:det_complexity}
 
 \end{defn}
 
-\begin{defn}[Algebraic Formulas]
-
-\end{defn}
-
-\begin{defn}[Algebraic Branching Programs]
-
-\end{defn}
+\begin{lem}\label{lem:abp_det}
+  \quest{ABPs are connected to determinantal complexity.}
+\end{lem}
 
 \subsection{Basic Structural Results}
 
-\begin{lem}[Interpolation]
-  
+\begin{lem}
+  \quest{Depth reduction, conversions from circuits to formulas / ABPs and vice versa.}
 \end{lem}
 
-\begin{lem}[Isolation Lemma]
-  
+\begin{lem}
+  \quest{Elimination of Division}
 \end{lem}
 
-\begin{lem}[Isolation Lemma for Monomials]
-  
+\begin{defn}\label{defn:coeff}
+  For $f \in \F[\overline{x}, t]$ and an integer $i \in \Z_{\geq 0}$, denote by $\coeff_{t^i}(f)$ the coefficient of $t^i$ in $f$ when $f$ is viewed as a univariate polynomial in $t$ over the ring $\F[\overline{x}]$.
+\end{defn}
+
+\begin{lem}[{\cite[Lemma 2.29]{DG25}}]\label{lem:homogenization}
+    Let $g \in \F[\overline{x},t]$, and let $f \in \F[\overline{x},t]$ be a degree-$d$ polynomial such that for each $\alpha \in \F$, the polynomial $f(\overline{x},\alpha)$ is computed by a $g$-oracle circuit $C_\alpha$ of size at most $s$ and depth at most $\Delta$.
+    Assume that $\abs{\F} \geq d + 1$.
+    Then, for every $0 \leq i \leq d$, there exists a $g$-oracle circuit $D_i$ of size $\bigO{ds}$ and depth $\Delta+1$ that computes $\coeff_{t^i}(f)$, with its top gate being an addition gate and bottom $\Delta$ layers consisting of $d+1$ copies of $g$-oracle circuits of the form $C_\alpha$.
+    Moreover, if the top gate of each $C_\alpha$ is an addition gate, then the depth bound can be improved to $\Delta$.
 \end{lem}
+\begin{pf}
+    By definition,
+    \[
+        f = \sum_{i = 0}^d \coeff_{t^i}(f) t^i.
+    \]
+    Let $\alpha_1, \ldots, \alpha_{d + 1}$ be $d + 1$ distinct elements in $\F$.
+    Then we have that 
+    \[
+        \begin{pmatrix}
+            \alpha_1^d & \alpha_1^{d - 1} & \cdots & \alpha_1 & 1 \\ 
+            \alpha_2^d & \alpha_2^{d - 1} & \cdots & \alpha_2 & 1 \\ 
+            \vdots & \vdots & \ddots & \vdots & \vdots \\
+            \alpha_{d}^d & \alpha_{d}^{d - 1} & \cdots & \alpha_{d} & 1 \\ 
+            \alpha_{d + 1}^d & \alpha_{d + 1}^{d - 1} & \cdots & \alpha_{d + 1} & 1 
+        \end{pmatrix}
+        \begin{pmatrix}
+            \coeff_{t^d}(f) \\
+            \coeff_{t^{d-1}}(f) \\
+            \vdots \\
+            \coeff_{t}(f) \\
+            \coeff_{1}(f)
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            f(\overline{x},\alpha_1) \\
+            f(\overline{x},\alpha_2) \\
+            \vdots \\
+            f(\overline{x},\alpha_d) \\
+            f(\overline{x},\alpha_{d+1})
+        \end{pmatrix}        
+    \]
+    The $(d + 1) \times (d + 1)$ matrix $(\alpha_i^{d + 1 - j}) \in \F^{(d + 1) \times (d + 1)}$ is a Vandermonde matrix.
+    It's determinant is $\prod_{i < j} (\alpha_j - \alpha_j)$.
+    As all the $\alpha_i$ are distinct, this determinant is nonzero so that the matrix is invertible.
+    Thus, there exists a $(d + 1) \times (d + 1)$ matrix $(z_{i, j}) \in \F^{(d + 1) \times (d + 1)}$ such that
+    \[
+        \begin{pmatrix}
+            \coeff_{t^d}(f) \\
+            \coeff_{t^{d-1}}(f) \\
+            \vdots \\
+            \coeff_{t}(f) \\
+            \coeff_{1}(f)
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            z_{1, 1} & z_{1, 2} & \cdots & z_{1, d} & z_{1, d + 1} \\
+            z_{2, 1} & z_{2, 2} & \cdots & z_{2, d} & z_{2, d + 1} \\
+            \vdots & \vdots & \ddots & \vdots & \vdots \\
+            z_{d, 1} & z_{d, 2} & \cdots & z_{d, d} & z_{d, d + 1} \\
+            z_{d + 1, 1} & z_{d + 1, 2} & \cdots & z_{d + 1, d} & z_{d + 1, d + 1} \\
+        \end{pmatrix}
+        \begin{pmatrix}
+            f(\overline{x},\alpha_1) \\
+            f(\overline{x},\alpha_2) \\
+            \vdots \\
+            f(\overline{x},\alpha_d) \\
+            f(\overline{x},\alpha_{d+1})
+        \end{pmatrix} 
+    \]
+    Fix $0 \leq i \leq d$.
+    We now have an explicit expression for $\coeff_{t^i}(f)$:
+    \begin{equation}\label{eq:H_i_explicit}
+        \coeff_{t^i}(f) = \sum_{j = 1}^{d + 1} z_{d + 1 - i, j} f(\overline{x},\alpha_j)
+    \end{equation}
+    With \Cref{eq:H_i_explicit}, we can now describe the circuit for $\coeff_{t^i}(f)$.
+    The scalars $\alpha_1, \ldots, \alpha_{d+1}$ are fixed \apriori, and hence so are the $z_{i,j}$ for $i, j \in [d + 1]$.
+    Recall that scalar multiplications along wires are free.
+    For each $j \in [d + 1]$, computing $f(\overline{x},\alpha_j)$ requires a single $g$-oracle circuit $C_{\alpha_j}$ of size at most $s$ and depth $\Delta$.
+    Hence, evaluating all $d+1$ such terms requires total size $\bigO{ds}$.
+    The top-level summation uses one addition gate and $d+1$ scalar multiplications by the $z_{d + 1 - i, j}$ along $d+1$ wires.
+    Therefore, \Cref{eq:H_i_explicit} yields a $g$-oracle circuit $D_i$ of size $\bigO{ds+d} = \bigO{ds}$ and depth $\Delta+1$ computing $\coeff_{t^i}(f)$.
+    Moreover, if the top gate of each $C_{\alpha_j}$ is an addition gate, then the top two layers of $D_i$ consist entirely of additions and can be merged to reduce the depth bound to $\Delta$.
+\end{pf}
+
+\begin{rmk}
+  The condition $\abs{\F} \geq d + 1$ in \Cref{lem:homogenization} is required for interpolation. 
+  We note that if $g$ is given not as a black box but as a white-box circuit, then its homogeneous components can be extracted in a gate-by-gate fashion~\cite{Str73}, which requires no lower bound on $\abs{\F}$.
+\end{rmk}
+
+\begin{lem}[{\cite[Lemma 4]{KS01}}]\label{lem:isolation_forms}
+    Let $C$ be any collection of distinct linear forms in variables $z_1, \ldots, z_\ell$ with coefficients in the range $\set{0, \ldots, K}$ for some integer $K \in \Z_{\geq 0}$.
+    Let $\e > 0$.
+    Let $z_1, \ldots, z_\ell$ be independently and uniformly chosen from $\set{0, \ldots, M}$ at random, where $M\geq K \ell / \e$.
+    Then, with probability at least $1 - \e$, there is a unique form in $C$ of minimum value at $z_1, \ldots, z_\ell$.
+\end{lem}
+
+A simple rephrasing of \Cref{lem:isolation_forms} allows us to isolate a term of a multivariate polynomial $f(y_1,\dots,y_\ell)$ under a random monomial substitution $y_i\mapsto w^{z_i}$:
+\begin{cor}[{\cite[Corollary 2.27]{DG25}}]\label{cor:isolation_exponents}
+    Let $K \in \Z_{\geq 0}$.  
+    Let $A$ be any ring, and let $f(y_1, \ldots, y_\ell) \in A[\overline{y}]$ be a polynomial whose individual degree in each variable is at most $K$, \ie, $\deg_{y_i}(f) \leq K$ for all $i \in [\ell]$.  
+    Fix $\e > 0$.  
+    Choose $z_1, \ldots, z_\ell$ independently and uniformly at random from $\set{0, \ldots, M}$, where $M \geq K\ell/\e$.  
+    Let $w$ be a new indeterminate, and define $\phi \colon A[y_1, \ldots, y_\ell] \to A[w]$ to be the ring homomorphism sending $y_i \mapsto w^{z_i}$ for each $i \in [\ell]$.  
+    Then, with probability at least $1 - \e$, there exists a unique monomial $\mathfrak{m} = y_1^{e_1}\cdots y_\ell^{e_\ell}$ among all monomials of $f$ such that  $\phi(\mathfrak{m}) = w^{e_1 z_1 + \cdots + e_\ell z_\ell}$ attains the minimum degree in $w$.
+\end{cor}
 
 \subsection{Border Complexity}
+
+\begin{defn}\label{defn:border_complexity}
+  We say that $g \in \F[x_1,\dots,x_n]$ is \emph{border computed} by a circuit $C$ over $\F(\e)$ if $C$ computes some polynomial $h \in \F(\e)[x_1,\dots,x_n]$, and $h - g \in \e \cdot \F[[\e]][x_1,\dots,x_n]$, where $\F[[\e]]$ denotes the ring of formal power series in $\e$.
+\end{defn}
+
+In the settings where $\F[\e][x_1,\dots,x_n]$ can be equipped with the Euclidean topology in a natural way, such as $\F = \C$ or $\R$, this would imply that $h \to g$ as $\e \mapsto 0$.
+However, this does not mean that we could just substitute $\e$ by zero in $C$ and obtain a circuit exactly computing $g$, since $C$ may use scalars in $\F(\e)$, such as $1/\e$, that are not well-defined at $\e = 0$.
+
+\begin{ex}[{\cite{DL25}}]
+  In order to interpolate the coefficients of $f(\overline{x}, t) = \sum_{i = 0}^d \coeff_{t^i}(f) \cdot t^i$ over $\F$ as in \Cref{lem:homogenization}, one needs that $\abs{\F} \geq d + 1$.
+  However, we can border compute $\coeff_{t^r}(f)$ if $\abs{\F} \geq r + 1$.
+
+  Suppose $\F$ has distinct elements $\set{\alpha_0, \ldots, \alpha_r}$.
+  Then, there exists elements $\beta_0, \ldots, \beta_r \in \mathbb{F}$ such that
+  \[
+    \coeff_{t^r}(f) = \lim_{\e \to 0} \frac{1}{\e^r} \left( \sum_{i = 0}^r \beta_i \cdot f(\overline{x}, \e \alpha_i) \right).
+  \]
+
+  Indeed let $g(\overline{x}, t) = \sum_{i = 0}^r \coeff_{t^i}(f) \cdot t^i$ and $h(\overline{x}, t) = f(\overline{c}, t) - g(\overline{x}, t)$.
+  Then standard interpolation on $\e \alpha_i$ gives us that there exists field constants $\beta_0, \ldots, \beta_r$ such that $\e^r \coeff_{t^r}(f) = \sum_{i = 0}^r \beta_i \cdot g(\e \alpha_i)$. Thus, we have that
+  \begin{align*}
+    & \lim_{\varepsilon \to 0} \frac{1}{\varepsilon^r} \left( \sum_{i = 0}^r \beta_i \cdot f(\overline{x}, \varepsilon \alpha_i) \right) \\
+    =& \lim_{\varepsilon \to 0} \frac{1}{\varepsilon^r} \left( \sum_{i = 0}^r \beta_i \cdot g(\overline{x}, \varepsilon \alpha_i) \right) + \lim_{\varepsilon \to 0} \frac{1}{\varepsilon^r} \left( \sum_{i = 0}^r \beta_i \cdot h(\overline{x}, \varepsilon \alpha_i) \right) \\=& \lim_{\varepsilon \to 0} \frac{1}{\varepsilon^r} \left( \sum_{i = 0}^r \beta_i \cdot g(\overline{x}, \varepsilon \alpha_i) \right) + 0 = \coeff_{t^r}(f).
+  \end{align*}
+
+\end{ex}
 
 \section{Preliminaries on Straightening Laws}
 

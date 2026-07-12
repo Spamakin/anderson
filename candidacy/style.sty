@@ -167,15 +167,16 @@ sups]{XCharter}         % I think this is the main font
     bodyfont=\normalfont
 ]{theorem}
 
-\declaretheorem[style=theorem, numberwithin=section, name=Definition]{defn}
-\declaretheorem[style=theorem, numberlike=defn, name=Example]{ex}
-\declaretheorem[style=theorem, numberlike=defn, name=Theorem]{thrm}
-\declaretheorem[style=theorem, numberlike=defn, name=Proposition]{prop}
-\declaretheorem[style=theorem, numberlike=defn, name=Lemma]{lem}
-\declaretheorem[style=theorem, numberlike=defn, name=Corollary]{cor}
-\declaretheorem[style=theorem, numberlike=defn, name=Conjecture]{conj}
-\declaretheorem[style=theorem, numberlike=defn, name=Question]{question}
-\declaretheorem[style=theorem, numberlike=defn, name=Remark]{remark}
+\declaretheorem[style=theorem, numberwithin=section, name=Definition, refname={definition, definitions},
+  Refname={Definition, Definitions}]{defn}
+\declaretheorem[style=theorem, numberlike=defn, name=Example, refname={example, examples}, Refname={Example, Examples}]{ex}
+\declaretheorem[style=theorem, numberlike=defn, name=Theorem, refname={theorem, theorems}, Refname={Theorems}]{thrm}
+\declaretheorem[style=theorem, numberlike=defn, name=Proposition, refname={proposition, propositions}, Refname={Proposition, Proposition}]{prop}
+\declaretheorem[style=theorem, numberlike=defn, name=Lemma, refname={lemma, lemmas}, Refname={Lemma, Lemmas}]{lem}
+\declaretheorem[style=theorem, numberlike=defn, name=Corollary, refname={corollary, corollaries}, Refname={Corollary, Corolarries}]{cor}
+\declaretheorem[style=theorem, numberlike=defn, name=Conjecture, refname={conjecture, conjectures}, refname={Conjecture, Conjectures}]{conj}
+\declaretheorem[style=theorem, numberlike=defn, name=Question, refname={question, questions}, Refname={Question, Questions}]{question}
+\declaretheorem[style=theorem, numberlike=defn, name=Remark, refname={remark, remarks}, Refname={Remark, Remarks}]{rmk}
 
 \declaretheoremstyle[
     spaceabove=\topsep,
