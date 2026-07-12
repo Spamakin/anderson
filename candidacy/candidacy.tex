@@ -66,10 +66,11 @@ This is a more general problem than proving lower bounds for a given nonzero pol
   An \emph{algebraic formula} over a field $\F$ is an algebraic circuit whose underlying graph is a tree.
 \end{defn}
 
-\begin{defn}[Oracle Circuits]\label{defn:oracle_ckt}
-
+\begin{defn}[Oracle Circuits and Formulas]\label{defn:oracle_ckt}
+  For a fixed polynomial $f(\overline{x}) \in \F[\overline{x}]$, an \emph{$f$-oracle circuit} is an algebraic circuit defined in the same manner as \Cref{defn:ckt}, however instead of just $\Sigma$ and $\Pi$ gates we now additionally allow $f(\overline{x})$ gates.
+  Note that such gates may have some inputs set as wires and some inputs set as fixed constants from $\F$.
+  We also define an \emph{$f$-oracle formula} as an $f$-oracle circuit whose underlying graph is a tree.
 \end{defn}
-
 
 \begin{defn}[Algebraic Branching Programs]\label{defn:abp}
   An \emph{algebraic branching program} (\emph{ABP}) over a field $\F$ is a directed acyclic graph $A$ such that:
@@ -95,11 +96,12 @@ This is a more general problem than proving lower bounds for a given nonzero pol
 \end{rmk}
 
 \begin{defn}[Determinantal Complexity]\label{defn:det_complexity}
-
+  For a polynomial $f(\overline{x})$ over a field $\F$, the \emph{determinantal complexity} of $f(\overline{x})$, denoted $\dc(f)$, is the smallest $m$ such that there exists an $m \times m$ matrix $M$ with entries in $\F[\overline{x}]_{\leq 1}$ such that $\det_m(M) = f(\overline{x})$.
 \end{defn}
 
-\begin{lem}\label{lem:abp_det}
-  \quest{ABPs are connected to determinantal complexity.}
+\begin{lem}[{\cite{Val79, Bur24}}]\label{lem:abp_det}
+  Suppose that $f(\overline{x})$ can be computed by an algebraic branching program of size $m$.
+  Then $\dc(f) \leq m$.
 \end{lem}
 
 \subsection{Basic Structural Results}
@@ -243,7 +245,6 @@ However, this does not mean that we could just substitute $\e$ by zero in $C$ an
     & \lim_{\varepsilon \to 0} \frac{1}{\varepsilon^r} \left( \sum_{i = 0}^r \beta_i \cdot f(\overline{x}, \varepsilon \alpha_i) \right) \\
     =& \lim_{\varepsilon \to 0} \frac{1}{\varepsilon^r} \left( \sum_{i = 0}^r \beta_i \cdot g(\overline{x}, \varepsilon \alpha_i) \right) + \lim_{\varepsilon \to 0} \frac{1}{\varepsilon^r} \left( \sum_{i = 0}^r \beta_i \cdot h(\overline{x}, \varepsilon \alpha_i) \right) \\=& \lim_{\varepsilon \to 0} \frac{1}{\varepsilon^r} \left( \sum_{i = 0}^r \beta_i \cdot g(\overline{x}, \varepsilon \alpha_i) \right) + 0 = \coeff_{t^r}(f).
   \end{align*}
-
 \end{ex}
 
 \section{Preliminaries on Straightening Laws}
@@ -252,11 +253,15 @@ However, this does not mean that we could just substitute $\e$ by zero in $C$ an
 
 \subsection{Pfaffian Ideals}
 
+\subsection{Hankel Ideals}
+
 \subsection{Symmetric Determinantal Ideals}
+
+\quest{Only if time}
 
 \subsection{Permanental Ideals}
 
-\subsection{Hankel Ideals}
+\quest{Only if time}
 
 \section{Prior Work}
 
@@ -266,9 +271,11 @@ However, this does not mean that we could just substitute $\e$ by zero in $C$ an
 
 \subsubsection{More Than One Generator}
 
+\section{Current Work on Ideals with Straightening Laws}
+
 \subsection{Approximative Results}
 
-\section{Current Work on Ideals with Straightening Laws}
+\subsection{Debordering}
 
 \section{Future Work and Open Problems}
 
