@@ -17,6 +17,8 @@
 
 \section{Introduction}
 
+\quest{Note about how alot of material here is based on}~\cite{DG25}.
+
 \quest{I will flesh out the whole introduction more at a later date.}
 
 Many problems in combinatorics, geometry, and computer science can be expressed in terms of the computation of some polynomials.
@@ -24,19 +26,9 @@ For example, finding a perfect matching in a graph is equivalent to determining 
 With this, we see that it is important to study the complexity of computing polynomials in general, and specifically computing special polynomials such as the determinant or permanent polynomials.
 Algebraic complexity theory is the study of the complexity of such computations.
 
-Polynomial ideals arise in many parts of algebraic complexity theory.
-They have connections to polynomial identity testing, proof complexity, algebraically natural proofs, and algebraic circuit lower bounds.
-See~\cite{Gro20} for more details on these connections.
-
-
 \subsection{Lower Bounds and Polynomial Identity Testing}
 
 \subsection{Geometric Complexity Theory}
-
-\subsection{Ideals in Algebraic Complexity}
-
-Roughly speaking, for an ideal $I \subseteq k[\overline{x}]$ we want give a lower bound on the complexity of some nonzero $f \in I$ under some model of computation.
-This is a more general problem than proving lower bounds for a given nonzero polynomial $f$.
 
 \section{Preliminaries on Algebraic Complexity}
 
@@ -227,7 +219,7 @@ A simple rephrasing of \Cref{lem:isolation_forms} allows us to isolate a term of
 \end{defn}
 
 In the settings where $\F[\e][x_1,\dots,x_n]$ can be equipped with the Euclidean topology in a natural way, such as $\F = \C$ or $\R$, this would imply that $h \to g$ as $\e \mapsto 0$.
-However, this does not mean that we could just substitute $\e$ by zero in $C$ and obtain a circuit exactly computing $g$, since $C$ may use scalars in $\F(\e)$, such as $1/\e$, that are not well-defined at $\e = 0$.
+However, this does not mean that we could just substitute $\e$ by zero in $C$ and obtain a circuit exactly computing $g$ since $C$ may use scalars in $\F(\e)$, such as $1/\e$, that are not well-defined at $\e = 0$.
 
 \begin{ex}[{\cite{DL25}}]
   In order to interpolate the coefficients of $f(\overline{x}, t) = \sum_{i = 0}^d \coeff_{t^i}(f) \cdot t^i$ over $\F$ as in \Cref{lem:homogenization}, one needs that $\abs{\F} \geq d + 1$.
@@ -267,9 +259,56 @@ However, this does not mean that we could just substitute $\e$ by zero in $C$ an
 
 \subsection{Generalities on Complexity in Ideals}
 
+Roughly speaking, the complexity of an ideal $I$ under a given algebraic model (such as algebraic circuits or algebraic branching programs) is defined as the minimum complexity, in that model, of any nonzero polynomial $f \in I$~\cite{Gro20}.
+Proving lower bounds for ideals is harder than for individual polynomials, since one must establish a bound for every nonzero $f \in I$ rather than just a single polynomial.
+This motivates the search for a property of the following form: if an arbitrary nonzero $f \in I$ is efficiently computable in a given model, then some polynomial from a distinguished set $S = \set{g_1, \dots, g_k}$ (often a natural generating set of $I$ or some related set with desirable properties) is also efficiently computable in the given model.
+In this way, proving lower bounds for arbitrary nonzero $f \in I$ reduces to proving them for $g_1, \dots, g_k$.
+We call such a property a \emph{closure result}, by analogy with closure under factorization in the principal ideal case.
+In short, closure results reduce the task of showing hardness for all polynomials in $I$ to proving hardness for a small set of distinguished polynomials.
 
+\begin{defn}[Hitting Set Generator (HSG)]\label{defn:hsg}
+
+\end{defn}
+
+\begin{defn}[Polynomial Identity Testing (PIT)]\label{defn:pit}
+
+\end{defn}
+
+Closure results for ideals are useful for constructing hitting set generators, which are the algebraic-complexity analogs of pseudorandom generators and can be used to derandomize polynomial identity testing (PIT).
+The idea is as follows: for $s < n$, we seek a hitting set generator $G\colon \F^s \to \F^n$ against a family $\mathcal{C}$ of $n$-variate polynomials.
+This means that $G$ has the property that for any nonzero polynomial $f \in \mathcal{C}$, we have $f \circ G \neq 0$.
+Here, one should think of $\mathcal{C}$ as a family of ``low-complexity'' polynomials.
+Let $I$ be the ideal of polynomials $f$ satisfying $f \circ G = 0$, also known as the \emph{vanishing ideal} of $G$~\cite{HvMM24}.
+To show that $G$ has the desired hitting set property, it suffices to show that every nonzero $f \in I$ has sufficiently high complexity so that no such $f$ can belong to $\mathcal{C}$.
+With a closure result for $I$, this reduces to proving lower bounds for a distinguished set of polynomials $\set{g_1, \dots, g_k}$ for $I$.
+This can be viewed as a particular way of implementing the ``hardness versus randomness'' paradigm of~\cite{NW94, KI04} in the setting of algebraic complexity.
+
+The general question we want to study is of the following form:
+\begin{question}\label{question:general_ideal}
+  Say that $I = \ideal{g_1, \ldots, g_k}$.
+  Let $0 \neq f \in I$.
+  How does the complexity of $f$ compare to the complexity of the generators $g_1, \ldots, g_k$.
+\end{question}
+Note that this question as stated is not well formed.
+\quest{Elaborate:} $\ideal{\det, \det + \perm}$
 
 \subsubsection{Principal Ideals}
+
+Let us consider the special case of \Cref{question:general_ideal} where $I = \ideal{g}$ is a \emph{principal ideal}.
+Then our question is now the following:
+\begin{question}\label{question:principal_ideal}
+  Let $0 \neq f \in \ideal{g}$.
+  Does $g$ have a small $f$-oracle circuit?
+\end{question}
+The affirmative was actually conjectured by \Burgisser:
+\begin{conj}[{\cite[Conjecture 8.3]{Bur00}}]\label{conj:factor}
+  If $g$ is a factor of $f \neq 0$, then $\size(g) \leq \poly(\size(f), \deg(g))$.
+\end{conj}
+
+There has been much progress on \Cref{conj:factor}.
+Factoring in algebraic complexity is well studied, see the survey of Bhargav, Dwivedi, and Saxena for an overview of recent progress~\cite{BDS26}.
+For example, it is known that for fields of characteristic zero that $\size(g) \leq \poly(\size(f), \deg(f))$~\cite{Kal87, Bur00}.
+
 
 \subsubsection{More Than One Generator}
 
