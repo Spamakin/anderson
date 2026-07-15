@@ -57,12 +57,25 @@ Algebraic complexity theory is the study of the complexity of such computations.
 
   The \emph{size} of a circuit is the total number of edges.
   Some sources also define the size to be the number of vertices.
-  These are polynomially related as a directed simple graph with $v$ vertices has has $O(v^2)$ edges.
+  These are polynomially related as a directed simple graph with $v$ vertices has $O(v^2)$ edges.
   It's \emph{depth} is the length of the longest input-to-output path.
   The \emph{fan-in} and \emph{fan-out} of a node are in-degree and out-degree respectively.
   The \emph{fan-in} and \emph{fan-out} of the circuit is the maximum fan-in and fan-out respectively over all nodes in the circuit.
   The \emph{degree} or \emph{syntactic degree} of a circuit is the maximum degree of a polynomial computed by any of the nodes of the circuit.
 \end{defn}
+
+\begin{ex}
+  Let $f(x) = \sum_{i = 0}^d a_i x^i \in \F[x]$ be a univariate polynomial.
+
+  Then \emph{Horner's Rule} gives a recurrence for efficiently computing $f(x)$:
+  \[
+    p_{0}(x) = a_{0}, \qquad p_{k}(x) = a_{d - k} + x \cdot p_{k - 1}(x).
+  \]
+  This recurrence can be formulated as an algebraic circuit of size $O(d)$ and depth $O(d)$.
+  In fact, this uses exactly $n$ additions and $n$ multiplications, which is optimal.
+  The proof of optimality of the number of additions for computing a generic univariate polynomial $f(x)$ in this manner was given by~\cite{Ost54}.
+  The corresponding proof of optimality for multiplications was given by~\cite{Pan66}.
+\end{ex}
 
 \begin{defn}[Algebraic Formulas]\label{defn:formula}
   An \emph{algebraic formula} over a field $\F$ is an algebraic circuit whose underlying graph is a tree.
