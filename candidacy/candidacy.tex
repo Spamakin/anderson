@@ -17,25 +17,35 @@
 
 \section{Introduction}
 
-\quest{Note about how alot of material here is based on}~\cite{DG25}.
+\quest{Note about how alot of material here is based on~\cite{DG25}.}
 
 \quest{I will flesh out the whole introduction more at a later date.}
 
 Many problems in combinatorics, geometry, and computer science can be expressed in terms of the computation of some polynomials.
-For example, finding a perfect matching in a graph is equivalent to determining if it's \emph{Tutte Matrix} has determinant identically zero.
+For example, finding a perfect matching in a graph is equivalent to determining if it's \emph{Tutte Matrix} has determinant identically zero~\cite{Tut47}.
 With this, we see that it is important to study the complexity of computing polynomials in general, and specifically computing special polynomials such as the determinant or permanent polynomials.
 Algebraic complexity theory is the study of the complexity of such computations.
 
+\quest{Talk a bit about the history of the field starting with Valient}
+
 \subsection{Lower Bounds and Polynomial Identity Testing}
 
+\quest{Talk about Nisan-Wigderson and Kabanets-Impagliazzo}
+
 \subsection{Geometric Complexity Theory}
+
+\quest{Talk about Mulmuley-Sohoni}
+
+\subsection{Straightening Laws}
+
+\quest{Talk about Hodge, Young}
 
 \section{Preliminaries on Algebraic Complexity}
 
 \subsection{Computational Models}
 
 \begin{defn}[Algebraic Circuits]\label{defn:ckt}
-  An \emph{algebraic circuit} over a field $\F$ is a directed acyclic graph whose \emph{input nodes}, nodes of in-degree zero, are labeled either by variables $x_1, \ldots, x_n$ or constants from $F$.
+  An \emph{algebraic circuit} over a field $\F$ is a directed acyclic graph whose \emph{input nodes}, nodes of in-degree zero, are labeled either by variables $x_1, \ldots, x_n$ or constants from $\F$.
   Nodes of in-degree greater than zero are labeled by $\Sigma$ or $\Pi$ which are \emph{addition gates} or \emph{multiplication gates} respectively.
   Each edge or \emph{wire} is also labeled by a constant from $\F$.
 
