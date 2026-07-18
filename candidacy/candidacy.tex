@@ -15,6 +15,9 @@
 
 \maketitle
 
+\tableofcontents
+\clearpage
+
 \section{Introduction}
 
 \quest{Note about how alot of material here is based on~\cite{DG25}.}
@@ -41,6 +44,7 @@ Many good references on this topic can be found~\cite{Ful96, LB18}.
 
 Let $V$ be an $n$-dimensional vector space over a field $\F$.
 Let $\set{e_1, \ldots, e_n}$ be a basis for $V$.
+We will notate by $\Lambda(n, d)$ the set of all ordered tuples $(i_1 < \cdots i_d)$ where each $i_k \in [n]$.
 \begin{defn}[Grassmannian]
   Let $\Gr(n, d) = \set{W \subseteq V \mid \dim_\F(W) = d}$ be the $d$-dimensional \emph{Grassmannian}.
 \end{defn}
@@ -51,16 +55,16 @@ One can give this the structure of an algebraic variety via the following map.
   Define a map $\Gr(n, d) \to \mathbb{P}\pqty{\bigwedge^d V}$ given by $U \mapsto [u_1 \land \cdots \land u_d]$.
   This map is called the \emph{\Plucker\ embedding}.
 
-  The set $\set{e_{\overline{i}} = e_{i_1} \land \cdots \land e_{i_d} | 1 \leq i_1 < \cdots < i_d n}$ gives a basis for $\bigwedge^d V$.
-  Let $\set{p_{\overline{j}}}$ denote the basis of $\pqty{\bigwedge^d V}^*$ dual to $\set{e_{\overline{i}}}$.
+  The set $\set{e_{\overline{i}} = e_{i_1} \land \cdots \land e_{i_d} | \overline{i} \in \Lambda(n, d)}$ gives a basis for $\bigwedge^d V$.
+  Let $\set{p_{\overline{j}}}_{\overline{j} \in \Lambda(n, d)}$, denote the basis of $\pqty{\bigwedge^d V}^*$ dual to $\set{e_{\overline{i}}}_{\overline{i} \in \Lambda(n, d)}$.
   Then for each $U \in \Gr(n, d)$, we can represent $U$ via an $n \times d$ matrix of rank $d$ via the basis $\set{u_1, \ldots, u_d}$.
-  Then $p_{\overline{j}}(U)$ is the $d \times d$ determinant of the minor defined by rows $1 \leq j_1 < \cdots < j_d \leq n$.
+  Then $p_{\overline{j}}(U)$ is the $d \times d$ determinant of the minor defined by rows $\overline{j} \in \Lambda(n, d)$.
   The coordinates $p_{\overline{j}}$ are known as \emph{\Plucker\ coordinates}.
   We will often identify the \Plucker\ coordinate $p_{j_1, \ldots, j_d}$ with the associated determinant.
 \end{defn}
 
 \begin{defn}[\Plucker\ Relations]
-  For each pair of subsets $\set{i_1, \ldots, i_{d - 1}}$ and $\set{j_1, \ldots, j_{d + 1}}$ of $[n]$, define the following quadratic polynomial in the \Plucker\ coordinates:
+  For each $(i_1, \ldots, i_{d - 1}) \in \Lambda(n, d - 1)$ and $(j_1, \ldots, j_{d + 1}) \in \Lambda(n, d + 1)$, define the following quadratic polynomial in the \Plucker\ coordinates:
   \[
     \sum_{i = 1}^{d + 1} p_{i_1, \ldots, i_{d - 1}, j_i} \cdot p_{j_1, \ldots, \widehat{j_i}, \ldots, j_{d + 1}}.
   \]
@@ -73,9 +77,9 @@ Note that the ideal $\mathfrak{q}$ of quadratic relations in the polynomial ring
 \end{prop}
 
 \begin{defn}[\Plucker\ / Bracket Algebra]
-  By \Cref{prop:Gr_ideal}, the coordinate ring of $\Gr(n, d)$ is given by
+  By \Cref{prop:Gr_ideal}, the coordinate ring $\F[\Gr(n, d)]$ of $\Gr(n, d)$ is given by
   \[
-    \F[p_{\overline{i}} \mid 1 \leq i_1 \cdots < i_d \leq n] / \mathfrak{q}.
+    \F[p_{\overline{i}} \mid \overline{i} \in \Lambda(n, d)] / \mathfrak{q}.
   \]
   In fact, one can also show that this coordinate ring is the invariant subring $\F[x_{i, j} \mid 1 \leq i \leq n, 1 \leq j \leq d]^{\SL_d(\F)}$.
   This algebra is known as the \emph{\Plucker} or \emph{bracket algebra}.
@@ -103,9 +107,28 @@ One standard reference for this theory is~\cite{Stu08}.
 This \emph{standard monomial} theory is originally due to Hodge~\cite{Hod43}.
 However, to express the product of standard monomials in terms of other standard monomials, we use a \emph{straightening} whose formulation is due to Young~\cite{You28}.
 
-\begin{defn}[van der Waerden Syzygies]
+\begin{defn}[van der Waerden Syzygies, Straightening Syzygies]
+  For $\overline{\lambda} \in \Lambda(n, d)$, let $\overline{\lambda^*}$ be the \emph{complement} tuple in $\Lambda(n, n - d)$ consisting of the $n - d$ elements which do not appear in $\overline{\lambda}$.
+  The \emph{sign} of $\overline{\lambda}$ and $\overline{\lambda^*}$, denoted by $\sgn(\overline{\lambda}, \overline{\lambda^*})$, is the sign of the permutation $\sigma \in \mathfrak{S}_n$ given in one-line notation by $\lambda_1 \cdots \lambda_d \lambda^*_1 \cdots \lambda^*_{n - d}$.
 
+  For $s \in [d]$, $\overline{\alpha} \in \Lambda(n, s - 1)$, $\overline{\beta} \in \Lambda(n, d + 1)$, and $\overline{\gamma} \in \Lambda(n, d -s)$, the \emph{van der Waerden syzygy} $\bqty{\bqty{\overline{\alpha} \dot{\overline{\beta}} \overline{\gamma}}}$ is the following quadratic polynomial in $\F[p_{\overline{i}} \mid \overline{i} \in \Lambda(n, d)]$:
+  \[
+    \bqty{\bqty{\overline{\alpha} \dot{\overline{\beta}} \overline{\gamma}}} \defeq \sum_{\overline{\tau} \in \Lambda(d + 1, s)} \sgn(\overline{\tau}, \overline{\tau^*}) \cdot p_{\alpha_1, \ldots, \alpha_s, \beta_{\tau^*_1}, \ldots, \beta_{\tau^*_{d + 1 - s}}} \cdot p_{\beta_{\tau_1}, \ldots, \beta_{\tau_s}, \gamma_1, \ldots, \gamma_{d - s}}.
+  \]
+  Such a van der Waerden syzygy is a \emph{straightening syzygy} if $\alpha_{s - 1} < \beta_{s + 1}$ and $\beta_s < \gamma_s$.
+  Note that if we take $s = 1$, we get the \Plucker\ relations.
 \end{defn}
+
+\begin{thrm}[{\cite[Theorem 3.1.7]{Stu08},~\cite{Rai}}]
+  The set of straightening syzygies is a \Grobner\ basis for the ideal of quadratic \Plucker\ relations $\mathfrak{q}$ under the tableaux order.
+  A monomial is standard if and only if it does not lie in the initial ideal $\lm_{\preceq}{\mathfrak{q}}$.
+  Thus, the set of standard monomials forms an $\F$-vector space basis for $\F[\Gr(n, d)]$.
+  If we declare each $p_{\overline{i}}$ to have degree one, then the standard tableau of shape $d \times k$ give a basis for the $k$-th graded component of $\F[\Gr(n, d)]$.
+\end{thrm}
+
+\begin{ex}
+  \quest{Example straightening calculations will go here}
+\end{ex}
 
 \section{Preliminaries on Algebraic Complexity}
 
@@ -123,6 +146,7 @@ However, to express the product of standard monomials in terms of other standard
   We say that an algebraic circuit \emph{computes} $\{f_1(\overline{x}), \ldots, f_k(\overline{x})\}$ if these are the polynomials computed by all the outputs.
 
   The \emph{size} of a circuit is the total number of edges.
+  We will denote by $size(f_1, \ldots, f_k)$ the size of the smallest circuit over $\F$ computing $\{f_1(\overline{x}), \ldots, f_k(\overline{x})\}$.
   Some sources also define the size to be the number of vertices.
   These are polynomially related as a directed simple graph with $v$ vertices has $O(v^2)$ edges.
   It's \emph{depth} is the length of the longest input-to-output path.
@@ -186,11 +210,33 @@ However, to express the product of standard monomials in terms of other standard
   Then $\dc(f) \leq m$.
 \end{lem}
 
+\subsection{Complexity Classes}
+
+\begin{defn}[VP]
+
+\end{defn}
+
+\begin{defn}[VF]
+
+\end{defn}
+
+\begin{defn}[VBP]
+
+\end{defn}
+
+\begin{defn}[VNP]
+
+\end{defn}
+
 \subsection{Basic Structural Results}
 
 \begin{lem}
   \quest{Depth reduction, conversions from circuits to formulas / ABPs and vice versa.}
 \end{lem}
+
+\begin{prop}
+  \quest{Inclusions} $\VF \subseteq \VBP \subseteq VP$
+\end{prop}
 
 \begin{lem}
   \quest{Elimination of Division}
@@ -302,12 +348,11 @@ A simple rephrasing of \Cref{lem:isolation_forms} allows us to isolate a term of
   Then, with probability at least $1 - \e$, there exists a unique monomial $\mathfrak{m} = y_1^{e_1}\cdots y_\ell^{e_\ell}$ among all monomials of $f$ such that  $\phi(\mathfrak{m}) = w^{e_1 z_1 + \cdots + e_\ell z_\ell}$ attains the minimum degree in $w$.
 \end{cor}
 
-\subsection{Complexity Classes}
-
 \subsection{Border Complexity}
 
-\begin{defn}\label{defn:border_complexity}
+\begin{defn}[Border Computation]\label{defn:border_complexity}
   We say that $g \in \F[x_1,\dots,x_n]$ is \emph{border computed} by a circuit $C$ over $\F(\e)$ if $C$ computes some polynomial $h \in \F(\e)[x_1,\dots,x_n]$, and $h - g \in \e \cdot \F[[\e]][x_1,\dots,x_n]$, where $\F[[\e]]$ denotes the ring of formal power series in $\e$.
+  We will denote by $\overline{\size}(f)$ the size of the smallest circuit over $\F(\e)$ border computing $f(\overline{x})$.
 \end{defn}
 
 In the settings where $\F[\e][x_1,\dots,x_n]$ can be equipped with the Euclidean topology in a natural way, such as $\F = \C$ or $\R$, this would imply that $h \to g$ as $\e \mapsto 0$.
@@ -331,13 +376,250 @@ However, this does not mean that we could just substitute $\e$ by zero in $C$ an
   \end{align*}
 \end{ex}
 
+\begin{ex}
+  \quest{Bordering Waring Rank}
+\end{ex}
+
 \quest{Define border complexity classes}
+
+\begin{ex}
+  \quest{Add some of Pranjal's examples of separations}
+\end{ex}
 
 \section{Preliminaries on Straightening Laws}
 
 \subsection{Determinantal Ideals}
 
+Let $\F$ be a field.
+Let $X = (x_{i, j})_{\substack{1 \leq i \leq n \\ 1 \leq j \leq m}}$ be a $n \times m$ matrix of variables.
+We will denote by $\F[X]$ the polynomial ring $\F[x_{i, j} \mid 1 \leq i \leq n,\ 1 \leq j \leq m]$.
+We can natural associate a product of minors of $X$ to a pair of Young tableau where the minors are described by the entries of the Young tableau.
+\begin{defn}[Bitableau, bideterminant]\label{defn:bitableau}
+  Let $\sigma = (\sigma_1 \geq \cdots \geq \sigma_k)$ be a partition.
+  An \emph{$(n, m)$-bitableau} $(S \mid T)$ of shape $\sigma$ is a pair of two Young tableau of shape $\sigma$ with where the entries of $S$ come from $[n]$ and the entries of $T$ come from $[m]$.
+  When $n$ and $m$ are clear from context, we just call $(S \mid T)$ a \emph{bitableau}.
+  For each $i\in [\widehat{\sigma}_1]$, write the $i$-th row of $S$ and the $i$-th row of $T$ as $S_i = (S(i, 1), \ldots, S(i, \sigma_i))$ and $T_i = (T(i, 1), \ldots,  T(i, \sigma_i))$ respectively.
+  The $\sigma_i \times \sigma_i$ minor of $X$ defined by $S_i$ and $T_i$ is the matrix
+  \[
+    \pqty{x_{S(i, a), T(i, b)}}_{1 \leq a, b \leq \sigma_i} =
+    \begin{pmatrix}
+      x_{S(i, 1), T(i, 1)}        & x_{S(i, 1), T(i, 2)}        & \cdots & x_{S(i, 1), T(i, \sigma_i)} \\
+      x_{S(i, 2), T(i, 1)}        & x_{S(i, 2), T(i, 2)}        & \cdots & x_{S(i, 2), T(i, \sigma_i)} \\
+      \vdots                      & \vdots                      & \ddots & \vdots \\
+      x_{S(i, \sigma_i), T(i, 1)} & x_{S(i, \sigma_i), T(i, 2)} & \cdots & x_{S(i, \sigma_i), T(i, \sigma_i)}
+    \end{pmatrix}.
+  \]
+  Then the associated \emph{bideterminant} $(S \mid T)(X)$ is the product of all such minors over $i\in [\widehat{\sigma}_1]$:
+  \[
+    (S \mid T)(X) \defeq \prod_{i = 1}^{\widehat{\sigma}_1} \det_{\sigma_i}\pqty{x_{S(i, a), T(i, b)}}_{1 \leq a, b \leq \sigma_i}.
+  \]
+  An $n \times n$ determinant is homogeneous of degree $n$ so that $(S \mid T)(X)$ is a homogeneous polynomial of degree $\abs{\sigma}$.
+\end{defn}
+
+\begin{ex}
+    If $\sigma = (4, 2, 1)$ and $(S \mid T)$ is the bitableau
+    \[
+      (S \mid T) = \left(\ \Yvcentermath1 \left. \young(1245,36,4)\ \right\vert\ \young(1356,27,3) \ \right),
+    \]
+    then the bideterminant $(S \mid T)(X)$ is given by
+    \[
+      \begin{pmatrix}
+        x_{1, 1} & x_{1, 3} & x_{1, 5} & x_{1, 6} \\
+        x_{2, 1} & x_{2, 3} & x_{2, 5} & x_{2, 6} \\
+        x_{4, 1} & x_{4, 3} & x_{4, 5} & x_{4, 6} \\
+        x_{5, 1} & x_{5, 3} & x_{5, 5} & x_{5, 6}
+      \end{pmatrix}
+      \begin{pmatrix}
+        x_{3, 2} & x_{3, 7} \\
+        x_{6, 2} & x_{6, 7}
+      \end{pmatrix}
+      \begin{pmatrix}
+        x_{4, 3}
+      \end{pmatrix}.
+    \]
+\end{ex}
+
+The following lemma shows that every monomial in $\F[X]$ can be expressed as a bideterminant, and hence the bideterminants span $\F[X]$ as an $\F$-vector space.
+The proof is immediate from the definition.
+\begin{lem}\label{lem:det_monomial}
+  A degree $d$ monomial $\prod_{i = 1}^d x_{r_i, c_i}$ is given by a bideterminant:
+  \[
+    \newcommand{\ra}{r_1}
+    \newcommand{\rb}{r_2}
+    \newcommand{\rd}{r_d}
+    \newcommand{\ca}{c_1}
+    \newcommand{\cb}{c_2}
+    \newcommand{\cd}{c_d}
+    \left(\ \Yvcentermath1 \left.\young(\ra,\rb,\svdots,\rd) \ \right\vert\ \young(\ca,\cb,\svdots,\cd) \ \right)(X) = \prod_{i = 1}^d x_{r_i, c_i}.
+  \]
+  Thus, the bideterminants span $\F[X]$.
+\end{lem}
+
+While the bideterminants span $\F[X]$, there is a specific subset of bideterminants, the \emph{standard} bideterminants, which form an $\F$-basis of $\F[X]$.
+\begin{defn}[Standard bitableau, standard bideterminant]\label{defn:det_std}
+  We call a bitableau $(S \mid T)$ and its associated bideterminant $(S \mid T)(X)$ \emph{standard} if $S$ and $T$ are both conjugate semistandard Young tableaux.
+\end{defn}
+
+The next theorem is known in the literature as the \emph{straightening law}.
+\begin{thrm}[{\cite[\S 8, Theorem 3]{DRS74},~\cite[Corollary 2.3]{dCEP80}}]\label{thrm:det_straightening}
+  Let $(S \mid T)(X)$ be a bideterminant of shape $\sigma$.
+  Then $(S \mid T)(X)$ can be uniquely expressed as a linear combination
+  \[
+    (S \mid T)(X) = \sum_{(A \mid B)} c_{A, B} (A \mid B)(X),
+  \]
+  where $(A \mid B)(X)$ is a standard bideterminant of shape $\tau \geq_{\lex} \sigma$, and $c_{A,B} \in \Z$ when $\operatorname{char}(\F) = 0$, while $c_{A,B} \in \Z/p\Z$ when $\operatorname{char}(\F) = p > 0$.
+\end{thrm}
+
+The fact that bideterminants are homogeneous polynomials, together with \Cref{lem:det_monomial} and \Cref{thrm:det_straightening}, imply the following corollary.
+\begin{cor}\label{cor:det-basis}
+  The standard bideterminants form an $\F$-basis of $\F[X]$.
+  In particular, since bideterminants are homogeneous with respect to total degree, the degree-$d$ component of $\F[X]$ has as basis the standard bideterminants of shape $\sigma$ such that $\abs{\sigma} = d$.
+\end{cor}
+
+Let $I^{\det}_{n, m, r}$ be the ideal of $\F[X]$ generated by the $r \times r$ minors of $X$.
+Note that this ideal is a $\F$-subspace of $\F[X]$.
+We have the following crucial statement on the $\F$-basis of this ideal.
+\begin{prop}[{\cite[Corollary 1.7]{BC03}}]\label{prop:det_shape}
+  Polynomials $f \in I^{\det}_{n, m, r}$ are supported by standard bideterminants of shape $\sigma$ such that $\sigma_1 \geq r$; that is, by those whose first row has length at least $r$.
+\end{prop}
+
+The notion of the total degree of a polynomial is too coarse for differentiating terms in the expansion of a polynomial $f \in I^{\det}_{n, m, r}$ with respect to the standard basis.
+Thus, we describe a grading of the polynomial ring $\F[X]$ that is better suited for this purpose.
+\begin{defn}\label{defn:multideg}
+    The polynomial ring $\F[X]$ has a natural $(\N^n \oplus \N^m)$-grading.
+    Let $\overline{e}_i \in \N^n$ be the standard basis vector with a $1$ in position $i$ and $0$'s in the other positions.
+    Define $\overline{e}_i \in \N^m$ the same way.
+    Then we assign $x_{i, j}$ to have degree $\overline{e}_i \oplus \overline{e}_j$.
+    We call this assignment the \emph{multidegree}.
+    We say a polynomial $f \in \F[X]$ is \emph{multihomogeneous} of multidegree $(s_1 \overline{e}_1 + \cdots + s_n \overline{e_n}) \oplus (t_1 \overline{e}_1 + \cdots + t_m \overline{e}_m)$ if every monomial in $f$ has multidegree $(s_1 \overline{e}_1 + \cdots + s_n \overline{e_n}) \oplus (t_1 \overline{e}_1 + \cdots + t_m \overline{e}_m)$.
+\end{defn}
+
+The following lemma gives the multidegree of bideterminants.
+In particular, the multidegree of canonical and anti-canonical bideterminants will allow us to extract terms of a particular shape.
+\begin{lem}\label{lem:canonical_degs}
+    Fix a natural number $n \in \Z_{\geq 0}$.
+    Let $\sigma = (\sigma_1 \geq \cdots \geq \sigma_d)$ be a partition such that the length $\sigma_i$ of each row is at most $n$.
+    Let $S, T$ be two conjugate semistandard Young tableaux.
+    Then a bideterminant $(S \mid T)(X)$ is multihomogeneous of multidegree $(s_1 \overline{e}_1 + \cdots + s_n \overline{e_n}) \oplus (t_1 \overline{e}_1 + \cdots + t_n \overline{e}_n)$, where $s_i$ is equal to the number of $i$'s that appear in $S$ and $t_j$ is equal to the number of $j$'s that appear in $T$.
+    In particular, $(K_\sigma \mid K_\sigma)(X)$ is multihomogeneous of multidegree $(\widehat{\sigma}_1 \overline{e}_1 + \cdots + \widehat{\sigma}_n \overline{e}_1) \oplus (\widehat{\sigma}_1 \overline{e}_1 + \cdots + \widehat{\sigma}_n \overline{e}_1)$.
+    Moreover, for distinct partitions $\sigma \neq \tau$, the multidegrees of $(K_\sigma \mid K_\sigma)(X)$ and $(K_\tau \mid K_\tau)(X)$ are distinct, and the same holds for the multidegrees of $(\overline{K}_\sigma \mid \overline{K}_\sigma)(X)$ and $(\overline{K}_\tau \mid \overline{K}_\tau)(X)$.
+\end{lem}
+\begin{pf}
+    The multidegree of a standard bideterminant $(S \mid T)(X)$ is immediate from \Cref{defn:bitableau}.
+    To see that for distinct partitions $\sigma \neq \tau$ the multidegrees of $(K_\sigma \mid K_\sigma)(X)$ and $(K_\tau \mid K_\tau)(X)$ are distinct, we make the following observation.
+    The number of $1$'s in $K_{\sigma}$ is the coefficient of $\overline{e}_1$ in the multidegree, the number of $2$'s in $K_{\sigma}$ is the coefficient of $\overline{e}_2$, and so on.
+    This allows us to get the values $\widehat{\sigma}_1, \ldots, \widehat{\sigma}_n$ which in turn completely determines $\sigma$.
+\end{pf}
+
 \subsection{Pfaffian Ideals}
+
+We now introduce notation for Pfaffian ideals.
+Let $\F$ be a field.
+Let $x_{i, j}$ be indeterminates for $1 \leq i < j \leq 2n$ and let $x_{j, i} \defeq -x_{i, j}$ for $1 \leq j < i \leq 2n$ and $x_{i, i} = 0$ for $1 \leq i \leq 2n$.
+Thus, $X = (x_{i, j})_{1 \leq i, j \leq 2n}$ is a skew-symmetric $2n \times 2n$ matrix of variables.
+For notational consistency with the prior subsections, we denote the polynomial ring $\F[x_{i, j} \mid 1 \leq i < j \leq 2n]$ by $\F[X]$.
+
+Recall that for a skew-symmetric matrix $X$, the determinant when viewed as a polynomial in the entries of the skew-symmetric matrix is a perfect square of some other polynomial.
+The square root of $\det_{2n}(X)$ is called the \emph{Pfaffian} of $X$.
+For the Pfaffian of a $2n \times 2n$ matrix $M \in \F^{2n \times 2n}$, we use the notation $\pfaff_{2n}$.
+The Pfaffian has a more intrinsic definition given as follows:
+\begin{equation}\label{eq:pfaff_defn}
+    \pfaff_{2n}(X) = \frac{1}{2^n n!} \sum_{\sigma \in \mathfrak{S}_{2n}} \sgn(\sigma) \prod_{i = 1}^n x_{\sigma(2i - 1), \sigma(2i)}.
+\end{equation}
+Just like the determinant, this is a polynomial with coefficients $\pm 1$ so that it is well defined over any field.
+To see this, note that every monomial in \Cref{eq:pfaff_defn} appears exactly $2^n n{!}$ times.
+We also have that if $m$ is odd, then $\det_m(X) = 0$ when $X$ is a $m \times m$ skew-symmetric matrix so that $\pfaff_m(X) = 0$.
+Thus, we only consider Pfaffians on matrices of even order.
+
+Pfaffians are deeply connected to determinants, as indicated by the following lemma:
+\begin{lem}[{\cite[Lemma 2.27]{AF22}}]\label{lem:pfaff_conj}
+    Let $X$ be a $2n \times 2n$ skew-symmetric matrix and let $E$ be an arbitrary $2n \times 2n$ matrix.
+    Then $EXE^\top$ is also skew-symmetric and $\pfaff_{2n}(EXE^\top) = \det_{2n}(E) \pfaff_{2n}(X)$.
+\end{lem}
+
+Since the Pfaffian is only well-defined for skew-symmetric matrices, we cannot consider all possible row and column combinations when looking at Pfaffians defined on minors of a matrix.
+\begin{defn}[Principal bitableau, bipfaffian]\label{defn:principal_bitableau}
+    A bitableau $(S \mid T)$ is \emph{principal} if $S = T$, \ie, if the submatrix of $X$ with rows given by $S$ and columns given by $T$ is principal.
+    In this case, we denote $[T] \defeq (T \mid T)$.
+    Since $m \times m$ determinants of skew-symmetric matrices are zero for odd $m$, we will assume all partitions have only even row lengths in this case.
+    In particular, $\abs{\sigma}$ will always be divisible by $2$.
+
+    Let $\sigma$ be a partition such that the length of each row of $\sigma$ is even, and let $T$ be a Young tableau of shape $\sigma$.
+    Writing the rows as $T_i = (T(i, 1), \ldots, T(i, \sigma_i))$, the submatrix of $X$ with rows and columns given by $T_i$ is skew-symmetric as well and thus has a well-defined \emph{principal pfaffian}.
+    The associated \emph{bipfaffian}\footnote{\cite{AF22} call this a \emph{standard monomial}.
+    We deviate from this as standard monomial is a more general term which also refers to standard bideterminants and other analogues in standard monomial theory.} $[T](X)$ is the product of all such Pfaffians defined by the rows of $T$:
+    \[
+        [T](X) \defeq \prod_{i = 1}^{\widehat{\sigma}_1} \pfaff\pqty{x_{T(i, a), T(i, b)}}_{1 \leq a, b \leq \sigma_i}.
+    \]
+    Note that the total degree $\deg([T](X))$ is equal to $\abs{\sigma} / 2$.
+\end{defn}
+
+The following lemma shows that every monomial in $\F[X]$ can be expressed as a bipfaffian and hence the bipfaffians span $\F[X]$.
+The proof is immediate from the definition.
+
+\begin{lem}\label{lem:pfaff_monomial}
+    A degree $d$ monomial $\prod_{i = 1}^d x_{r_i, c_i}$ where for each $1 \leq i \leq d$, $r_{i} < c_{i}$ is given by a bipfaffian:
+    \[
+	    \newcommand{\ra}{r_1}
+	    \newcommand{\rb}{r_2}
+	    \newcommand{\rd}{r_d}
+	    \newcommand{\ca}{c_1}
+	    \newcommand{\cb}{c_2}
+	    \newcommand{\cd}{c_d}
+	    \left[\ \Yvcentermath1 \young(\ra\ca,\rb\cb,\svdots\svdots,\rd\cd)\ \right](X) = \prod_{i = 1}^d x_{r_i, c_i}.
+    \]
+\end{lem}
+
+Analogous to the classical determinantal case, a specific subset of bipfaffians form an $\F$-basis of $\F[X]$.
+\begin{defn}[Standard bipfaffian]\label{defn:pfaff_std}
+    A bipfaffian $[S](X)$ is \emph{standard} if $S$ is a conjugate semistandard Young tableau.
+\end{defn}
+
+As in the determinantal case, the Pfaffian case also admits a straightening law.
+
+\begin{thrm}[{\cite[Theorem 6.5]{dCP76},~\cite[\S 5]{HT92}}]\label{thrm:pfaff_straightening}
+    Let $S$ be a Young tableau of shape $\sigma$.
+    Then $[S](X)$ can be uniquely expressed as a linear combination
+    \[
+        [S](X) = \sum_{A} c_{A} [A](X),
+    \]
+    where $[A](X)$ is a standard bipfaffian of shape $\tau \geq_{\lex} \sigma$, and $c_{A} \in \Z$ when $\operatorname{char}(\F) = 0$, while $c_{A} \in \Z/p\Z$ when $\operatorname{char}(\F) = p > 0$.
+\end{thrm}
+
+\Cref{lem:pfaff_monomial} and \Cref{thrm:pfaff_straightening} together imply the following corollary.
+
+\begin{cor}\label{cor:pfaff-basis}
+The standard bipfaffians form an $\F$-basis of $\F[X]$.
+In particular, since bipfaffians are homogeneous with respect to total degree, the degree-$d$ component of $\F[X]$ has as basis the standard bipfaffians of shape $\sigma$ such that $\abs{\sigma} = 2d$.
+Note that if $\abs{\sigma} = 2d$, then the number of rows $\widehat{\sigma}_1$ of $\sigma$ is at most $d$ as each non-empty row of $\sigma$ has length at least $2$.
+\end{cor}
+
+Let $I^{\pfaff}_{2n, 2r}$ be the ideal of $\F[X]$ generated by the $2r \times 2r$ principal bipfaffians of $X$.
+We have the following crucial statement.
+\begin{prop}[{\cite[\S 5]{HT92}}]\label{prop:pfaff_shape}
+    Polynomials $f \in I^{\pfaff}_{2n, 2r}$ are supported by standard bipfaffians of shape $\sigma$ such that $\sigma_1 \geq 2r$.
+\end{prop}
+
+Next, we describe a grading of the polynomial ring $\F[X]$ that is useful for the proof.
+
+\begin{defn}\label{defn:multideg_pfaff}
+    The polynomial ring $\F[X]$ has a natural $\N^{2n}$-grading.
+    Let $\overline{e}_i \in \N^{2n}$ be the standard basis vector with a $1$ in position $i$ and $0$'s in the other positions.
+    Then we assign $x_{i, j}$ to have degree $\overline{e}_i + \overline{e}_j$.
+    We call this assignment the \emph{multidegree}.
+    We say a polynomial $f \in \F[X]$ is \emph{multihomogeneous} of multidegree $s_1 \overline{e}_1 + \cdots + s_{2n} \overline{e_{2n}}$ if every monomial in $f$ has multidegree $s_1 \overline{e}_1 + \cdots + s_{2n} \overline{e_{2n}}$.
+\end{defn}
+
+The following lemma gives the multidegree of bipfaffians.
+It follows immediately from the definition and is proven similarly to \Cref{lem:canonical_degs} and thus we omit the proof.
+\begin{lem}\label{lem:canonical_degs_bifpaffian}
+    Fix a natural number $n \in \Z_{\geq 0}$.
+    Let $\sigma = (\sigma_1 \geq \cdots \geq \sigma_k)$ be a partition such that the length of each row is at most $2n$.
+    Let $S$ be a conjugate semistandard Young tableau.
+    Then a bipfaffian $[S](X)$ is multihomogeneous of multidegree $s_1 \overline{e}_1 + \cdots + s_{2n} \overline{e}_{2n}$, where $s_i$ is equal to the number of $i$'s that appear in $S$.
+    In particular, $[K_\sigma](X)$ is multihomogeneous of multidegree $\widehat{\sigma}_1 \overline{e}_1 + \cdots + \widehat{\sigma}_{2n} \overline{e}_{2n}$.
+    Moreover, for distinct partitions $\sigma \neq \tau$, the multidegrees of $[K_\sigma](X)$ and $[K_\tau](X)$ are distinct, and the same holds for the multidegrees of $[\overline{K}_\sigma](X)$ and $[\overline{K}_\tau](X)$.
+\end{lem}
 
 \subsection{Hankel Ideals}
 
@@ -383,8 +665,6 @@ The general question we want to study is of the following form:
   Let $0 \neq f \in I$.
   How does the complexity of $f$ compare to the complexity of the generators $g_1, \ldots, g_k$.
 \end{question}
-Note that this question as stated is not well formed.
-\quest{Elaborate:} $\ideal{\det, \det + \perm}$
 
 \subsubsection{Principal Ideals}
 
@@ -394,6 +674,7 @@ Then our question is now the following:
   Let $0 \neq f \in \ideal{g}$.
   Does $g$ have a small $f$-oracle circuit?
 \end{question}
+
 The affirmative was actually conjectured by \Burgisser:
 \begin{conj}[{\cite[Conjecture 8.3]{Bur00}}]\label{conj:factor}
   If $g$ is a factor of $f \neq 0$, then $\size(g) \leq \poly(\size(f), \deg(g))$.
@@ -402,15 +683,254 @@ The affirmative was actually conjectured by \Burgisser:
 There has been much progress on \Cref{conj:factor}.
 Factoring in algebraic complexity is well studied, see the survey of Bhargav, Dwivedi, and Saxena for an overview of recent progress~\cite{BDS26}.
 For example, it is known that for fields of characteristic zero that $\size(g) \leq \poly(\size(f), \deg(f))$~\cite{Kal87, Bur00}.
+Compare the use of $\deg(f)$ here to $\deg(g)$ in \Cref{conj:factor}.
+Thus, the most interesting regime to study here is the situation where the degree of the factor $g$ is significantly smaller than the degree of the whole polynomial $f$.
+This result is only known in the setting of border computation over fields of characteristic zero:
+\begin{thrm}[{\cite[Theorem 1.3]{Bur04}}]
+  Let $\F$ be a field of characteristic zero.
+  Let $f(\overline{x}) \neq 0$ be an $n$-variate polynomial.
+  If $g(\overline{x})$ is a factor of $f(\overline{x})$, then $\overline{\size}(g) \leq \poly(\size(f), \deg(g), n)$.
+\end{thrm}
+\Burgisser's result can actually be formulated in the setting of oracle complexity, so that we get a $\poly(\deg(g), n)$ size $f$-oracle circuit which approximately computes $g(\overline{x})$.
 
+\quest{TODO:\ Read and understand Kayal's work on annihilator polynomials and how it connects to HSGs}
+
+\subsubsection{PIT vs Factoring}
 
 \subsubsection{More Than One Generator}
 
 \section{Current Work on Ideals with Straightening Laws}
 
+\quest{TODO:\ motivate Grochow's conjecture}
+
+\begin{conj}[{\cite[Conjecture~6.3]{Gro20}}]\label{conj:grochow_det}
+  Let $X$ be an $n \times n$ matrix of indeterminates and let $I_n$ be the ideal generated by the $\tfrac{n}{2} \times \tfrac{n}{2}$ minors of $X$.
+  Then for every nonzero polynomial $f \in I_n$, there is a constant-depth\footnote{The original statement of the conjecture does not specify constant-depth algebraic circuits. However, it is already known that the $m \times m$ determinant can be computed by algebraic circuits of size $\poly(m)$.} algebraic circuit of size $\poly(n)$ with $f$-oracle gates that computes the $m \times m$ determinant for some $m = n^{\bigTheta{1}}$.
+\end{conj}
+
 \subsection{Approximative Results}
 
+Analogous to \Burgisser's theorem~\cite{Bur04} that the Factor Conjecture holds with respect to border complexity, Andrews and Forbes~\cite{AF22} proved that Grochow's conjecture holds with respect to border complexity.
+Formally, they proved the following theorem:
+
+\begin{thrm}[{\cite[Theorem~1.1]{AF22}}]\label{thrm:AF_det}
+  Let $\F$ be a field of characteristic zero.
+  Let $X = (x_{i,j})_{\substack{1 \leq i \leq n \\ 1 \leq j \leq m}}$ be an $n \times m$ matrix of variables over $\F$ and let $I^{\det}_{n,m,r} \subseteq \F[X] = \F[x_{i,j}]$ be the ideal generated by the $r \times r$ minors of $X$.
+  Let $f\in  I^{\det}_{n,m,r}$ be a nonzero polynomial.
+  Then there is a depth-three $f$-oracle circuit of size $\bigO{n^2 m^2}$ that approximately computes the $t \times t$ determinant for $t = \bigTheta{r^{1/3}}$.
+\end{thrm}
+
+\begin{thrm}[{\cite[Theorem~1.1]{AF22}}]\label{thrm:AF_pfaff}
+  Let $\F$ be a field of characteristic zero.
+  Let $X = (x_{i,j})_{1 \leq i, j \leq 2n}$ be a $2n \times 2n$ matrix of variables over $\F$ and let $I^{\pfaff}_{2n,2r} \subseteq \F[X] = \F[x_{i,j}]$ be the ideal generated by the Pfaffians of the $2r \times 2r$ principal submatrices of $X$.
+  Let $f \in  I^{\pfaff}_{2n, 2r}$ be a nonzero polynomial.
+  Then there is a depth-three $f$-oracle circuit of size $\bigO{n^4}$ that approximately computes the $t \times t$ Pfaffian for $t = \bigTheta{r^{1/3}}$.
+\end{thrm}
+
 \subsection{Debordering}
+
+In~\cite{DG25}, we deborder the results of~\cite{AF22}.
+This is done via a novel application of the Isolation Lemma: \Cref{lem:isolation_forms} and \Cref{cor:isolation_exponents}.
+
+\begin{thrm}[{Informal version of~\cite[Theorem 3.18, Corollary 3.19]{DG25}}]\label{thrm:main}
+  Let $X = (x_{i,j})_{\substack{1 \leq i \leq n \\ 1 \leq j \leq m}}$ be an $n \times m$ matrix of variables over a field $\F$.
+  Let $I^{\det}_{n,m,r} \subseteq \F[X] = \F[x_{i,j} \mid 1 \leq i \leq n,\ 1 \leq j \leq m]$ be the ideal generated by the $r \times r$ minors of $X$.
+  Let $f \in I^{\det}_{n,m,r}$ be a nonzero polynomial.
+  Assume that the characteristic of $\F$ is either zero or greater than $\deg(f)$.
+  Also assume that the size of $\F$ is sufficiently large.\footnote{Specifically, we require $\abs{\F}$ to be bounded below by some polynomial in $n$, $m$, and $\deg(f)$.
+    Such assumptions are standard in the literature (for instance, in work on polynomial factorization), since one can often achieve them by passing to a suitable field extension.}
+  Then there exists a depth-three $f$-oracle circuit of size $\poly(n, m, \deg(f))$ that computes the $t \times t$ determinant for $t = \bigTheta{r^{1/3}}$.
+\end{thrm}
+
+\begin{thrm}[{Informal version of~\cite[Theorem 4.10, Corollary 4.11]{DG25}}]\label{thrm:pfaff_main}
+  Let $X = (x_{i,j})_{1 \leq i < j \leq 2n}$ be a $2n \times 2n$ skew-symmetric matrix of variables over a field $\F$ so that $x_{j, i} = -x_{i, j}$ for $1 \leq j < i \leq n$ and $x_{i, i} = 0$ for $1 \leq i \leq 2n$.
+  Let $I^{\pfaff}_{2n, 2r} \subseteq \F[X] = \F[x_{i,j} \mid 1 \leq i < j \leq 2n]$ be the ideal generated by the $2r \times 2r$ principal Pfaffians of $X$.
+  Let $f \in I^{\pfaff}_{2n, 2r}$ be a nonzero polynomial.
+  Assume that the characteristic of $\F$ is either zero or greater than $\deg(f)$.
+  Also assume that the size of $\F$ is sufficiently large.
+  Then there exists a depth-three $f$-oracle circuit of size $\poly(n, \deg(f))$ that computes the $t \times t$ Pfaffian of a skew-symmetric matrix for $t = \bigTheta{r^{1/3}}$.
+\end{thrm}
+
+\subsection{Proof Overview for Determinantal Case}
+
+\subsubsection{Linear Operators}
+
+Our application of the determinantal straightening law  (\Cref{cor:det-basis}), together with the isolation lemma (\Cref{cor:isolation_exponents}) and extraction of coefficients (\Cref{lem:homogenization}), allows us to isolate a canonical bitableau from the expansion of nonzero $f \in I^{\det}_{n, m, r}$ in the basis of standard bideterminants.
+In particular, we will show that this can be done via a polynomial-sized depth-three $f$-oracle circuit using the isolation lemma (\Cref{cor:isolation_exponents}) as well as coefficient extraction (\Cref{lem:homogenization}).
+This is in contrast to the proof of~\cite{AF22}, where they use a Kronecker-type substitution in order to isolate terms.
+To do this, we will give a more careful analysis of the terms that arise when applying the substitution operators to the expression of a polynomial $f(X) \in I^{\det}_{n, m, r}$.
+
+Throughout, fix a field $\F$.
+Let $n, m$ be natural numbers, and for $1 \leq i \leq n$ and $1 \leq j \leq m$, let $x_{i, j}$ be indeterminates.
+Throughout this section, let $X = (x_{i, j})$ be an $n \times m$ matrix of variables.
+Let $1 \leq r \leq \min(n, m)$ and define $I^{\det}_{n, m, r}$ to be the ideal in $\F[X]$ generated by the $r \times r$ minors of $X$.
+
+Our first step will be to establish a series of linear transformations that send a conjugate semistandard bitableau to the anti-canonical conjugate semistandard bitableau of the same shape.
+\begin{defn}[Substitution operator]\label{defn:sub}
+  Let $i < j$.
+  Define the operator $\Sub_{i \to j}$ which takes as input a tableau $S$ and returns the tableau $S'$ which is formed by taking each row of $S$ which has an $i$ but not a $j$, replacing that $i$ with $j$, and then sorting the row in increasing order.
+  We also define $h_{i}^{j}(S)$ to be the number of times $i$ is replaced by $j$ after applying $\Sub_{i \to j}$ to $S$.
+\end{defn}
+
+\begin{defn}[Canonical/anti-canonical tableau]\label{defn:canonical_tableau}
+  Fix a natural number $n$.
+  Let $\sigma = (\sigma_1 \geq \cdots \geq \sigma_k > 0)$ be a partition such that the length $\sigma_i$ of each row is at most $n$.
+  Define $K_{\sigma, n}$ to be the tableau of shape $\sigma$ where row $i$ has entries $1, 2, \ldots, \sigma_i$.
+  Similarly, define $\overline{K}_{\sigma, n}$ to be the tableau of shape $\sigma$ where row $i$ has entries $(n - \sigma_i + 1, n - \sigma_i + 2, \ldots, n)$.
+  We call $K_{\sigma, n}$ and $\overline{K}_{\sigma, n}$ the \emph{canonical} and \emph{anti-canonical} tableau respectively.\footnote{In some sources, such as~\cite{BV88}, these are referred to as the \emph{initial} and \emph{final} tableau.}
+  Note that $K_{\sigma, n}$ and $\overline{K}_{\sigma, n}$ are both conjugate semistandard.
+  When $n$ is clear from context, we will just write $K_{\sigma}$ and $\overline{K}_{\sigma}$.
+\end{defn}
+
+\begin{ex}
+  If $\sigma = (5, 4, 2, 1)$ and $n = 7$, then $K_\sigma$ and $\overline{K}_\sigma$ are given in \Cref{fig:canonical_tableau_ex}.
+
+  \begin{figure}[H]
+      \centering
+      \[
+          \young(12345,1234,12,1) \qquad \young(34567,4567,67,7)
+      \]
+      \caption{
+        The canonical and anti-canonical tableau for $\sigma = (5, 4, 2, 1)$ and $n = 7$.
+      }\label{fig:canonical_tableau_ex}
+  \end{figure}
+\end{ex}
+
+We now study how these substitution operators act on bideterminants $(S \mid T)(X)$.
+From properties of the determinant, we see that multiplying the matrix of variables $X$ by a elementary matrix $E_{i, j}$ corresponds to applying substitution operators on $S$ or $T$:
+\begin{lem}\label{lem:Eij_left_mult}
+    Let $\lambda$ be a new indeterminate.
+    Let $(S \mid T)$ be a bitableau, not necessarily standard, of shape $\sigma$.
+    For $0 \leq h \leq h_{i}^{j}(S) - 1$, let $\mathcal{C}^{h}_{i \to j}(S)$ be the set of tableaux of shape $\sigma$ obtained by changing $i$ to $j$ at exactly $h$ rows of $S$ which contain $i$ but not $j$ and reordering those rows to be increasing.
+    Then we have that
+    \begin{equation}\label{eq:Eij_left_mult}
+        (S \mid T)(E_{i, j}(\lambda)X) = \pm \lambda^{h_{i}^{j}(S)} (\Sub_{i \to j}(S) \mid T)(X) + \sum_{h = 0}^{h_{i}^{j}(S) - 1} \lambda^h \sum_{S' \in \mathcal{C}^{h}_{i \to j}(S)} \pm  (S' \mid T)(X).
+    \end{equation}
+    Similarly, we also have that
+    \begin{equation}\label{eq:Eij_right_mult}
+        (S \mid T)(X E_{i, j}(\lambda)^{\top}) = \pm \lambda^{h_{i}^{j}(T)} (S \mid \Sub_{i \to j}(T))(X) + \sum_{h = 0}^{h_{i}^{j}(T) - 1} \lambda^h \sum_{T' \in \mathcal{C}^{h}_{i \to j}(T)} \pm (S \mid T')(X).
+    \end{equation}
+\end{lem}
+
+\begin{defn}
+  In addition to the variables $x_{i,j}$, where $i\in [n]$ and $j\in [m]$, we introduce new sets of indeterminates $\Lambda = \set{\lambda_{i, j} | 1 \leq i < j \leq n}$ and $\Xi = \set{\xi_{i, j} | 1 \leq i < j \leq m}$.
+  We have that $\abs{\Lambda} = \binom{n}{2} = \bigO{n^2}$ and $\abs{\Xi} = \binom{m}{2} = \bigO{m^2}$.
+  The purpose of these new indeterminates is that they will allow us to keep track of the effects of substitution operators as we isolate a canonical bitableau.
+
+  Define $M \in \F[\Lambda]^{n\times n}$ and $N \in \F[\Xi]^{m\times m}$ by
+  \begin{align*}
+    M ={}& E_{1, 2}(\lambda_{1, 2}) \cdots E_{1, n}(\lambda_{1, n}) E_{2, 3}(\lambda_{2, 3}) \cdots E_{2, n}(\lambda_{2, n}) \\
+         &\cdots E_{n - 2, n - 1}(\lambda_{n - 2, n - 1}) E_{n - 2, n}(\lambda_{n - 2, n}) E_{n - 1, n}(\lambda_{n - 1, n})
+  \end{align*}
+  and
+  \begin{align*}
+    N ={}& E_{m - 1, m}(\xi_{m - 1, m})^{\top} E_{m - 2, m}(\xi_{m - 2, m})^\top E_{m - 2, m - 1}(\xi_{m - 2, m - 1})^\top \\ &
+                                                                                                                                \cdots E_{2, m}(\xi_{2, m})^{\top} \cdots E_{2, 3}(\xi_{2, 3})^\top E_{1, m}(\xi_{1, m})^\top \cdots E_{1, 2}(\xi_{1, 2})^\top.
+  \end{align*}
+
+  For an integer $k>0$, let $J_{k}\in\F^{k\times k}$ be the $k\times k$ matrix with 1’s along the anti-diagonal from the bottom left to the top right and 0’s elsewhere.
+  Note that $\det_{k}(J_k) = (-1)^{\binom{k}{2}} = \pm 1$.
+  The substitution $X\mapsto J_{n} X J_{m}$ has the effect of replacing row $i$ with row $n-i+1$ and column $j$ with column $m-j+1$.
+  This turns an anti-canonical bitableau $(\overline{K}_\sigma\mid \overline{K}_\sigma)$ into a canonical one $(K_\sigma\mid K_\sigma)$.
+\end{defn}
+
+\subsubsection{Isolation of a Single Term}
+
+\begin{cor}\label{cor:reformuated}
+  Let $f(X) \in I^{\det}_{n, m, r}$
+  be a nonzero polynomial of degree $d$.
+  Then $f(M J_n X J_m N)$ can be expressed as a sum
+  \begin{equation}\label{eq:expansion3}
+          f(M J_n X J_m N) = \sum_{k \in A} \widehat{c}_{k} \Lambda^{\overline{e}_k}\Xi^{\overline{f}_k}\cdot (K_{\sigma_k}\mid K_{\sigma_k})(X) + \sum_{\ell \in B} \widehat{c}_{\ell} \Lambda^{\overline{e}_\ell}\Xi^{\overline{f}_\ell}\cdot (S_\ell\mid T_\ell)(X),
+      \end{equation}
+  such that the following hold:
+  \begin{enumerate}
+      \item\label{item:expansion3_i0} $A$ is a nonempty finite set and $B$ is finite set disjoint from $A$.
+      \item\label{item:expansion3_i1} All terms in \Cref{eq:expansion3} have the form $c \Lambda^{\overline{e}}\Xi^{\overline{f}}\cdot (S\mid T)(X)$, where $c\in \F^\times$, $\overline{e}\in \set{0,1,\dots,d }^{\binom{[n]}{2}}$, $\overline{f}\in \set{0,1,\dots,d}^{\binom{[m]}{2}}$,
+      and $(S\mid T)(X)$ is a bideterminant in $I^{\det}_{n, m, r}$ of degree $d$.
+      In particular, if $S$ and $T$ have shape $\sigma$, then $\abs{\sigma} \leq d$.
+      % \item\label{item:expansion3_i1.5} For every $\ell\in B$, there exists $k=k(\ell)\in A$ such that $(\overline{e}_\ell, \overline{f}_\ell)$ is strictly smaller than $(\overline{e}_k,\overline{f}_k)$ in the lexicographic order and the shape $\sigma_\ell$ of $(S_\ell\mid T_\ell)$ equals the shape $\sigma_k$.
+      \item\label{item:expansion3_i2} The triples $(\overline{e}_k,\overline{f}_k,\sigma_k)$ are distinct, where $k$ ranges over $A$.
+  \end{enumerate}
+\end{cor}
+
+Next, we introduce i variables $Y = \set{y_1,\dots,y_n}$ and $Z = \set{z_1,\dots,z_m}$.
+Define the diagonal matrices
+\[
+    D = \mathrm{diag}(y_1,\dots,y_n)\in\F[Y]^{n\times n} \quad\text{and}\quad D'=\mathrm{diag}(z_1,\dots,z_m)\in\F[Z]^{m\times m}.
+\]
+
+\begin{lem}\label{lem:diagonals}
+Let $(S\mid T)(X)$ be a bideterminant of degree at most $d$.
+Then
+\[
+  (S\mid T)(D X D')=Y^{\overline{s}} Z^{\overline{t}}\cdot  (S\mid T)(X),
+\]
+where $\overline{s}=(s_1,\dots,s_n)\in \set{0,1,\dots,d}^n$, $\overline{t}=(t_1,\dots,t_m)\in \set{0,1,\dots,d}^m$, $s_i$ is the number of times $i$ appears in $S$, $t_j$ is the number of times $j$ appears in $T$, \ie, $(s_1 e_1+ \cdots + s_n e_n)\oplus (t_1 e_1 + \cdots + t_m e_m)$ is the multidegree of $(S\mid T)(X)$ with respect to the grading defined in \Cref{defn:multideg}.
+\end{lem}
+
+We will often simply say that $(S \mid T)(X)$ in \Cref{lem:diagonals} has multidegree $(\overline{s}, \overline{t})$ rather than writing it as $(s_1 e_1 + \cdots + s_n e_n) \oplus (t_1 e_1 + \cdots + t_m e_m)$.
+
+Next, we introduce another variable $v$, and modify $D$ and $D'$ as follows:
+\[
+    \widetilde{D} = \mathrm{diag}(y_1 v, y_2 v^2\dots,y_n v^n )\in\F[Y,v]^{n\times n} \quad\text{and}\quad \widetilde{D}'=\mathrm{diag}(z_1 v,z_2 v^2,\dots,z_m v^m)\in\F[Z,v]^{m\times m}.
+\]
+\begin{lem}\label{lem:multiply-by-diag}
+    Let $(S\mid T)(X)$ be a bideterminant.
+    Then
+    \[
+        (S\mid T)(\widetilde{D} X \widetilde{D}')=Y^{\overline{s}} Z^{\overline{t}} v^{\abs{S} + \abs{T}} \cdot (S\mid T)(X),
+    \]
+    where $(\overline{s},\overline{t})$ is the multidegree of $(S\mid T)(X)$.
+\end{lem}
+
+\begin{lem}\label{lem:key}
+Let $f(X) \in I^{\det}_{n, m, r}$ be a nonzero polynomial of degree $d$.
+Let $g = f(M J_n \widetilde{D} X \widetilde{D}' J_m N) \in \F[X, \Lambda, \Xi, Y, Z, v]$.
+View $g$ as a univariate polynomial in $v$ with coefficients in $\F[X,\Lambda,\Xi,Y,Z]$, and write $g=\sum_{i} \coeff_{v^i}(g) v^i$, where $\coeff_{v^i}(g)\in \F[X,\Lambda,\Xi,Y,Z]$ denotes the coefficient of $v^i$ in $g$.
+Choose the smallest integer $d_{\min}$ such that  $\coeff_{v^{d_{\min}}}(g)\neq 0$.
+Then $d_{\min}=2 \abs{K_\sigma}$ for some shape $\sigma$ with $\abs{\sigma} \leq d$ and we may write $\coeff_{v^{d_{\min}}}(g)$ as a finite sum
+\begin{equation}\label{eq:required}
+    \coeff_{v^{d_{\min}}}(g)=\sum_{k\in I} c_k \Lambda^{\overline{e}_k}\Xi^{\overline{f}_k}Y^{\overline{s}_k}Z^{\overline{t}_k}\cdot (K_{\sigma_k}\mid K_{\sigma_k})(X),
+\end{equation}
+such that the following hold:
+\begin{enumerate}
+    \item\label{item:required1} For each $k\in I$, $c_k\in\F^\times$,  $(\sigma_k)_1\geq r$, and $\abs{\sigma_k} \leq d$.
+    \item\label{item:required2} The tuples $(\overline{e}_k,\overline{f}_k, \overline{s}_k,\overline{t}_k)$ are distinct, where $k$ ranges over $I$.
+\end{enumerate}
+\end{lem}
+
+\Cref{lem:key} helps us separate a collection of terms solely containing canonical bideterminants.
+The next lemma further applies the isolation lemma to single out one term from this collection.
+\quest{I will better motivate isolation lemma here.}
+
+\begin{lem}\label{lem:univariate}
+Let $f(X) \in I^{\det}_{n, m, r}$
+be a nonzero polynomial of degree $d$.
+Let $g=f(M J_n \widetilde{D} X \widetilde{D}' J_m N) \in \F[X, \Lambda, \Xi, Y, Z, v]$.
+Then there exist integers $z_t = \bigO{d(n^2+m^2)}$ for each variable $t\in \Lambda\sqcup\Xi\sqcup Y\sqcup Z$, and an integer $z_v = \bigO{d^2(n^2+m^2)}$ such that for the two variable substitution maps
+\[
+    \phi\colon t \mapsto w^{z_t} \quad\text{ for } t\in \Lambda \sqcup \Xi \sqcup Y \sqcup Z
+\]
+and
+\[
+    \psi\colon v \mapsto w^{z_v},
+\]
+we have that $h \defeq (\psi\circ\phi)(g)\in\F[X,w]$ has $\deg_w(h) = \bigO{d^3(n^3+m^3)}$, and that $\coeff_{w^i}(h) = c\cdot (K_\sigma\mid K_\sigma)(X)$ for some integer $i\leq \deg_w(h)$, where $c\in\F^\times$, $\sigma_1\geq r$ and $\abs{\sigma} \leq d$.
+\end{lem}
+
+\Cref{lem:key} helps us separate a collection of terms solely containing canonical bideterminants.
+The next lemma further applies the isolation lemma to single out one term from this collection.
+
+\begin{thrm}\label{thrm:bideterminant_canonical_extraction}
+    Let $f(X) \in I^{\det}_{n, m, r}$ be a nonzero polynomial of degree $d$.
+    Assume $\abs{\F} \geq c_0 d^3(n^3+m^3)$, where $c_0>0$ is a large enough constant.
+    Then, there exists a depth-three $f$-oracle circuit of size $\bigO{n^2m^2d^3(n^3+m^3)} = \poly(n,m,d)$ computing $(K_\sigma \mid K_\sigma)(X)$, where $\sigma_1 \geq r$ and $\abs{\sigma} \leq d$.
+    Furthermore, the top gate of this circuit is an addition gate, and the bottom layer consists of $\bigO{nmd^3(n^3+m^3)}$ addition gates.
+    The total number of gates and wires, excluding those between the bottom addition gates and the input gates, is $\bigO{nmd^3(n^3+m^3)}$.
+\end{thrm}
+
+\subsubsection{Projection to Determinant}
 
 \section{Future Work and Open Problems}
 
@@ -418,9 +938,13 @@ For example, it is known that for fields of characteristic zero that $\size(g) \
 
 \subsection{Permanental Ideals}
 
+\quest{if time}
+
 \subsection{Hankel and Toeplitz Ideals}
 
 \subsection{Complexity of Straightening}
+
+\quest{if time}
 
 \printbibliography
 

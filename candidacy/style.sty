@@ -71,8 +71,8 @@ sups]{XCharter}         % I think this is the main font
 % ---- Formatting the title ----
 \usepackage{datetime2}
 
-% ---- Formatting the section titles ----
-\usepackage{titlesec}
+% % ---- Formatting the section titles ----
+% \usepackage{titlesec}
 
 % ---- Formatting the text ----
 \usepackage[T1]{fontenc}
@@ -103,11 +103,13 @@ sups]{XCharter}         % I think this is the main font
 }
 \usepackage{cleveref}
 
-% ---- Coding ----
-\usepackage{minted}
-\setminted{linenos=true}
-\renewcommand\theFancyVerbLine{\small\arabic{FancyVerbLine}}
+% % ---- Coding ----
+% \usepackage{minted}
+% \setminted{linenos=true}
+% \renewcommand\theFancyVerbLine{\small\arabic{FancyVerbLine}}
 
+% ---- Paper Specific ----
+\usepackage{youngtab}
 % -------------------------------------------------------------------------
 %  Formatting junk
 % -------------------------------------------------------------------------
@@ -119,35 +121,35 @@ sups]{XCharter}         % I think this is the main font
 \DTMsetup{datesep=/}
 \DTMsetdatestyle{mdyy}
 
-% ---- SECTION FORMATTING ----
-% TODO: Fix numbered versions
-
-\titleformat{\section}
-    {\Large\bfseries}
-    {\thesection}{1ex}{}
-    []
-\titlespacing{\section}
-    {0pt}                           % left
-    {\parskip}                      % before
-    {\parskip}                           % after
-
-\titleformat{\subsection}[runin]
-    {\normalfont\large\bfseries}
-    {\thesubsection}{1ex}{}
-    []
-\titlespacing{\subsection}
-    {5pt}
-    {10pt}
-    {10pt}
-
-\titleformat{\subsubsection}[runin]
-    {\normalfont\normalsize\bfseries}
-    {\thesubsubsection}{1ex}{}
-    []
-\titlespacing{\subsubsection}
-    {5pt}
-    {0.5ex plus 1ex minus .2ex}
-    {10pt}
+% % ---- SECTION FORMATTING ----
+% % TODO: Fix numbered versions
+%
+% \titleformat{\section}
+%     {\Large\bfseries}
+%     {\thesection}{1ex}{}
+%     []
+% \titlespacing{\section}
+%     {0pt}                           % left
+%     {\parskip}                      % before
+%     {\parskip}                           % after
+%
+% \titleformat{\subsection}[runin]
+%     {\normalfont\large\bfseries}
+%     {\thesubsection}{1ex}{}
+%     []
+% \titlespacing{\subsection}
+%     {5pt}
+%     {10pt}
+%     {10pt}
+%
+% \titleformat{\subsubsection}[runin]
+%     {\normalfont\normalsize\bfseries}
+%     {\thesubsubsection}{1ex}{}
+%     []
+% \titlespacing{\subsubsection}
+%     {5pt}
+%     {0.5ex plus 1ex minus .2ex}
+%     {10pt}
 
 % ---- THEOREM & LEMMA ENVIRONMENTS ----
 % TODO: unnumbered versions
@@ -220,6 +222,18 @@ sups]{XCharter}         % I think this is the main font
 % ---- Paper Specific ----
 \DeclareMathOperator{\dc}{dc}
 \DeclareMathOperator{\size}{size}
+\DeclareMathOperator{\VP}{\texttt{VP}}
+\DeclareMathOperator{\VF}{\texttt{VF}}
+\DeclareMathOperator{\VBP}{\texttt{VBP}}
+\DeclareMathOperator{\VNP}{\texttt{VNP}}
+\DeclareMathOperator{\Sub}{Sub}
+\DeclareMathOperator{\pfaff}{pfaff}
+\DeclareMathOperator{\sym}{sym}
+\DeclareMathOperator{\lex}{lex}
+\DeclareMathOperator{\leqlex}{\leq_{\lex}}
+\DeclareMathOperator{\geqlex}{\geq_{\lex}}
+\DeclareMathOperator{\characteristic}{char}
+\newcommand{\svdots}{\raisebox{-0.12\height}[0pt][0pt]{$\vdots$}}
 
 % ---- Misc Functions ----
 \DeclareMathOperator{\ord}{ord}
