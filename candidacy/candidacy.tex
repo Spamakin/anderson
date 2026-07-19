@@ -251,6 +251,25 @@ However, to express the product of standard monomials in terms of other standard
   Then $\dc(f) \leq m$.
 \end{lem}
 
+In fact, we can say much more about the connection between the complexity of branching programs and determinants:
+\begin{lem}[{\cite[Lemma 3.6]{AF22},~\cite[Theorem 1]{Val79}}]\label{lem:ABP_to_det}
+  Let $g(\overline{y}) \in \F[\overline{y}]$ and suppose $g$ can be computed by an algebraic branching program on $r$ vertices.
+  Then there is an $r \times r$ matrix $A$ over $\F[\overline{y}]$ whose entries are polynomials in $\overline{y}$ of degree at most $1$ such that
+  \begin{itemize}
+    \item $\det_r(A) = 1 + g(\overline{y})$, and
+    \item for all $1 \leq k < r$, $\det_k(A_{[k], [k]}) = 1$.
+  \end{itemize}
+\end{lem}
+
+Algebraic branching programs are closed under homogenization, as stated in the following lemma.
+
+\begin{lem}[{\cite[Lemma 3.7]{AF22}}]\label{lem:homog_ABP}
+  Let $g(\overline{y}) \in \F[\overline{y}]$ and suppose $g$ can be computed by an algebraic branching program on $m$ vertices.
+  Let $z$ be a new indeterminate.
+  Then there is a homogeneous polynomial $\widehat{g}(\overline{y}, z)$ such that $g = \widehat{g}(\overline{y}, 1)$ and $\widehat{g}$ can be computed by an algebraic branching program on $m$ vertices.
+\end{lem}
+
+
 \subsection{Complexity Classes}
 
 \begin{defn}[VP]\label{defn:VP}
@@ -407,6 +426,26 @@ A simple rephrasing of \Cref{lem:isolation_forms} allows us to isolate a term of
   Let $w$ be a new indeterminate, and define $\phi \colon A[y_1, \ldots, y_\ell] \to A[w]$ to be the ring homomorphism sending $y_i \mapsto w^{z_i}$ for each $i \in [\ell]$.
   Then, with probability at least $1 - \e$, there exists a unique monomial $\mathfrak{m} = y_1^{e_1}\cdots y_\ell^{e_\ell}$ among all monomials of $f$ such that  $\phi(\mathfrak{m}) = w^{e_1 z_1 + \cdots + e_\ell z_\ell}$ attains the minimum degree in $w$.
 \end{cor}
+
+The advantage of \Cref{cor:isolation_exponents} is when we have a multivariate polynomial in which there are multiple terms of the same total degree.
+In this situation, suppose that we want a circuit for a single term.
+Then \Cref{lem:homogenization} is insufficient for this purpose as it separates terms by the degree in a single variable.
+Dealing with multiple variables by repeatedly applying \Cref{lem:homogenization} would yield an exponential blowup in the total circuit size.
+A similar idea would be to apply a \emph{Kronecker} substitution:
+\begin{lem}[{\cite{Kro82}}]
+  Write $g(\overline{x}) = \sum_{\overline{e}} \overline{x}^{\overline{e}}$.
+  Suppose that $\deg(g) < d$.
+  Then the \emph{Kroncker substitution}
+  \[
+    x_i \mapsto w^{d^i}
+  \]
+  maps distinct monomials to distinct monomials.
+\end{lem}
+One could apply the Kronecker map to our multivariate polynomial and then apply \Cref{lem:homogenization} since all terms would have distinct total degree.
+However, the total degree in $w$, the new variable, would be exponential so that the resulting circuit would have large size.
+Here, \Cref{cor:isolation_exponents} argues there is an alternative assignment of weights maps $x_i \mapsto w^{z_i}$ rather than $x_i \mapsto w^{d^i}$ such that there is a unique term of lowest total degree in $w$.
+Thus, if we can argue that \emph{any} of our terms of the same total degree suffice, we can apply \Cref{cor:isolation_exponents} followed by \Cref{lem:homogenization} to get a small circuit computing a single term.
+To the best of our knowledge, this is the first usage of the Isolation Lemma of~\cite{MVV87, KS01} in algebraic complexity for the purposes of isolating terms in a polynomial.
 
 \subsection{Border Complexity}
 
@@ -962,7 +1001,6 @@ such that the following hold:
 
 \Cref{lem:key} helps us separate a collection of terms solely containing canonical bideterminants.
 The next lemma further applies the isolation lemma to single out one term from this collection.
-\quest{I will better motivate isolation lemma here.}
 
 \begin{lem}\label{lem:univariate}
 Let $f(X) \in I^{\det}_{n, m, r}$
@@ -991,6 +1029,97 @@ The next lemma further applies the isolation lemma to single out one term from t
 \end{thrm}
 
 \subsubsection{Projection to Determinant}
+
+We have now seen that given an oracle to some nonzero $f(X) \in I^{\det}_{n, m, r}$, one can efficiently compute a canonical bideterminant efficiently with an $f$-oracle circuit.
+We now leverage the connection between algebraic branching programs
+The remainder of the proof follows~\cite{AF22}, which we include here for completeness.
+One key idea is exploiting the close connection between algebraic branching programs and determinants (\Cref{lem:ABP_to_det} and \Cref{lem:homog_ABP}).
+
+We will use \Cref{thrm:bideterminant_canonical_extraction} to construct a constant-depth algebraic circuit of size $\poly(n,\deg(f))$ with $f$-oracle gates that computes the determinant.
+We start by proving the following more general theorem.
+\begin{thrm}\label{thrm:ABP_det_oracle}
+    Let $f(X) \in I^{\det}_{n, m, r}$ be a nonzero polynomial of degree $d$.
+    Let $g(y_1, \ldots, y_\ell) \in \F[\overline{y}]$ be a polynomial computable by an algebraic branching program with at most $r$ vertices.
+    Assume $\abs{\F} \geq c_0 d^3(n^3+m^3)$, where $c_0>0$ is a large enough constant.
+    Then there is a depth-three $f$-oracle circuit $\Phi$ of size $\bigO{nmd^4\ell r(n^3+m^3)}$ defined over $\F$ such that
+    \begin{itemize}
+        \item if $\characteristic(\F) = 0$ then $\Phi$ computes $g(\overline{y})$, and
+        \item if $\characteristic(\F) = p > 0$ then $\Phi$ computes $g(\overline{y})^{p^k}$ for some $k \leq \floor{\log_p(d)}$.
+    \end{itemize}
+    Furthermore, the top layer of this circuit consists of an addition gate.
+\end{thrm}
+\begin{pf}
+    By \Cref{lem:homog_ABP}, there is a homogeneous polynomial $\widehat{g}(\overline{y}, z) \in \F[\overline{y}, z]$ such that $\widehat{g}(\overline{y}, 1) = g(\overline{y})$ and $\widehat{g}(\overline{y}, z)$ can be computed by an algebraic branching program over $\F$ with at most $r$ vertices.
+    We may add isolated vertices such that the algebraic branching program has exactly $r$ vertices.
+    Then by \Cref{lem:ABP_to_det}, there is a matrix $A(\overline{y}, z) \in \F[\overline{y}, z]^{r \times r}$  such that
+    \begin{itemize}
+        \item $\det_r(A(\overline{y}, z)) = 1 + \widehat{g}(\overline{y}, z)$,
+        \item $\det_i(A(\overline{y}, z)_{[i], [i]}) = 1$ for all $1 \leq i \leq r - 1$,
+    \end{itemize}
+    and all entries of $A(\overline{y}, z)$ have degree at most $1$ in $\overline{y}$ and $z$.
+    Extend $A(\overline{y}, z)$ to an $n\times m$ matrix by adding $1$'s to the main diagonal and $0$'s elsewhere.
+
+   By \Cref{thrm:bideterminant_canonical_extraction}, there exists a depth-three $f$-oracle circuit $C$ over $\F$ of size $\bigO{n^2m^2d^3(n^3+m^3)}$ computing $(K_\sigma \mid K_\sigma)(X)$ such that $\sigma_1 \geq r$ and $\abs{\sigma} \leq d$.
+   Furthermore, the top gate of $C$ is an addition gate, the bottom layer of $C$ consists of $\bigO{nmd^3(n^3+m^3)}$ addition gates, and the total number of gates and wires excluding the wires between the bottom addition gates and the input gates is $\bigO{nmd^3(n^3+m^3)}$.
+   Replacing the $nm$ input gates of $C$ by the $\bigO{\ell}$ new input gates $\overline{y}$, $z$, and $1$, and further connecting these gates to the $\bigO{nmd^3(n^3+m^3)}$ bottom addition gates, we obtain a depth-three $f$-oracle circuit over $\F$ of size $\bigO{nmd^3\ell(n^3+m^3)}$ computing
+    \[
+        h(\overline{y}, z) \defeq(K_\sigma \mid K_\sigma)(A(\overline{y}, z)) = (1 + \widehat{g}(\overline{y}, z))^t
+    \]
+    where $t \defeq \abs{\set{i \mid \sigma_i \geq r}} \geq 1$.
+    Note that $t \leq \widehat{\sigma}_1 \leq d$.
+
+    First, suppose that $\characteristic(\F) = 0$.
+    Let $\delta$ be a new indeterminate.
+    Then under the map $y_i \mapsto \delta \cdot y_i$ and $z \mapsto \delta$, we have that
+    \begin{gather}
+    \begin{aligned}\label{eq:det_computation_char_0}
+        h(\delta \cdot \overline{y}, \delta) &=  (1 + \widehat{g}(\delta \cdot \overline{y}, \delta))^t \\
+                                             &=  (1 + \delta^{\deg(\widehat{g})} \widehat{g}(\overline{y}, 1))^t \\
+                                             &= (1 + \delta^{\deg(\widehat{g})} g(\overline{y}))^t \\
+                                             &= \sum_{i = 0}^t \binom{t}{i} \delta^{i \cdot \deg(\widehat{g})} g(\overline{y})^i = 1 +  \delta^{\deg(\widehat{g})} g(\overline{y}) + \cdots.
+    \end{aligned}
+    \end{gather}
+    Then $\deg_\delta(h(\delta \cdot \overline{y}, \delta)) \leq t \cdot \deg(\widehat{g}) \leq dr$.
+    For each $\alpha\in\F$, we can construct from the depth-three $f$-oracle circuit computing $h(\overline{y},z)$ another $f$-oracle circuit $C_\alpha$ computing $h(\alpha \overline{y}, \alpha)$, whose size is $\bigO{nmd^3\ell(n^3+m^3)}$ and top gate is an addition gate.
+    Also, as $\abs{\F} \geq c_0 d^3(n^3+m^3)$, where $c_0>0$ is a large enough constant, we may assume $\abs{\F} \geq dr+1$.
+    Therefore, by \Cref{lem:homogenization}, we can compute $\coeff_{\delta^{\deg(\widehat{g})}}(h(\delta\cdot \overline{y},\delta))=g(\overline{y})$ using a depth-three $f$-oracle circuit of size
+    \[
+    \bigO{\deg_\delta(h(\delta \cdot \overline{y}, \delta))\cdot nmd^3\ell(n^3+m^3)}=\bigO{nmd^4\ell r(n^3+m^3)}.
+    \]
+
+    Now suppose that $\characteristic(\F) = p > 0$.
+    The above computation only needs to be modified in the case that $p \mid t$.
+    Let $k \in \N$ be the largest natural number such that $t = p^k b$ for some natural number $b$.
+    Since $p^k \leq t \leq d$, we have that $k \leq \floor{\log_p(d)}$ as claimed.
+    Then by a similar computation to \Cref{eq:det_computation_char_0}, we get that
+    \begin{equation}\label{eq:det_computation_char_p}
+        h(\delta \cdot \overline{y}, \delta) = \sum_{i = 0}^t \binom{t}{i} \delta^{i \cdot \deg(\widehat{g})} g(\overline{y})^i = 1 + b \cdot \delta^{\deg(\widehat{g}) p^k} g(\overline{y})^{p^k} + \cdots.
+    \end{equation}
+    Again, $\deg_\delta(h(\delta \cdot \overline{y}, \delta)) \leq t \cdot \deg(\widehat{g}) \leq dr$.
+    For each $\alpha \in \F$, we can construct from the depth-three $f$-oracle circuit computing $h(\overline{y},z)$ another $f$-oracle circuit $C_\alpha$ computing $h(\alpha \overline{y}, \alpha)$, whose size is $\bigO{nmd^3\ell(n^3+m^3)}$ and top gate is an addition gate.
+    Also, as $\abs{\F} \geq c_0 d^3(n^3+m^3)$, where $c_0>0$ is a large enough constant, we may assume $\abs{\F} \geq dr+1$.
+    Therefore, by \Cref{lem:homogenization}, we have a depth-three $f$-oracle circuit of size $\bigO{nmd^4\ell r(n^3+m^3)}$ computing $\coeff_{\delta^{\deg(\widehat{g})p^k}}(h(\delta\cdot \overline{y},\delta))=b\cdot g(\overline{y})^{p^k}$.
+    By dividing the multipliers on the wires connecting to the top gate by $b$, this circuit computing $b\cdot g(\overline{y})^{p^k}$ can be turned into a depth-three $f$-oracle circuit with the same underlying graph that computes $g(\overline{y})^{p^k}$.
+\end{pf}
+
+The following corollaries are a debordering of the results~\cite[Corollary 3.9, Corollary 3.10]{AF22} of Andrews and Forbes.
+In particular, we can use \Cref{thrm:ABP_det_oracle} to construct a small constant-depth $f$-oracle circuit for the determinant, which partially resolves \Cref{conj:grochow_det} posed by Grochow as stated before.
+\begin{cor}\label{cor:det_oracle_for_det}
+    Let $f(X) \in I^{\det}_{n, m, r}$ be a nonzero polynomial of degree $d$.
+    Let $t=\bigO{r^{1/3}}$ and let $Y$ be a $t \times t$ matrix of indeterminates.
+    Assume $\abs{\F} \geq c_0 d^3(n^3+m^3)$, where $c_0>0$ is a large enough constant.
+    Then there is a depth-three $f$-oracle circuit $\Phi$ of size $\bigO{n m d^4 r t^2 (n^3+m^3)} \leq \bigO{n m d^4 r^{5/3} (n^3+m^3)}$ over $\F$ such that
+    \begin{itemize}
+        \item if $\characteristic(\F) = 0$ then $\Phi$ computes $\det_t(Y)$, and
+        \item if $\characteristic(\F) = p > 0$ then $\Phi$ computes $\det_t(Y)^{p^k}$ for some $k \leq \floor{\log_p(d)}$.
+    \end{itemize}
+    Furthermore, the top gate of this circuit is an addition gate.
+\end{cor}
+\begin{pf}
+    Mahajan and Vinay~\cite[Theorem 2]{MV97} construct an algebraic branching program on $\bigO{t^3} \leq r$ vertices which computes $\det_t(Y)$.
+    Then, the total number of variables in $Y$ is $t^2 = \bigO{r^{2 / 3}}$.
+    The result then follows by applying \Cref{thrm:ABP_det_oracle}.
+  \end{pf}
 
 \section{Future Work and Open Problems}
 
