@@ -309,21 +309,48 @@ We give some discussion on the restriction of $\poly(n)$ degree for $\VP$:
 
 \subsection{Basic Structural Results}
 
+Clearly every formula is also a circuit so that the inclusion $\VF \subseteq \VP$ is immediate.
+Furthermore, it is clear that $\VP \subseteq \VNP$.
+What can be said about $\VBP$ as compared to $\VF$ and $\VP$?
+The following can be proven by induction on the structure of a formula.
 \begin{lem}
-  \quest{conversions from circuits to formulas / ABPs and vice versa.}
+  Suppose that $f(\overline{x})$ is computed by a formula of size $s$.
+  Then $f(\overline{x})$ can be computed by an algebraic branching program of size $\bigO{s}$.
 \end{lem}
 
+\begin{lem}
+  Suppose that $f(\overline{x})$ is computed by an algebraic branching program of size $s$.
+  Then $f(\overline{x})$ is computed by an algebraic circuit of size $\poly(s)$.
+\end{lem}
+This follows from the fact that branching programs are computed by determinants (\Cref{lem:abp_det}) and that the determinant has polynomial sized circuits (\Cref{prop:det_poly_ckt}).
+
+With the above discussion, we get the following chain of inclusions.
 \begin{prop}
-  \quest{Inclusions} $\VF \subseteq \VBP \subseteq VP$
+  \[
+    \VF \subseteq \VBP \subseteq \VP \subseteq VNP
+  \]
 \end{prop}
+No strict separations between any of these classes is known.
+Showing a separation between any pair of these four classes is one of the biggest open problems in algebraic complexity.
+
 
 Notice that in \Cref{defn:ckt}, we don't allow division.
 It turns out that this is not an issue, as one can eliminate division gates without much blowup.
-\begin{lem}[{\cite{Str73, HY11}}]
+\begin{lem}[{\cite{Str73, HY11}}]\label{lem:div_elim}
   Suppose $f(x_1, \ldots, x_n)$ is a degree $d$ polynomial computed by a circuit of size $s$ and depth $\Delta$ with division gates.
   Then $f(x_1, \ldots, x_n)$ can be computed by a circuit of size $\bigO{d^2 s^3}$ and depth $\bigO{\log(s) \cdot \Delta}$.
 \end{lem}
 
+\begin{rmk}
+  Note that such division elimination works for formulas as well as algebraic branching programs.
+  However, there are simple computational models where eliminating divisions efficiently is not possible.
+  Recall that the \emph{sparse} representation of a polynomial is when the complexity of a polynomial is given by the number of monomials.
+  Consider the polynomial $x^{d} - 1$.
+  Then $x^d - 1 = (x - 1)(x^{d - 1} + x^{d - 2} + \cdots + x + 1)$ gives that while $x^d - 1$ has constant sparsity $2$, it has a factor of sparsity $d$.
+  Thus, this model is not closed under divisions.
+\end{rmk}
+
+There has been much focus around constant depth circuits
 \begin{lem}
   \quest{Depth reduction to motivate constant depth focus}
 \end{lem}
@@ -455,6 +482,16 @@ Thus, if we can argue that \emph{any} of our terms of the same total degree suff
 To the best of our knowledge, this is the first usage of the Isolation Lemma of~\cite{MVV87, KS01} in algebraic complexity for the purposes of isolating terms in a polynomial.
 
 \subsection{Important Polynomials}
+
+\begin{prop}\label{prop:det_poly_ckt}
+  The $n \times n$ determinant has circuits of size $\poly(n)$.
+\end{prop}
+\begin{pf}
+  \emph{Sketch:}
+  Compute generic Gaussian elimination on an $n \times n$ matrix of variables.
+  This gives a $\poly(n)$ sized circuit with division.
+  Then eliminate divisions with \Cref{lem:div_elim} to get a $\poly(n)$ sized algebraic circuit computing $\det_n$.
+\end{pf}
 
 \subsection{Border Complexity}
 
@@ -842,7 +879,7 @@ Then a core issue is that for an expression $\sum_{i = 1}^k f_i \cdot g_i \in I$
 \begin{ex}\label{ex:det_perm_ideal}
   Suppose that $I = \ideal{\perm_n, \det_n - \perm_n}$.
   Then it is conjectured that $\perm_n$, and thus $\det_n - \perm_n$, requires a circuit of size exponential in $n$.
-  However, $\det_n = \perm_n + (det_n - \perm_n) \in I$ is known to have a circuit of size $\poly(n)$ computing it.
+  However, $\det_n = \perm_n + (\det_n - \perm_n) \in I$ is known to have a circuit of size $\poly(n)$ computing it.
   This makes \Cref{question:general_ideal} have an answer which is not interesting.
   Adding $\det_n$ to the set of generators remedies this issue.
 \end{ex}
