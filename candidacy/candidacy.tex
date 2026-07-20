@@ -175,7 +175,7 @@ However, to express the product of standard monomials in terms of other standard
   The \emph{size} of a circuit is the total number of edges.
   We will denote by $size(f_1, \ldots, f_k)$ the size of the smallest circuit over $\F$ computing $\{f_1(\overline{x}), \ldots, f_k(\overline{x})\}$.
   Some sources also define the size to be the number of vertices.
-  These are polynomially related as a directed simple graph with $v$ vertices has $O(v^2)$ edges.
+  These are polynomially related as a directed simple graph with $v$ vertices has $\bigO{v^2}$ edges.
   It's \emph{depth} is the length of the longest input-to-output path.
   The \emph{fan-in} and \emph{fan-out} of a node are in-degree and out-degree respectively.
   The \emph{fan-in} and \emph{fan-out} of the circuit is the maximum fan-in and fan-out respectively over all nodes in the circuit.
@@ -203,7 +203,7 @@ However, to express the product of standard monomials in terms of other standard
   \[
     p_{0}(x) = a_{0}, \qquad p_{k}(x) = a_{d - k} + x \cdot p_{k - 1}(x).
   \]
-  This recurrence can be formulated as an algebraic circuit of size $O(d)$ and depth $O(d)$.
+  This recurrence can be formulated as an algebraic circuit of size $\bigO{d}$ and depth $\bigO{d}$.
   In fact, this uses exactly $n$ additions and $n$ multiplications, which is optimal.
   The proof of optimality of the number of additions for computing a generic univariate polynomial $f(x)$ in this manner was given by~\cite{Ost54}.
   The corresponding proof of optimality for multiplications was given by~\cite{Pan66}.
@@ -232,7 +232,7 @@ However, to express the product of standard monomials in terms of other standard
 
   The \emph{size} of an ABP $A$ is the number of edges in $A$.
   Some sources also define the size to be the number of vertices.
-  These are polynomially related as a directed simple graph with $v$ vertices has has $O(v^2)$ edges.
+  These are polynomially related as a directed simple graph with $v$ vertices has $\bigO{v^2}$ edges.
   The \emph{width} of $A$ is the maximum number of vertices in any layer of $A$.
   The \emph{depth} of $A$ is the number of layers.
 \end{defn}
@@ -301,9 +301,9 @@ Valient's Criterion gives a useful characterization for what it means for $f(\ov
 We give some discussion on the restriction of $\poly(n)$ degree for $\VP$:
 \begin{rmk}
   Note that via repeated squaring, one can compute polynomials of exponential degree with small circuits, even with restrictions on the fan-in of gates.
-  However, most ``interesting'' polynomials such as the determinant and permanent fall into this low-degree regime.
+  However, most ``interesting'' polynomials, such as the determinant and permanent, fall into a ``low-degree'' regime where the degree of the polynomial is not significantly greater than the number of variables.
   Originally, Valiant was studying formulas, not circuits.
-  One can easily see from \Cref{defn:formula} that a formula of depth $\Delta$ must compute a polynomial of degree $O(\Delta)$ if we restrict to constant fan-in.
+  One can easily see from \Cref{defn:formula} that a formula of depth $\Delta$ must compute a polynomial of degree $\bigO{\Delta}$ if we restrict to constant fan-in.
   See~\cite{Sap21} and~\cite{Gro} for more discussion.
 \end{rmk}
 
@@ -317,8 +317,11 @@ We give some discussion on the restriction of $\poly(n)$ degree for $\VP$:
   \quest{Inclusions} $\VF \subseteq \VBP \subseteq VP$
 \end{prop}
 
-\begin{lem}
-  \quest{Elimination of Division}
+Notice that in \Cref{defn:ckt}, we don't allow division.
+It turns out that this is not an issue, as one can eliminate division gates without much blowup.
+\begin{lem}[{\cite{Str73, HY11}}]
+  Suppose $f(x_1, \ldots, x_n)$ is a degree $d$ polynomial computed by a circuit of size $s$ and depth $\Delta$ with division gates.
+  Then $f(x_1, \ldots, x_n)$ can be computed by a circuit of size $\bigO{d^2 s^3}$ and depth $\bigO{\log(s) \cdot \Delta}$.
 \end{lem}
 
 \begin{lem}
