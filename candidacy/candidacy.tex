@@ -310,7 +310,7 @@ We give some discussion on the restriction of $\poly(n)$ degree for $\VP$:
 \subsection{Basic Structural Results}
 
 \begin{lem}
-  \quest{Depth reduction, conversions from circuits to formulas / ABPs and vice versa.}
+  \quest{conversions from circuits to formulas / ABPs and vice versa.}
 \end{lem}
 
 \begin{prop}
@@ -319,6 +319,10 @@ We give some discussion on the restriction of $\poly(n)$ degree for $\VP$:
 
 \begin{lem}
   \quest{Elimination of Division}
+\end{lem}
+
+\begin{lem}
+  \quest{Depth reduction to motivate constant depth focus}
 \end{lem}
 
 \begin{defn}\label{defn:coeff}
@@ -435,7 +439,7 @@ A similar idea would be to apply a \emph{Kronecker} substitution:
 \begin{lem}[{\cite{Kro82}}]
   Write $g(\overline{x}) = \sum_{\overline{e}} \overline{x}^{\overline{e}}$.
   Suppose that $\deg(g) < d$.
-  Then the \emph{Kroncker substitution}
+  Then the \emph{Kronecker substitution}
   \[
     x_i \mapsto w^{d^i}
   \]
@@ -446,6 +450,8 @@ However, the total degree in $w$, the new variable, would be exponential so that
 Here, \Cref{cor:isolation_exponents} argues there is an alternative assignment of weights maps $x_i \mapsto w^{z_i}$ rather than $x_i \mapsto w^{d^i}$ such that there is a unique term of lowest total degree in $w$.
 Thus, if we can argue that \emph{any} of our terms of the same total degree suffice, we can apply \Cref{cor:isolation_exponents} followed by \Cref{lem:homogenization} to get a small circuit computing a single term.
 To the best of our knowledge, this is the first usage of the Isolation Lemma of~\cite{MVV87, KS01} in algebraic complexity for the purposes of isolating terms in a polynomial.
+
+\subsection{Important Polynomials}
 
 \subsection{Border Complexity}
 
@@ -741,23 +747,6 @@ In this way, proving lower bounds for arbitrary nonzero $f \in I$ reduces to pro
 We call such a property a \emph{closure result}, by analogy with closure under factorization in the principal ideal case.
 In short, closure results reduce the task of showing hardness for all polynomials in $I$ to proving hardness for a small set of distinguished polynomials.
 
-\begin{defn}[Hitting Set Generator (HSG)]\label{defn:hsg}
-
-\end{defn}
-
-\begin{defn}[Polynomial Identity Testing (PIT)]\label{defn:pit}
-
-\end{defn}
-
-Closure results for ideals are useful for constructing hitting set generators, which are the algebraic-complexity analogs of pseudorandom generators and can be used to derandomize polynomial identity testing (PIT).
-The idea is as follows: for $s < n$, we seek a hitting set generator $G\colon \F^s \to \F^n$ against a family $\mathcal{C}$ of $n$-variate polynomials.
-This means that $G$ has the property that for any nonzero polynomial $f \in \mathcal{C}$, we have $f \circ G \neq 0$.
-Here, one should think of $\mathcal{C}$ as a family of ``low-complexity'' polynomials.
-Let $I$ be the ideal of polynomials $f$ satisfying $f \circ G = 0$, also known as the \emph{vanishing ideal} of $G$~\cite{HvMM24}.
-To show that $G$ has the desired hitting set property, it suffices to show that every nonzero $f \in I$ has sufficiently high complexity so that no such $f$ can belong to $\mathcal{C}$.
-With a closure result for $I$, this reduces to proving lower bounds for a distinguished set of polynomials $\set{g_1, \dots, g_k}$ for $I$.
-This can be viewed as a particular way of implementing the ``hardness versus randomness'' paradigm of~\cite{NW94, KI04} in the setting of algebraic complexity.
-
 The general question we want to study is of the following form:
 \begin{question}\label{question:general_ideal}
   Say that $I = \ideal{g_1, \ldots, g_k}$.
@@ -792,13 +781,70 @@ This result is only known in the setting of border computation over fields of ch
 \end{thrm}
 \Burgisser's result can actually be formulated in the setting of oracle complexity, so that we get a $\poly(\deg(g), n)$ size $f$-oracle circuit which approximately computes $g(\overline{x})$.
 
-\quest{TODO:\ Read and understand Kayal's work on annihilator polynomials and how it connects to HSGs}
+\subsubsection{Factoring versus Polynomial Identity Testing}
 
-\subsubsection{PIT vs Factoring}
+\begin{defn}[Polynomial Identity Testing (PIT)]\label{defn:pit}
+  Given black box access to an $n$-variate, degree $d$ polynomial $f(x_1, \ldots, x_n) \in \F[x_1, \ldots, x_n]$, determine if $f(x_1, \ldots, x_n)$ is identically zero.
+\end{defn}
+
+\begin{lem}[\cite{Ore22,DL78,Zip79,Sch80}]\label{lem:Schwartz_Zippel}
+  Suppose that $f(x_1, \ldots, x_n)$ is an $n$-variate, degree $d$ polynomial and $S \subseteq \F$ a finite subset.
+  Choose $z_1, \ldots, z_n \sample S$ uniformly at random from $S$.
+  Then $\Prob{f(z_1, \ldots, z_n) = 0} \leq \frac{d}{\abs{S}}$.
+\end{lem}
+
+\begin{rmk}
+Note that the bound in \Cref{lem:Schwartz_Zippel} is tight.
+Indeed choose any $d$ distinct elements $s_1, \ldots, s_d$ from $S$. Let $f(x_1, \ldots, x_n) = \prod_{i = 1}^d (x_1 - s_i)$. Then uniformly randomly sample $z_1, \ldots, z_n$ from $S$.
+Then
+\[
+  \Prob{f(z_{1}, \ldots, z_{n}) = 0} = \Prob{z_{1} \in \set{s_{1}, \ldots, s_{d} }} = \frac{d}{\abs{S}}.
+\]
+\end{rmk}
+\Cref{lem:Schwartz_Zippel}, known in the literature as the \emph{Schwartz-Zippel Lemma}, gives an efficient randomized algorithm for polynomial identity testing by simply choosing $\abs{S} > 2d$.
+If $\abs{\F} \leq 2d$, it is common to allow the construction of a field extension for $\F$ and to evaluate $f(\overline{x})$ at this field extension.
+
+One major question is to derandomize the Schwartz-Zippel lemma.
+Specifically, for some class of polynomials $\mathcal{C}$, such as polynomials whose minimal circuit size is $\leq s$, we would like an algorithm to determine if some $f \in \mathcal{C}$ is identically zero or not.
+It turns out that designing such an algorithm is equivalent to constructing \emph{hitting sets}:
+
+\begin{defn}[Hitting Set Generator (HSG)]\label{defn:hsg}
+  Let $\mathcal{C}$ be a class of $n$-variate polynomials over $\F$
+  We say that $\mathcal{G} \subseteq \F^n$ is a \emph{hitting set generator}for $\mathcal{C}$ if for all $f \in \mathcal{C}$, $f$ is identically zero if and only if $f(\overline{z}) = 0$ for some $\overline{z} \in \mathcal{H}$.
+\end{defn}
+
+Closure results for ideals are useful for constructing hitting set generators, which are the algebraic-complexity analogs of pseudorandom generators and can be used to derandomize polynomial identity testing (PIT).
+The idea is as follows: for $s < n$, we seek a hitting set generator $G\colon \F^s \to \F^n$ against a family $\mathcal{C}$ of $n$-variate polynomials.
+This means that $G$ has the property that for any nonzero polynomial $f \in \mathcal{C}$, we have $f \circ G \neq 0$.
+Here, one should think of $\mathcal{C}$ as a family of ``low-complexity'' polynomials.
+Let $I$ be the ideal of polynomials $f$ satisfying $f \circ G = 0$, also known as the \emph{vanishing ideal} of $G$~\cite{HvMM24}.
+\quest{If time, it may be nice to elaborate on this point.}
+To show that $G$ has the desired hitting set property, it suffices to show that every nonzero $f \in I$ has sufficiently high complexity so that no such $f$ can belong to $\mathcal{C}$.
+With a closure result for $I$, this reduces to proving lower bounds for a distinguished set of polynomials $\set{g_1, \dots, g_k}$ for $I$.
+This can be viewed as a particular way of implementing the ``hardness versus randomness'' paradigm of~\cite{NW94, KI04} in the setting of algebraic complexity.
+
+It turns out there is a deep connection between polynomial identity testing and factorization.
+It is shown in~\cite{KSS15} that if one can solve polynomial identity testing for the class $\mathcal{C}$ of size $s$, $n$-variate, degree $d$ circuits over $\Q$ or $\mathbb{F}_{p^\ell}$ in time $\poly(s, n, d)$, then one can deterministically fully factorize circuits in $\mathcal{C}$ in polynomial time.
+Note that the converse direction is immediate to see.
+If one can factorize a polynomial in $\mathcal{C}$ in polynomial time, then one can determine if it is identically zero in polynomial time.
 
 \subsubsection{More Than One Generator}
 
-\section{Current Work on Ideals with Straightening Laws}
+Recall the general question, \Cref{question:general_ideal}, we want to study for ideals $I = \gen{g_1, \ldots, g_k}$.
+The principal ideal case discussed above corresponds to the complexity of $f(\overline{x}) \in I$ versus $g_1, \ldots, g_k$ for $k = 1$.
+What can we say about $k > 1$?
+As stated, this question is not necessarily well formed.
+Then a core issue is that for an expression $\sum_{i = 1}^k f_i \cdot g_i \in I$, we have to somehow account for the possibility of cancellations which can take several hard-to-compute polynomials and combine them into an easy-to-compute polynomials.
+
+\begin{ex}\label{ex:det_perm_ideal}
+  Suppose that $I = \ideal{\perm_n, \det_n - \perm_n}$.
+  Then it is conjectured that $\perm_n$, and thus $\det_n - \perm_n$, requires a circuit of size exponential in $n$.
+  However, $\det_n = \perm_n + (det_n - \perm_n) \in I$ is known to have a circuit of size $\poly(n)$ computing it.
+  This makes \Cref{question:general_ideal} have an answer which is not interesting.
+  Adding $\det_n$ to the set of generators remedies this issue.
+\end{ex}
+
+We see from \Cref{ex:det_perm_ideal} that to begin studying \Cref{question:general_ideal}, one must first consider what the ``right'' set of generators is.
 
 \quest{TODO:\ motivate Grochow's conjecture}
 
@@ -806,6 +852,9 @@ This result is only known in the setting of border computation over fields of ch
   Let $X$ be an $n \times n$ matrix of indeterminates and let $I_n$ be the ideal generated by the $\tfrac{n}{2} \times \tfrac{n}{2}$ minors of $X$.
   Then for every nonzero polynomial $f \in I_n$, there is a constant-depth\footnote{The original statement of the conjecture does not specify constant-depth algebraic circuits. However, it is already known that the $m \times m$ determinant can be computed by algebraic circuits of size $\poly(m)$.} algebraic circuit of size $\poly(n)$ with $f$-oracle gates that computes the $m \times m$ determinant for some $m = n^{\bigTheta{1}}$.
 \end{conj}
+
+\section{Current Work on Ideals with Straightening Laws}
+
 
 \subsection{Approximative Results}
 
