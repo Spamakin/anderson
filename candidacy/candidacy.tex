@@ -209,6 +209,24 @@ However, to express the product of standard monomials in terms of other standard
   The corresponding proof of optimality for multiplications was given by~\cite{Pan66}.
 \end{ex}
 
+It actually turns out that ``most'' $n$-variate degree $d$ polynomials require large circuits.
+\begin{prop}
+  Let $\F$ be a field of characteristic zero.
+  Then most $n$-variate polynomials of degree $d$ require circuits of size $\binom{n + d}{d}$.
+\end{prop}
+\begin{pf}
+  First, the number of monomials in $\F[x_1, \ldots, x_n]$ of degree at most $d$ is $N \defeq \binom{n + d}{d}$.
+  Next, note that algebraic circuits are given by directed acyclic graphs.
+  An algebraic circuit with $v$ nodes will have at most $s = \binom{v}{2} = \frac{v(v - 1)}{2}$.
+  Fix a circuit topology $C$ of size $s$ with $v$ nodes which computes a polynomial of degree at most $d$ over $\F[x_1, \ldots, x_n]$.
+  Then define a map $\Phi\colon \F^s \to \F^N$ by assigning values to the $s$ edges of $C$ and then considering the resulting coefficient vector.
+  The dimension of the image of $\Phi$ is at most $s$.
+  There are only finitely many circuit topologies of size $s$ so that the set of all polynomials computable in this manner is a finite union of sets with dimension at most $s$.
+  For this union to be Zariski-dense in $\F^N$, we must have that $s \geq N$, proving the claim.
+\end{pf}
+A similar argument holds over fields of characteristic $p$, but we will focus throughout on fields of characteristic zero.
+In algebraic complexity, we are interested in showing that certain \emph{explicit polynomials} with certain properties are hard to compute.
+
 \begin{defn}[Algebraic Formulas]\label{defn:formula}
   An \emph{algebraic formula} over a field $\F$ is an algebraic circuit whose underlying graph is a tree.
 \end{defn}
@@ -269,7 +287,6 @@ Algebraic branching programs are closed under homogenization, as stated in the f
   Then there is a homogeneous polynomial $\widehat{g}(\overline{y}, z)$ such that $g = \widehat{g}(\overline{y}, 1)$ and $\widehat{g}$ can be computed by an algebraic branching program on $m$ vertices.
 \end{lem}
 
-
 \subsection{Complexity Classes}
 
 \begin{defn}[VP]\label{defn:VP}
@@ -322,7 +339,17 @@ The following can be proven by induction on the structure of a formula.
   Suppose that $f(\overline{x})$ is computed by an algebraic branching program of size $s$.
   Then $f(\overline{x})$ is computed by an algebraic circuit of size $\poly(s)$.
 \end{lem}
-This follows from the fact that branching programs are computed by determinants (\Cref{lem:abp_det}) and that the determinant has polynomial sized circuits (\Cref{prop:det_poly_ckt}).
+This follows from the fact that branching programs are computed by determinants (\Cref{lem:abp_det}) and that the determinant has polynomial sized circuits:
+
+\begin{prop}\label{prop:det_poly_ckt}
+  The $n \times n$ determinant has circuits of size $\poly(n)$.
+\end{prop}
+\begin{pf}
+  \emph{Sketch:}
+  Compute Gaussian elimination generically on an $n \times n$ matrix of variables.
+  This gives a $\poly(n)$ sized circuit with division for the determinant, as the determinant of a diagonal matrix is easy to compute and we can collapse all the elementary transformations to a single linear transformation.
+  Afterwards, eliminate divisions with \Cref{lem:div_elim} to get a $\poly(n)$ sized algebraic circuit computing $\det_n$.
+\end{pf}
 
 With the above discussion, we get the following chain of inclusions.
 \begin{prop}
@@ -350,10 +377,7 @@ It turns out that this is not an issue, as one can eliminate division gates with
   Thus, this model is not closed under divisions.
 \end{rmk}
 
-There has been much focus around constant depth circuits
-\begin{lem}
-  \quest{Depth reduction to motivate constant depth focus}
-\end{lem}
+\subsubsection{Computing Coefficients}
 
 \begin{defn}\label{defn:coeff}
   For $f \in \F[\overline{x}, t]$ and an integer $i \in \Z_{\geq 0}$, denote by $\coeff_{t^i}(f)$ the coefficient of $t^i$ in $f$ when $f$ is viewed as a univariate polynomial in $t$ over the ring $\F[\overline{x}]$.
@@ -481,17 +505,35 @@ Here, \Cref{cor:isolation_exponents} argues there is an alternative assignment o
 Thus, if we can argue that \emph{any} of our terms of the same total degree suffice, we can apply \Cref{cor:isolation_exponents} followed by \Cref{lem:homogenization} to get a small circuit computing a single term.
 To the best of our knowledge, this is the first usage of the Isolation Lemma of~\cite{MVV87, KS01} in algebraic complexity for the purposes of isolating terms in a polynomial.
 
-\subsection{Important Polynomials}
+\subsubsection{Constant Depth Circuits}
 
-\begin{prop}\label{prop:det_poly_ckt}
-  The $n \times n$ determinant has circuits of size $\poly(n)$.
-\end{prop}
-\begin{pf}
-  \emph{Sketch:}
-  Compute generic Gaussian elimination on an $n \times n$ matrix of variables.
-  This gives a $\poly(n)$ sized circuit with division.
-  Then eliminate divisions with \Cref{lem:div_elim} to get a $\poly(n)$ sized algebraic circuit computing $\det_n$.
-\end{pf}
+Much recent work in algebraic complexity revolves around the constant-depth regime.
+There is good reason for this, as it has been shown that to show circuit size lower bounds on general arithmetic circuits, it suffices to show lower bounds on circuits of low depth.
+First, it was shown that it suffices to prove lower bounds for depth-4 circuits:
+\begin{thrm}[{\cite{AV08, Koi12}}]
+  Suppose $f(x_1, \ldots, x_n) \in \VP$ is of degree $d$.
+  Then $f(x_1, \ldots, x_n)$ can be computed by a $\Sigma \Pi \Sigma \Pi$ circuit of size $2^{\bigO{\sqrt{d} \cdot \log^2 d}}$.
+\end{thrm}
+This work was then improved on to show that one only needs to provide lower bounds for depth-3 circuits:
+\begin{thrm}[{\cite{GKKS13}}]
+  Suppose $f(x_1, \ldots, x_n) \in \VP$ is of degree $d$ and computable by a circuit of size $s$.
+  Then $f(x_1, \ldots, x_n)$ can be computed by a $\Sigma \Pi \Sigma$ circuit of size $2^{\bigO{\sqrt{d \log(d) \log(n) \log(s)}}}$.
+\end{thrm}
+However, it is hard to obtain lower bounds in the constant depth regime.
+We have only very recently obtained lower bounds of constant depth circuit size for explicit polynomials.
+\begin{defn}[Iterated Matrix Multiplication]
+  Let $n, d \in \Z_{> 0}$ be parameters.
+  Let $X_1, X_2, \ldots, X_d$ be $d$ independent matrices of variables.
+  Then the \emph{Iterated Matrix Multiplication polynomial}, $\IMM_{n, d}$, is the polynomial in position $(1, 1)$ of the matrix product $X_1 \cdots X_d$.
+\end{defn}
+\begin{thrm}[\cite{LST25, For24}]
+  Let $d = o(\log n)$.
+  Then for any $\Delta \geq 1$, computing $\IMM_{n, d}$ with a depth $\Delta$ circuit requires that circuit to have size at least
+  \[
+    n^{\bigTheta{\frac{1}{F_{\Delta + 2} - 1} / \Delta}}
+  \]
+  where $F_k$ is the $k$-th Fibonacci number.
+\end{thrm}
 
 \subsection{Border Complexity}
 
@@ -885,6 +927,9 @@ Then a core issue is that for an expression $\sum_{i = 1}^k f_i \cdot g_i \in I$
 \end{ex}
 
 We see from \Cref{ex:det_perm_ideal} that to begin studying \Cref{question:general_ideal}, one must first consider what the ``right'' set of generators is.
+For example, one could require that the generators we use satisfy some suitably nice algebraic properties.
+We can ask that they form a \Grobner\ basis or a regular sequence.
+In the various forms of determinantal ideals that we study, the generators we discuss will indeed form a \Grobner\ basis, and moreover they will be a linear-algebraic basis and enjoy nice combinatorial descriptions.
 
 \quest{TODO:\ motivate Grochow's conjecture}
 
