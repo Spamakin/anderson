@@ -25,6 +25,8 @@ For example, finding a perfect matching in a graph is equivalent to determining 
 With this, we see that it is important to study the complexity of computing polynomials in general, and specifically computing special polynomials such as the determinant or permanent polynomials.
 Algebraic complexity theory is the study of the complexity of such computations.
 
+\subsection{Algebraic Complexity Theory}
+
 Studying the optimality of the number of operations to compute a given polynomial is one of the core problems of algebraic complexity.
 This is known as the \emph{minimal circuit complexity} problem.
 Arguably, the first work in this direction was a proof of optimality of \emph{Horner's Rule} (\Cref{ex:horner}) where Ostrowski showed that one cannot compute a generic degree $d$ univariate polynomial using fewer than $d$ additions.
@@ -59,10 +61,6 @@ In fact, it is conjecured that this is not the case.
 Specifically, say $X = (x_{i, j})$ is a $n \times n$ matrix of variables.
 Let $m \geq n$ and suppose that $A$ is a matrix of polynomials of degree at most $1$ such that $\det_m(A) = \perm_n(X)$.
 Then we cannot have that $m = \poly(n)$, $m$ must be superpolynomial in $n$.
-
-\subsection{Geometric Complexity Theory}
-
-\quest{Talk about Mulmuley-Sohoni}
 
 \subsection{Straightening Laws}
 
@@ -289,19 +287,19 @@ Algebraic branching programs are closed under homogenization, as stated in the f
 
 \subsection{Complexity Classes}
 
-\begin{defn}[VP]\label{defn:VP}
+\begin{defn}[$\VP$]\label{defn:VP}
   The class $\VP$ is the set of polynomials $f(x_1, \ldots, x_n)$ of degree $\poly(n)$ which are computable by an algebraic circuit of size $\poly(n)$.
 \end{defn}
 
-\begin{defn}[VF]\label{defn:VF}
+\begin{defn}[$\VF$]\label{defn:VF}
   The class $\VF$ is the set of polynomials $f(x_1, \ldots, x_n)$ of degree $\poly(n)$ which are computable by an algebraic formula of size $\poly(n)$.
 \end{defn}
 
-\begin{defn}[VBP]\label{defn:VBP}
+\begin{defn}[$\VBP$]\label{defn:VBP}
   The class $\VBP$ is the set of polynomials $f(x_1, \ldots, x_n)$ of degree $\poly(n)$ which are computable by an algebraic branching program of size $\poly(n)$.
 \end{defn}
 
-\begin{defn}[VNP]\label{defn:VNP}
+\begin{defn}[$\VNP$]\label{defn:VNP}
   The class $\VNP$ is the set of polynomials $f(x_1, \ldots, x_n)$ such that there is some $g(x_1, \ldots, x_n, y_1, \ldots, y_m)$ in $\VP$, where $m = \poly(n)$, such that
   \[
     f(x_1, \ldots, x_n) = \sum_{\overline{a} \in \set{0, 1}^m} g(x_1, \ldots, x_n, a_1, \ldots, a_m).
@@ -545,6 +543,43 @@ We have only very recently obtained lower bounds of constant depth circuit size 
 In the settings where $\F[\e][x_1,\dots,x_n]$ can be equipped with the Euclidean topology in a natural way, such as $\F = \C$ or $\R$, this would imply that $h \to g$ as $\e \mapsto 0$.
 However, this does not mean that we could just substitute $\e$ by zero in $C$ and obtain a circuit exactly computing $g$ since $C$ may use scalars in $\F(\e)$, such as $1/\e$, that are not well-defined at $\e = 0$.
 
+\begin{ex}
+  The \emph{Waring Rank} of a degree $d$ homogeneous polynomial $f(\overline{x})$ over $\C$ is the minimum $r$ such that there exist linear forms $\ell_1(\overline{x}), \ldots, \ell_r(\overline{x})$ such that
+  \[
+    f(\overline{x}) = \ell_1(\overline{x})^d + \cdots + \ell_r(\overline{x})^d.
+  \]
+  We denote this minimum $r$ by $\WR(f)$.
+  Note that $\WR(x^{d - 1} y) = d$~\cite{Old40}.
+  However, we have that
+  \[
+    x^{d - 1}y = \lim_{ \e \to 0 } \frac{1}{d \e} ((x + \e y)^d - x^d).
+  \]
+  This example is due to~\cite{DL25}.
+  Here, we say that the \emph{Border Waring Rank}, $\overline{\WR}(f)$, is equal to 2.
+\end{ex}
+
+For any of the complexity classes we have defined above, we can define a border analogue.
+This corresponds to a Zariski closure of the complexity class when the class of polynomials is viewed as a subset of affine space via their coefficient vectors.
+We give the following definition for the closure of $\VP$, but defining the closures of $\VF$, $\VBP$, and $\VNP$ is completely analogous.
+\begin{defn}[$\overline{\VP}$]
+  The class $\overline{\VP}$ is the set of polynomials $f(x_1, \ldots, x_n)$ over $\F$ of degree $\poly(n)$ which are border computable by an algebraic circuit of size $\poly(n)$ over $\F(\e)$.
+\end{defn}
+
+An important question in algebraic complexity is asking what the power of border computation is.
+Often, this question takes the form of studying the inclusion $\mathcal{C} \subseteq \overline{\mathcal{C}}$ for some complexity class $\mathcal{C}$.
+Questions of this form have already attracted much study in algebraic complexity.
+\begin{ex}
+  \begin{itemize}
+    \item $\overline{\Sigma \Pi} = \Sigma \Pi$ and $\overline{\Pi \Sigma} = \Pi \Sigma$~\cite{DL25}.
+    \item Debordering results for depth-3 and depth-4 circuits already would have strong implications~\cite{AV08, Koi12, GKKS13}.
+    \item Debordering Waring Rank dates back to early work in classical algebraic geometry~\cite{Palatini:SuperficieAlg, Terr:seganti}.
+    \item Forbes conjectured that if $f \in \overline{\Sigma^s \land^d \Sigma}$ then $f \in \Sigma^{s'} \land^d \Sigma$ for $s' \in \poly(s, n, d)$~\cite{wact-open-problems}.
+  \end{itemize}
+\end{ex}
+
+Another setting of border computation is asking if certain transformations and operations are more efficient in the border setting.
+For example, we know that to interpolate a degree $d$ polynomial, you must evaluate your polynomial at $d + 1$ distinct points.
+However in the border setting, we can actually border compute the coefficient $\coeff_{t^r}(f(t))$ using only $r + 1$ points.
 \begin{ex}[{\cite{DL25}}]
   In order to interpolate the coefficients of $f(\overline{x}, t) = \sum_{i = 0}^d \coeff_{t^i}(f) \cdot t^i$ over $\F$ as in \Cref{lem:homogenization}, one needs that $\abs{\F} \geq d + 1$.
   However, we can border compute $\coeff_{t^r}(f)$ if $\abs{\F} \geq r + 1$.
@@ -561,16 +596,6 @@ However, this does not mean that we could just substitute $\e$ by zero in $C$ an
     & \lim_{\varepsilon \to 0} \frac{1}{\varepsilon^r} \left( \sum_{i = 0}^r \beta_i \cdot f(\overline{x}, \varepsilon \alpha_i) \right) \\
     =& \lim_{\varepsilon \to 0} \frac{1}{\varepsilon^r} \left( \sum_{i = 0}^r \beta_i \cdot g(\overline{x}, \varepsilon \alpha_i) \right) + \lim_{\varepsilon \to 0} \frac{1}{\varepsilon^r} \left( \sum_{i = 0}^r \beta_i \cdot h(\overline{x}, \varepsilon \alpha_i) \right) \\=& \lim_{\varepsilon \to 0} \frac{1}{\varepsilon^r} \left( \sum_{i = 0}^r \beta_i \cdot g(\overline{x}, \varepsilon \alpha_i) \right) + 0 = \coeff_{t^r}(f).
   \end{align*}
-\end{ex}
-
-\begin{ex}
-  \quest{Bordering Waring Rank}
-\end{ex}
-
-\quest{Define border complexity classes}
-
-\begin{ex}
-  \quest{Add some of Pranjal's examples of separations}
 \end{ex}
 
 \section{Preliminaries on Straightening Laws}
