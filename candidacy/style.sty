@@ -94,6 +94,15 @@ sups]{XCharter}         % I think this is the main font
 
 % ---- Standing on the shoulders of giants ----
 \usepackage[backend=biber, style=alphabetic,maxbibnames=99,useprefix=true]{biblatex}
+\DeclareSourcemap{
+  \maps[datatype=bibtex]{
+    \map{
+      \step[fieldsource=doi,final]
+      \step[fieldset=url,null]
+      \step[fieldset=urldate,null]
+    }
+  }
+}
 \usepackage{url}
 \usepackage{hyperref}
 \hypersetup{

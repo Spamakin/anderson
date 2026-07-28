@@ -29,58 +29,74 @@
 \section{Introduction}
 
 Many problems in combinatorics, geometry, and computer science can be expressed in terms of the computation of some polynomials.
-For example, finding a perfect matching in a graph is equivalent to determining if it's \emph{Tutte Matrix} has determinant identically zero~\cite{Tut47}.
-With this, we see that it is important to study the complexity of computing polynomials in general, and specifically computing special polynomials such as the determinant or permanent polynomials.
+For example, determining if a graph has a perfect matching is equivalent to determining if the determinant of it's \emph{Tutte Matrix} is identically zero~\cite{Tut47}.
+With this, we see that it is important to study the complexity of computing polynomials in general.
+Specifically, we study the difficulty of computing special families of polynomials such as the determinant or permanent polynomials.
 Algebraic complexity theory is the study of the complexity of such computations.
 
 \subsection{Algebraic Complexity Theory}
 
 Studying the optimality of the number of operations to compute a given polynomial is one of the core problems of algebraic complexity.
-This is known as the \emph{minimal circuit complexity} problem.
-Arguably, the first work in this direction was a proof of optimality of \emph{Horner's Rule} (\Cref{ex:horner}) where Ostrowski showed that one cannot compute a generic degree $d$ univariate polynomial using fewer than $d$ additions.
-Strassen showed that one can multiply matrices faster than the usual algorithm taught in classes~\cite{Str69}.
-Csanky give fast parallel algorithms for various problems in linear algebra, in particular for computing the determinant~\cite{Csa76}.
-See the survey of Saptharishi for further details of progress in this direction~\cite{Sap21}
+This is known as the \emph{minimal circuit complexity} problem, which by circuit we mean an \emph{algebraic circuit} (\Cref{defn:ckt}).
+Perhaps the earliest work in this direction was a proof of optimality of \emph{Horner's Rule} (\Cref{ex:horner}) where Ostrowski showed that one cannot compute a generic degree-$d$ univariate polynomial using fewer than $d$ additions~\cite{Ost54}.
+Strassen showed that one can multiply matrices faster than the usual algorithm~\cite{Str69}, giving an improvement from $\bigO{n^3}$ to $\bigO{n^{\log_2 7}}$.
+Csanky give fast parallel algorithms for various problems in linear algebra, in particular giving a fast method for computing the determinant~\cite{Csa76}.
+Proving upper bounds on the computational complexity of certain polynomials comes down to devising new algorithms for them.
+However, proving lower bounds is typically much harder as one must rule out the possibility of all possible algorithms.
+This often comes down to devising new complexity measures and invariants, and characterizing exactly which polynomials are ``small'' with respect to these measures.
+See the survey of Saptharishi for further details in this direction~\cite{Sap21}.
+
 Another important problem in algebraic complexity is the problem of deciding if a given algebraic identity is identically zero.
 This is known as the \emph{polynomial identity testing} problem.
 A fast randomized algorithm for this problem over arbitrary fields was independently discovered by Schwartz and Zippel~\cite{Sch80, Zip79}.
 A version for finite fields was given earlier by Ore in 1922~\cite{Ore22}.
 Derandomizing algorithms for polynomial identity testing is deeply connected to proving lower bounds on minimal circuit size~\cite{NW94, KI04}.
+However, for general algebraic circuits, deterministic algorithms which are an improvement of the naive derandomization of the Schwartz-Zippel Lemma (\Cref{lem:Schwartz_Zippel}) are not known.
+Any subexponential deterministic polynomial identity testing algorithm for general circuits would yield highly nontrivial circuit complexity lower bounds.
 For further progress on derandomizing polynomial identity testing, the survey of Dutta and Lysikov is a great reference~\cite{DL25}.
 
-In computational complexity, one tries to characterize the complexity of a given problem and determine a \emph{complexity class} that it lives in.
+In computational complexity, one tries to characterize the complexity of a given problem and determine which \emph{complexity class} that problem lives in.
 For example, the class $\texttt{P}$ is the set of decision problems, yes and no problems, whose solution can be computed in polynomial time.
 A closely related class is $\NP$, the set of decision problems whose solution can be \emph{verified} in polynomial time.
 The question of separating $\texttt{P}$ and $\NP$ is the largest open problem in computer science.
 To do this, one strategy is to find so called \emph{complete} problems in the class $\NP$, and show that these problems are not contained in $\texttt{P}$.
 Complete problems in a class such as $\NP$ have the property that every problem instance in $\NP$ can be efficiently transformed into an instance of the complete problem.
+Thus, to solve any problem in $\NP$ in polynomial time, it suffices to solve a complete problem in polynomial time.
 For example, the question of finding a satisfying assignment for a boolean formula is $\NP$-complete.
 Thus, every problem in $\NP$ can be efficiently transformed into a boolean formula which is satisfiable if and only if the original problem has a yes solution.
 This process is known as \emph{reducing} to a complete problem.
-It is believed that boolean satisfiability is not in $\P$.
 
-Valient in two seminal works defined algebraic analogues of complexity classes, analogues of complete problems for these complexity classes, and a notion of reduction~\cite{Val79, Val81}.
+In two seminal works~\cite{Val79, Val81}, Valient defined algebraic analogues of complexity classes, analogues of complete problems for these complexity classes, and a notion of reduction.
 Valient's algebraic analogue of $\texttt{P}$, known as $\VP$, can be described as $n$-variate polynomials with $\poly(n)$-degree which are efficiently computable.
 The analogue of $\NP$, known as $\VNP$, can be described as $n$-variate polynomials with $\poly(n)$-degree whose \emph{coefficients} are efficiently computable.
 See \Cref{defn:VP} and \Cref{defn:VNP} for formal statements.
-The complete polynomial for $\VNP$ is the $n \times n$ permanent.
+One complete polynomial for $\VNP$ is the $n \times n$ permanent.
 While the determinant is known to be efficiently computable in many standard algebraic models of computation~\cite{Csa76}, it is not known if the permanent can be efficiently computed.
 In fact, it is conjecured that this is not the case.
-Specifically, say $X = (x_{i, j})$ is a $n \times n$ matrix of variables.
-Let $m \geq n$ and suppose that $A$ is a matrix of polynomials of degree at most $1$ such that $\det_m(A) = \perm_n(X)$.
-Then we cannot have that $m = \poly(n)$, $m$ must be superpolynomial in $n$.
+\begin{conj}\label{conj:det_vs_perm}
+  Let $\F$ be a field of characteristic different from two, $X = (x_{i, j})$ be an $n \times n$ matrix of variables and $m, n \in \N$ such that $m \geq n$
+  Suppose that $A$ is a matrix of polynomials of degree at most $1$ over $\F$ such that $\det_m(A) = \perm_n(X)$.
+  Then, we cannot have that $m = \poly(n)$, $m$ must be superpolynomial in $n$.
+\end{conj}
+Already here we see that field independent methods cannot resolve \Cref{conj:det_vs_perm} since over fields of characteristic two, the determinant and permanent are the same polynomial.
 
 \subsection{Straightening Laws}
 
-One of the most classical examples of standard monomial theory and straightening laws comes from the coordinate ring of the Grassmannian, whose relations are \emph{(quadratic)-\Plucker\ relations}.
+A natural extension of studying the complexity of the determinant polynomial is to study the complexity of \emph{determinantal ideals}.
+These are the ideals generated by the minors of a matrix of variables.
+One feature of these ideals is that they admit an alternative basis to the monomial basis, and importantly this basis is described combinatorially.
+With such a basis, we get more control over the cancellations that may occur as well.
+Specifically, we get a \emph{straightening law}, which describes how to derive expressions in this combinatorial basis.
+The study of such ideals, and their coordinate rings, with straightening laws is known as \emph{standard monomial theory}.
+One of the most classical examples of standard monomial theory and straightening laws comes from the coordinate ring of the Grassmannian, whose relations are the \emph{(quadratic)-\Plucker\ relations}.
 Many good references on this topic can be found~\cite{Ful96, LB18}.
 
-Let $V$ be an $n$-dimensional vector space over a field $\F$.
-Let $\set{e_1, \ldots, e_n}$ be a basis for $V$.
-We will notate by $\Lambda(n, d)$ the set of all ordered tuples $(i_1 < \cdots i_d)$ where each $i_k \in [n]$.
+Let $V$ be an $n$-dimensional vector space over a field $\F$ with basis $\set{e_1, \ldots, e_n}$.
+We will notate by $\Lambda(n, d) \subseteq [n]^d$ the set of all ordered tuples $(i_1 < \cdots < i_d)$ where each $i_k \in [n]$.
 \begin{defn}[Grassmannian]
   Let $\Gr(n, d) = \set{W \subseteq V \mid \dim_\F(W) = d}$ be the $d$-dimensional \emph{Grassmannian}.
 \end{defn}
+
 One can give this the structure of an algebraic variety via the following map.
 
 \begin{defn}[\Plucker\ Embedding, \Plucker\ Coordinates]
@@ -91,18 +107,19 @@ One can give this the structure of an algebraic variety via the following map.
   The set $\set{e_{\overline{i}} = e_{i_1} \land \cdots \land e_{i_d} | \overline{i} \in \Lambda(n, d)}$ gives a basis for $\bigwedge^d V$.
   Let $\set{p_{\overline{j}}}_{\overline{j} \in \Lambda(n, d)}$, denote the basis of $\pqty{\bigwedge^d V}^*$ dual to $\set{e_{\overline{i}}}_{\overline{i} \in \Lambda(n, d)}$.
   Then for each $U \in \Gr(n, d)$, we can represent $U$ via an $n \times d$ matrix of rank $d$ via the basis $\set{u_1, \ldots, u_d}$.
-  Then $p_{\overline{j}}(U)$ is the $d \times d$ determinant of the minor defined by rows $\overline{j} \in \Lambda(n, d)$.
+  Then, $p_{\overline{j}}(U)$ is the $d \times d$ determinant of the minor defined by rows $\overline{j} \in \Lambda(n, d)$.
   The coordinates $p_{\overline{j}}$ are known as \emph{\Plucker\ coordinates}.
   We will often identify the \Plucker\ coordinate $p_{j_1, \ldots, j_d}$ with the associated determinant.
 \end{defn}
 
 \begin{defn}[\Plucker\ Relations]
-  For each $(i_1, \ldots, i_{d - 1}) \in \Lambda(n, d - 1)$ and $(j_1, \ldots, j_{d + 1}) \in \Lambda(n, d + 1)$, define the following quadratic polynomial in the \Plucker\ coordinates:
+  For $(i_1, \ldots, i_{d - 1}) \in \Lambda(n, d - 1)$ and $(j_1, \ldots, j_{d + 1}) \in \Lambda(n, d + 1)$, define the following quadratic polynomial in the \Plucker\ coordinates:
   \[
     \sum_{i = 1}^{d + 1} p_{i_1, \ldots, i_{d - 1}, j_i} \cdot p_{j_1, \ldots, \widehat{j_i}, \ldots, j_{d + 1}}.
   \]
   The ideal $\mathfrak{q}$ of these quadratic polynomials is the ideal of \emph{\Plucker\ relations}.
 \end{defn}
+
 Note that the ideal $\mathfrak{q}$ of quadratic relations in the polynomial ring $\F[p_{\overline{j}}]$ is a prime ideal~\cite[\S 8.4, Proposition 2]{Ful96}.
 
 \begin{prop}[{\cite[Theorem 12.1.3]{LB18}}]\label{prop:Gr_ideal}
@@ -114,9 +131,10 @@ Note that the ideal $\mathfrak{q}$ of quadratic relations in the polynomial ring
   \[
     \F[p_{\overline{i}} \mid \overline{i} \in \Lambda(n, d)] / \mathfrak{q}.
   \]
-  In fact, one can also show that this coordinate ring is the invariant subring $\F[x_{i, j} \mid 1 \leq i \leq n, 1 \leq j \leq d]^{\SL_d(\F)}$.
-  This algebra is known as the \emph{\Plucker} or \emph{bracket algebra}.
+  In fact, one can also show that this coordinate ring is also the invariant subring $\F[x_{i, j} \mid 1 \leq i \leq n, 1 \leq j \leq d]^{\SL_d(\F)}$.
+  This algebra is known as the \emph{\Plucker} algebra or the \emph{bracket algebra}.
 \end{defn}
+
 The fact that the invariant subring $\F[x_{i, j}]^{\SL_d(\F)}$ is generated by the $d \times d$ minors is known as the \emph{First Fundamental Theorem of Invariant Theory}.
 That the relations between the minors are all generated by the \Plucker\ relations is known as the \emph{Second Fundamental Theorem of Invariant Theory}.
 
@@ -138,17 +156,18 @@ One standard reference for this theory is~\cite{Stu08}.
   Otherwise, such a monomial is \emph{nonstandard}.
 \end{defn}
 This \emph{standard monomial} theory is originally due to Hodge~\cite{Hod43}.
-However, to express the product of standard monomials in terms of other standard monomials, we use a \emph{straightening} whose formulation is due to Young~\cite{You28}.
+However, to express the product of standard monomials in terms of other standard monomials, we use a \emph{straightening} whose formulation is originally due to Young~\cite{You28}.
+Hodge used Young's formulation in terms of tableau in order to study the coordinate ring $\F[\Gr(n, d)]$.
 
-\begin{defn}[van der Waerden Syzygies, Straightening Syzygies]
+\begin{defn}[Van der Waerden Syzygies, Straightening Syzygies]
   For $\overline{\lambda} \in \Lambda(n, d)$, let $\overline{\lambda^*}$ be the \emph{complement} tuple in $\Lambda(n, n - d)$ consisting of the $n - d$ elements which do not appear in $\overline{\lambda}$.
   The \emph{sign} of $\overline{\lambda}$ and $\overline{\lambda^*}$, denoted by $\sgn(\overline{\lambda}, \overline{\lambda^*})$, is the sign of the permutation $\sigma \in \mathfrak{S}_n$ given in one-line notation by $\lambda_1 \cdots \lambda_d \lambda^*_1 \cdots \lambda^*_{n - d}$.
 
-  For $s \in [d]$, $\overline{\alpha} \in \Lambda(n, s - 1)$, $\overline{\beta} \in \Lambda(n, d + 1)$, and $\overline{\gamma} \in \Lambda(n, d -s)$, the \emph{van der Waerden syzygy} $\bqty{\bqty{\overline{\alpha} \dot{\overline{\beta}} \overline{\gamma}}}$ is the following quadratic polynomial in $\F[p_{\overline{i}} \mid \overline{i} \in \Lambda(n, d)]$:
+  For $s \in [d]$, $\overline{\alpha} \in \Lambda(n, s - 1)$, $\overline{\beta} \in \Lambda(n, d + 1)$, and $\overline{\gamma} \in \Lambda(n, d -s)$, the \emph{Van der Waerden syzygy} $\bqty{\bqty{\overline{\alpha} \dot{\overline{\beta}} \overline{\gamma}}}$ is the following quadratic polynomial in $\F[p_{\overline{i}} \mid \overline{i} \in \Lambda(n, d)]$:
   \[
     \bqty{\bqty{\overline{\alpha} \dot{\overline{\beta}} \overline{\gamma}}} \defeq \sum_{\overline{\tau} \in \Lambda(d + 1, s)} \sgn(\overline{\tau}, \overline{\tau^*}) \cdot p_{\alpha_1, \ldots, \alpha_s, \beta_{\tau^*_1}, \ldots, \beta_{\tau^*_{d + 1 - s}}} \cdot p_{\beta_{\tau_1}, \ldots, \beta_{\tau_s}, \gamma_1, \ldots, \gamma_{d - s}}.
   \]
-  Such a van der Waerden syzygy is a \emph{straightening syzygy} if $\alpha_{s - 1} < \beta_{s + 1}$ and $\beta_s < \gamma_s$.
+  Such a Van der Waerden syzygy is a \emph{straightening syzygy} if $\alpha_{s - 1} < \beta_{s + 1}$ and $\beta_s < \gamma_s$.
   Note that if we take $s = 1$, we get the \Plucker\ relations.
 \end{defn}
 
@@ -156,7 +175,7 @@ However, to express the product of standard monomials in terms of other standard
   The set of straightening syzygies is a \Grobner\ basis for the ideal of quadratic \Plucker\ relations $\mathfrak{q}$ under the tableaux order.
   A monomial is standard if and only if it does not lie in the initial ideal $\lm_{\preceq}{\mathfrak{q}}$.
   Thus, the set of standard monomials forms an $\F$-vector space basis for $\F[\Gr(n, d)]$.
-  If we declare each $p_{\overline{i}}$ to have degree one, then the standard tableau of shape $d \times k$ give a basis for the $k$-th graded component of $\F[\Gr(n, d)]$.
+  If we declare each $p_{\overline{i}}$ to have degree one, then the standard tableau of shape $d \times k$ give a basis for the degree $k$ graded component of $\F[\Gr(n, d)]$.
 \end{thrm}
 
 \begin{ex}
@@ -169,10 +188,10 @@ However, to express the product of standard monomials in terms of other standard
   \]
   Then, we have that
   \begin{align*}
-    T - [1 4 5] [[1 \dot{5} \dot{6} \dot{2} \dot{3} 4]] &= [1 3 6][1 4 5][2 4 5] + [1 3 5][1 4 5][2 4 6] \\
+    T - [1 4 5] [[1 \dot{5} \dot{6} \dot{2} \dot{3} 4]] =& [1 3 6][1 4 5][2 4 5] + [1 3 5][1 4 5][2 4 6] \\
     &+ [1 2 6][1 4 5][3 4 5] - [1 2 5][1 4 5][3 4 6] - [1 2 3][1 4 5][4 5 6].
   \end{align*}
-  Note that all tableau in the above expression are smaller than $T$ so that this process eventually terminates.
+  Note that all tableau in the above expression are smaller than $T$ with respect to the tableau order so that this process eventually terminates.
 \end{ex}
 
 \section{Preliminaries on Algebraic Complexity}
@@ -200,18 +219,24 @@ However, to express the product of standard monomials in terms of other standard
   The \emph{degree} or \emph{syntactic degree} of a circuit is the maximum degree of a polynomial computed by any of the nodes of the circuit.
 \end{defn}
 
+\begin{defn}[Algebraic Formulas]\label{defn:formula}
+  An \emph{algebraic formula} over a field $\F$ is an algebraic circuit whose underlying graph is a tree.
+\end{defn}
+
 \begin{defn}[Constant Depth Circuits]\label{defn:const_depth_ckt}
   Without loss of generality, we can assume that a circuit is made up of alternating layers of $\Sigma$ and $\Pi$ gates.
-  We can use this notation to describe a restriction on the depth and types of gates appearing on each layer.
+  We can use this to describe a restriction on the depth and types of gates appearing on each layer.
   For example
   \begin{itemize}
   \item A $\Sigma\Pi$ circuit computes a polynomial via it's monomial or \emph{sparse} representation.
   \item A $\Pi\Sigma$ circuit computes a polynomial as a product of degree $\leq 1$ factors.
+  \item A $\Sigma \Lambda \Sigma$ circuit computes a polynomial as a sum of powers of degree $\leq 1$ polynomials.
+        This model is an inhomogeneous version of \emph{Waring Rank}.
   \end{itemize}
 \end{defn}
 
 \begin{defn}[Minimal Circuit Size Problem]
-  Given an $n$-variate polynomial $f(x_1, \ldots, x_n)$, find an algebraic circuit of minimal size computing $f(x_1, \ldots, x_n)$.
+  Given an $n$-variate degree-$d$ polynomial $f(x_1, \ldots, x_n)$, find an algebraic circuit of minimal size computing $f(x_1, \ldots, x_n)$.
 \end{defn}
 
 \begin{ex}\label{ex:horner}
@@ -222,38 +247,31 @@ However, to express the product of standard monomials in terms of other standard
     p_{0}(x) = a_{0}, \qquad p_{k}(x) = a_{d - k} + x \cdot p_{k - 1}(x).
   \]
   This recurrence can be formulated as an algebraic circuit of size $\bigO{d}$ and depth $\bigO{d}$.
-  In fact, this uses exactly $n$ additions and $n$ multiplications, which is optimal.
+  In fact, this uses exactly $d$ additions and $d$ multiplications, which is optimal.
   The proof of optimality of the number of additions for computing a generic univariate polynomial $f(x)$ in this manner was given by~\cite{Ost54}.
   The corresponding proof of optimality for multiplications was given by~\cite{Pan66}.
 \end{ex}
 
-It actually turns out that ``most'' $n$-variate degree $d$ polynomials require large circuits.
-\begin{prop}
+It turns out that ``most'' $n$-variate degree $d$ polynomials require large circuits.
+
+\begin{prop}\label{prop:most_hard}
   Let $\F$ be a field of characteristic zero.
   Then most $n$-variate polynomials of degree $d$ require circuits of size $\binom{n + d}{d}$.
 \end{prop}
 \begin{pf}
   First, the number of monomials in $\F[x_1, \ldots, x_n]$ of degree at most $d$ is $N \defeq \binom{n + d}{d}$.
-  Next, note that algebraic circuits are given by directed acyclic graphs.
-  An algebraic circuit with $v$ nodes will have at most $s = \binom{v}{2} = \frac{v(v - 1)}{2}$.
+  Next, recall that algebraic circuits are described by directed acyclic graphs which have edge labels.
+  An algebraic circuit with $v$ nodes will have $s \leq \binom{v}{2} = \frac{v(v - 1)}{2}$ edges.
   Fix a circuit topology $C$ of size $s$ with $v$ nodes which computes a polynomial of degree at most $d$ over $\F[x_1, \ldots, x_n]$.
-  Then define a map $\Phi\colon \F^s \to \F^N$ by assigning values to the $s$ edges of $C$ and then considering the resulting coefficient vector.
+  Then define a map $\Phi\colon \F^s \to \F^N$ by assigning values to the $s$ edges of $C$ and then considering the coefficient vector of the polynomial defined by the resulting circuit.
   The dimension of the image of $\Phi$ is at most $s$.
   There are only finitely many circuit topologies of size $s$ so that the set of all polynomials computable in this manner is a finite union of sets with dimension at most $s$.
   For this union to be Zariski-dense in $\F^N$, we must have that $s \geq N$, proving the claim.
 \end{pf}
+
 A similar argument holds over fields of characteristic $p$, but we will focus throughout on fields of characteristic zero.
-In algebraic complexity, we are interested in showing that certain \emph{explicit polynomials} with certain properties are hard to compute.
-
-\begin{defn}[Algebraic Formulas]\label{defn:formula}
-  An \emph{algebraic formula} over a field $\F$ is an algebraic circuit whose underlying graph is a tree.
-\end{defn}
-
-\begin{defn}[Oracle Circuits and Formulas]\label{defn:oracle_ckt}
-  For a fixed polynomial $f(\overline{x}) \in \F[\overline{x}]$, an \emph{$f$-oracle circuit} is an algebraic circuit defined in the same manner as \Cref{defn:ckt}, however instead of just $\Sigma$ and $\Pi$ gates we now additionally allow $f(\overline{x})$ gates.
-  Note that such gates may have some inputs set as wires and some inputs set as fixed constants from $\F$.
-  We also define an \emph{$f$-oracle formula} as an $f$-oracle circuit whose underlying graph is a tree.
-\end{defn}
+In algebraic complexity, we are interested in showing that certain \emph{explicit} polynomials with certain properties are hard to compute.
+Thus, \Cref{prop:most_hard} is insufficient for our purposes since it does not construct any examples of hard polynomials.
 
 \begin{defn}[Algebraic Branching Programs]\label{defn:abp}
   An \emph{algebraic branching program} (\emph{ABP}) over a field $\F$ is a directed acyclic graph $A$ such that:
@@ -278,9 +296,16 @@ In algebraic complexity, we are interested in showing that certain \emph{explici
   However, one can convert a non-layered ABP to a layered ABP with only a quadratic blowup in size.
 \end{rmk}
 
+Algebraic branching programs capture the complexity of computing a determinant.
+
 \begin{defn}[Determinantal Complexity]\label{defn:det_complexity}
-  For a polynomial $f(\overline{x})$ over a field $\F$, the \emph{determinantal complexity} of $f(\overline{x})$, denoted $\dc(f)$, is the smallest $m$ such that there exists an $m \times m$ matrix $M$ with entries in $\F[\overline{x}]_{\leq 1}$ such that $\det_m(M) = f(\overline{x})$.
+  For a polynomial $f(\overline{x})$ over a field $\F$, the \emph{determinantal complexity} of $f(\overline{x})$, denoted $\dc(f)$, is the smallest $m$ such that there exists an $m \times m$ matrix $M$ whose entries are degree $\leq 1$ polynomials in $\F[\overline{x}]$ such that $\det_m(M) = f(\overline{x})$.
 \end{defn}
+
+It is not clear that the determinantal complexity of a polynomial is always finite.
+We can easily compute monomials or even products of degree $\leq 1$ terms as the determinant of a diagonal matrix.
+But it is not clear that if $M_f$ and $M_g$ are such that $\det(M_f) = f(\overline{x})$ and $\det(M_g) = g(\overline{x})$ how one constructs a matrix $M_{f + g}$ such that $\det(M_{f + g}) =  f(\overline{x}) + g(\overline{x})$.
+However, every polynomial can be computed by an algebraic branching program and the following lemma then gives that the determinantal complexity is always finite.
 
 \begin{lem}[{\cite{Val79, Bur24}}]\label{lem:abp_det}
   Suppose that $f(\overline{x})$ can be computed by an algebraic branching program of size $m$.
@@ -344,6 +369,26 @@ We give some discussion on the restriction of $\poly(n)$ degree for $\VP$:
 
 \subsection{Basic Structural Results}
 
+Notice that in our definition of an algebraic circuit,\Cref{defn:ckt}, we don't allow division.
+However, certain polynomials are efficiently expressed as the quotient of two polynomials, such as $f(\overline{x}) = \frac{x^{d + 1} - 1}{x - 1}$.
+It turns out that this is not an issue, as one can eliminate division gates without much blowup.
+
+\begin{lem}[{\cite{Str73, HY11}}]\label{lem:div_elim}
+  Suppose $f(x_1, \ldots, x_n)$ is a degree $d$ polynomial computed by a circuit of size $s$ and depth $\Delta$ with division gates.
+  Then $f(x_1, \ldots, x_n)$ can be computed by a circuit of size $\bigO{d^2 s^3}$ and depth $\bigO{\log(s) \cdot \Delta}$.
+\end{lem}
+
+Since we are often concerned solely with superpolynomial lower bounds, a polynomial blowup as in \Cref{lem:div_elim} is not of great concern.
+
+\begin{rmk}
+  Note that such division elimination works for formulas as well as algebraic branching programs.
+  However, there are simple computational models where eliminating divisions efficiently is not possible.
+  Recall that the \emph{sparse} representation of a polynomial is when the complexity of a polynomial is given by the number of monomials.
+  Consider the polynomial $x^{d} - 1$.
+  Then $x^d - 1 = (x - 1)(x^{d - 1} + x^{d - 2} + \cdots + x + 1)$ gives that while $x^d - 1$ has constant sparsity $2$, it has a factor of sparsity $d$.
+  Thus, the complexity of this model is not closed under divisions.
+\end{rmk}
+
 Clearly every formula is also a circuit so that the inclusion $\VF \subseteq \VP$ is immediate.
 Furthermore, it is clear that $\VP \subseteq \VNP$.
 What can be said about $\VBP$ as compared to $\VF$ and $\VP$?
@@ -378,22 +423,18 @@ With the above discussion, we get the following chain of inclusions.
 No strict separations between any of these classes is known.
 Showing a separation between any pair of these four classes is one of the biggest open problems in algebraic complexity.
 
+\subsubsection{Oracle Complexity}
 
-Notice that in \Cref{defn:ckt}, we don't allow division.
-It turns out that this is not an issue, as one can eliminate division gates without much blowup.
-\begin{lem}[{\cite{Str73, HY11}}]\label{lem:div_elim}
-  Suppose $f(x_1, \ldots, x_n)$ is a degree $d$ polynomial computed by a circuit of size $s$ and depth $\Delta$ with division gates.
-  Then $f(x_1, \ldots, x_n)$ can be computed by a circuit of size $\bigO{d^2 s^3}$ and depth $\bigO{\log(s) \cdot \Delta}$.
-\end{lem}
+The notion of determinantal complexity (\Cref{defn:det_complexity}) can be rephrased as asking how hard it is to compute a given polynomial assuming that computing the determinant is ``free.''% chktex 38
+We can generalize this notion an ask how hard it is to compute some polynomial $f(\overline{x})$ assuming that another polynomial $g(\overline{x})$ can be computed for free.
+For example, we will study how hard it is to compute a generator of an ideal $I$ assuming that some fixed $0 \neq f(\overline{x}) \in I$ can be computed for free.
+We formalize this notion as follows:
 
-\begin{rmk}
-  Note that such division elimination works for formulas as well as algebraic branching programs.
-  However, there are simple computational models where eliminating divisions efficiently is not possible.
-  Recall that the \emph{sparse} representation of a polynomial is when the complexity of a polynomial is given by the number of monomials.
-  Consider the polynomial $x^{d} - 1$.
-  Then $x^d - 1 = (x - 1)(x^{d - 1} + x^{d - 2} + \cdots + x + 1)$ gives that while $x^d - 1$ has constant sparsity $2$, it has a factor of sparsity $d$.
-  Thus, this model is not closed under divisions.
-\end{rmk}
+\begin{defn}[Oracle Circuits and Formulas]\label{defn:oracle_ckt}
+  For a fixed polynomial $f(\overline{x}) \in \F[\overline{x}]$, an \emph{$f$-oracle circuit} is an algebraic circuit defined in the same manner as \Cref{defn:ckt}, however instead of just $\Sigma$ and $\Pi$ gates we now additionally allow $f(\overline{x})$ gates.
+  Note that such gates may have some inputs set as wires and some inputs set as fixed constants from $\F$.
+  We also define an \emph{$f$-oracle formula} as an $f$-oracle circuit whose underlying graph is a tree.
+\end{defn}
 
 \subsubsection{Computing Coefficients}
 
@@ -483,8 +524,13 @@ It turns out that this is not an issue, as one can eliminate division gates with
 
 \begin{rmk}
   The condition $\abs{\F} \geq d + 1$ in \Cref{lem:homogenization} is required for interpolation. 
-  We note that if $g$ is given not as a black box but as a white-box circuit, then its homogeneous components can be extracted in a gate-by-gate fashion~\cite{Str73}, which requires no lower bound on $\abs{\F}$.
+  We note that if $f(\overline{x})$ is given not as a black box but as a circuit, then its homogeneous components can be extracted in a gate-by-gate fashion~\cite{Str73}, which requires no lower bound on $\abs{\F}$.
 \end{rmk}
+
+In~\cite{DG25}, we give a new tool for interpolation in the setting of algebraic complexity.
+The \emph{Isolation Lemma} of Mulmuley, Vazirani, and Vazirani~\cite{MVV87} has seen much application in combinatorics and complexity theory.
+The idea is that by adding random restrictions to a solution space, one can efficiently reduce the number of solutions from many to a single solution which can now be found in a smaller search space.
+We use the formulation of Klivans and Spielman~\cite{KS01} which applied the Isolation Lemma to the context of polynomial identity testing of sparse polynomials.
 
 \begin{lem}[{\cite[Lemma 4]{KS01}}]\label{lem:isolation_forms}
   Let $C$ be any collection of distinct linear forms in variables $z_1, \ldots, z_\ell$ with coefficients in the range $\set{0, \ldots, K}$ for some integer $K \in \Z_{\geq 0}$.
@@ -508,6 +554,7 @@ In this situation, suppose that we want a circuit for a single term.
 Then \Cref{lem:homogenization} is insufficient for this purpose as it separates terms by the degree in a single variable.
 Dealing with multiple variables by repeatedly applying \Cref{lem:homogenization} would yield an exponential blowup in the total circuit size.
 A similar idea would be to apply a \emph{Kronecker} substitution:
+
 \begin{lem}[{\cite{Kro82}}]
   Write $g(\overline{x}) = \sum_{\overline{e}} \overline{x}^{\overline{e}}$.
   Suppose that $\deg(g) < d$.
@@ -517,6 +564,7 @@ A similar idea would be to apply a \emph{Kronecker} substitution:
   \]
   maps distinct monomials to distinct monomials.
 \end{lem}
+
 One could apply the Kronecker map to our multivariate polynomial and then apply \Cref{lem:homogenization} since all terms would have distinct total degree.
 However, the total degree in $w$, the new variable, would be exponential so that the resulting circuit would have large size.
 Here, \Cref{cor:isolation_exponents} argues there is an alternative assignment of weights maps $x_i \mapsto w^{z_i}$ rather than $x_i \mapsto w^{d^i}$ such that there is a unique term of lowest total degree in $w$.
@@ -528,11 +576,14 @@ To the best of our knowledge, this is the first usage of the Isolation Lemma of~
 Much recent work in algebraic complexity revolves around the constant-depth regime.
 There is good reason for this, as it has been shown that to show circuit size lower bounds on general arithmetic circuits, it suffices to show lower bounds on circuits of low depth.
 First, it was shown that it suffices to prove lower bounds for depth-4 circuits:
+
 \begin{thrm}[{\cite{AV08, Koi12}}]
   Suppose $f(x_1, \ldots, x_n) \in \VP$ is of degree $d$.
   Then $f(x_1, \ldots, x_n)$ can be computed by a $\Sigma \Pi \Sigma \Pi$ circuit of size $2^{\bigO{\sqrt{d} \cdot \log^2 d}}$.
 \end{thrm}
+
 This work was then improved on to show that one only needs to provide lower bounds for depth-3 circuits:
+
 \begin{thrm}[{\cite{GKKS13}}]
   Suppose $f(x_1, \ldots, x_n) \in \VP$ is of degree $d$ and computable by a circuit of size $s$.
   Then $f(x_1, \ldots, x_n)$ can be computed by a $\Sigma \Pi \Sigma$ circuit of size $2^{\bigO{\sqrt{d \log(d) \log(n) \log(s)}}}$.
@@ -590,9 +641,9 @@ Often, this question takes the form of studying the inclusion $\mathcal{C} \subs
 Questions of this form have already attracted much study in algebraic complexity.
 \begin{ex}
   \begin{itemize}
-    \item $\overline{\Sigma \Pi} = \Sigma \Pi$ and $\overline{\Pi \Sigma} = \Pi \Sigma$~\cite{DL25}.
-    \item Debordering results for depth-3 and depth-4 circuits already would have strong implications~\cite{AV08, Koi12, GKKS13}.
-    \item Debordering Waring Rank dates back to early work in classical algebraic geometry~\cite{Palatini:SuperficieAlg, Terr:seganti}.
+    \item Debordering depth-2 circuits is simple and we recover that $\overline{\Sigma \Pi} = \Sigma \Pi$ and $\overline{\Pi \Sigma} = \Pi \Sigma$~\cite{DL25}.
+    \item Debordering results for depth-3 and depth-4 circuits already would have strong implications towards polynomial identity testing~\cite{AV08, Koi12, GKKS13}.
+    \item Early work in classical algebraic geometry discusses debordering Waring Rank~\cite{Palatini:SuperficieAlg, Terr:seganti}.
     \item Forbes conjectured that if $f \in \overline{\Sigma^s \land^d \Sigma}$ then $f \in \Sigma^{s'} \land^d \Sigma$ for $s' \in \poly(s, n, d)$~\cite{wact-open-problems}.
   \end{itemize}
 \end{ex}
@@ -1555,7 +1606,7 @@ Moreover, computing partial derivatives is hard.
 A theorem of Baur and Strassen~\cite{BS83} states that single partial derivatives are not too hard to compute
 \begin{prop}[{\cite{BS83}}]
   Let $f(x_1, \ldots, x_n)$ be a polynomial that has a circuit $C$ of size $s$, depth $d$, and fan-in $k$.
-  Then, there exists a circuit $D$ of size $O(sk)$, depth $O(d)$, and fan-in $k$ simultaneously computing $\partial_1 f(\overline{x}), \ldots, \partial_{n} f(\overline{x})$.
+  Then, there exists a circuit $D$ of size $\bigO{sk}$, depth $\bigO{d}$, and fan-in $k$ simultaneously computing $\partial_1 f(\overline{x}), \ldots, \partial_{n} f(\overline{x})$.
 \end{prop}
 However, computing higher order partial derivatives will in general give an exponential blowup in circuit size.
 For example, computing second order partial derivatives efficiently will give faster matrix multiplication algorithms than are currently known.
