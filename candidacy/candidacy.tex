@@ -152,7 +152,19 @@ However, to express the product of standard monomials in terms of other standard
 \end{thrm}
 
 \begin{ex}
-  \quest{Example straightening calculations will go here}
+  We work in $\F[\Gr(6, 3)]$.
+  Consider the tableau $T = [1 4 5][1 5 6][2 3 4]$.
+  Then this is nonstandard in the second column as $5 > 3$.
+  Thus, we reduce $T$ by the syzygy
+  \[
+    [[1 \dot{5} \dot{6} \dot{2} \dot{3} 4]] = [1 5 6][2 3 4] + [1 3 6][2 4 5] - [1 3 5][2 4 6] - [1 2 6][3 4 5] + [1 2 5][3 4 6] + [1 2 3][4 5 6].
+  \]
+  Then, we have that
+  \begin{align*}
+    T - [1 4 5] [[1 \dot{5} \dot{6} \dot{2} \dot{3} 4]] &= [1 3 6][1 4 5][2 4 5] + [1 3 5][1 4 5][2 4 6] \\
+    &+ [1 2 6][1 4 5][3 4 5] - [1 2 5][1 4 5][3 4 6] - [1 2 3][1 4 5][4 5 6].
+  \end{align*}
+  Note that all tableau in the above expression are smaller than $T$ so that this process eventually terminates.
 \end{ex}
 
 \section{Preliminaries on Algebraic Complexity}
@@ -833,93 +845,6 @@ It follows immediately from the definition and is proven similarly to \Cref{lem:
     Moreover, for distinct partitions $\sigma \neq \tau$, the multidegrees of $[K_\sigma](X)$ and $[K_\tau](X)$ are distinct, and the same holds for the multidegrees of $[\overline{K}_\sigma](X)$ and $[\overline{K}_\tau](X)$.
 \end{lem}
 
-\subsection{Hankel Ideals}
-
-We follow~\cite{Con98} for the description of the standard monomials of the ideals of a Hankel matrix.
-We note that the description of standard monomials in the case of Hankel matrices differs to the case of standard and skew-symmetric matrices.
-Namely, we do not get the general structure of an algebra with a straightening law.
-Indeed, we will see that the product of two standard monomials need not be standard.
-
-Let $\F$ be a field.
-Let $x_{i}$ be indeterminates for $1 \leq i \leq n$.
-Let $X$ be the following matrix
-\[
-  \begin{pmatrix}
-    x_1 & x_2 & x_3 & \cdots & x_{n - 1} & x_n \\
-    x_2 & x_3 & \cdots    & \iddots       &           &     \\
-    x_3 & \cdots    & \iddots    &        &           &     \\
-    \vdots & \iddots &     &        &           &     \\
-    x_{n -1} & &    &        &           &     \\
-    x_n      & &    &        &           &
-  \end{pmatrix}
-\]
-For $1 \leq  j \leq n$, let $X_j$ be the following Hankel submatrix of $X$:
-\[
-  \begin{pmatrix}
-    x_1 & x_2 & x_3 & \cdots & x_{n - j + 1} \\
-    x_2 & x_3 & x_4 & \cdots & x_{n - j + 2} \\
-    x_3 & x_4 & x_5 & \cdots & x_{n - j + 3} \\
-    \vdots & \vdots & \vdots & \ddots & \vdots \\
-    x_{j} & x_{j + 1} & x_{j + 2} & \cdots & x_{n}
-  \end{pmatrix}.
-\]
-
-The description of the standard monomials for the Hankel setting is more involved than the description for the standard determinantal or skew-symmetric pfaffian case.
-We begin with a description of how to index minors, as well as a useful term ordering.
-\begin{defn}
-  For $a_1, \ldots, a_s$ and $b_1, \ldots, b_s$ such that $a_i + b_j - 1 \leq n$ for all $1 \leq i, j \leq s$, let $[a_1 \cdots a_s \mid b_1 \cdots b_s]$ denote the minor of $X$ with rows indexed by the $a_i$'s and columns indexed by the $b_j$'s.
-  A minor such that $a_i = i$ will be a \emph{maximal minor}.
-  We will denote maximal minors by only indexing their columns $[b_1 \cdots b_s]$
-
-  Let $>_L$ be the degree-lexicographic ordering on $\F[X]$ induced by $x_1 > \cdots > x_n$.
-  For indices $i, j$, let $i <_1 j$ if and only if $i + 1 < j$.
-  Then the $<_1$-chains $x_{a_1} \cdots x_{a_s}$, where $a_1 <_1 \cdots <_1 a_s$ are initial monomials of a minor of $X$ under $>_L$.
-\end{defn}
-
-We now describe a series of bijections which give a description of the standard monomials.
-\begin{defn}
-  The $<_1$-chains are precisely the initial monomials of many minors of $X$, but they are the initial monomials of precisely one maximal minor.
-  Thus, we have a bijection
-  \begin{align*}
-    \varphi\colon \Set{<_1-\text{chains of } \F[X]} &\tofrom \Set{\text{maximal minors of } X} \\
-    x_{a_1} \cdots x_{a_s} &\mapsto [a_1\ a_{2} - 1 \cdots a_s - s + 1].
-  \end{align*}
-\end{defn}
-
-\begin{defn}[Canonical Decomposition]
-  Let $m$ be a monomial in the $x_i$'s.
-  Then we can decompose $m$ into a product of $<_1$-chains in a ``greedy'' fashion by successively taking maximal $<_1$-chains and dividing them out from $m$ until $m$ is completely decomposed.
-  We can represent this product of $<_1$-chains in a tableau.
-  Call such a decomposition the \emph{canonical decomposition} of $m$.
-\end{defn}
-
-\begin{defn}
-  From the canonical decomposition, we get that $\varphi$ induces an injective map
-  \begin{align*}
-    \Phi\colon \Set{\text{monomials in the } x_i'\text{s}} &\into \Set{\text{products of maximal minors of } X} \\
-    m &\mapsto \varphi(m_1) \cdots \varphi(m_k)
-  \end{align*}
-  where $m = m_1 \cdots m_k$ is the canonical decomposition of $m$.
-\end{defn}
-
-\begin{defn}[Standard Monomials]
-  The \emph{standard monomials} of $\F[\overline{x}]$ are the image of $\Phi$.
-  Note that we can describe the standard monomials via tableau, so that it makes sense to speak of the \emph{shape} of a standard monomial.
-\end{defn}
-
-For $1 \leq t \leq \min\set{j, n - j + 1}$ let $I_t(X_j)$ be the ideal generated by $t \times t$ minors of $X_j$.
-\begin{lem}[{\cite[Corollary 2.2(b)]{Con98}}]
-  For $t \leq j \leq n - t + 1$, we have that $I_t(X_j) = I_t(X_t)$.
-  Thus, $I_t = I_t(X_j)$ only depends on $t$ and $n$, not on $j$.
-\end{lem}
-
-Note that products of standard monomials are not necessarily standard.
-\quest{Example}
-However, we can still get a basis of $I_t$ via maximal minors.
-\begin{thrm}[{\cite[Corollary 2.2(a, c)]{Con98}}]
-  For $j > t$, every $t$-minor of $X_j$ is a linear combination of $t$-minors of $X_{j - 1}$.
-  Furthermore, every $t$-minor is a linear combination of maximal $t$-minors.
-\end{thrm}
 
 \section{Prior Work}
 
@@ -1032,8 +957,6 @@ We see from \Cref{ex:det_perm_ideal} that to begin studying \Cref{question:gener
 For example, one could require that the generators we use satisfy some suitably nice algebraic properties.
 We can ask that they form a \Grobner\ basis or a regular sequence.
 In the various forms of determinantal ideals that we study, the generators we discuss will indeed form a \Grobner\ basis, and moreover they will be a linear-algebraic basis and enjoy nice combinatorial descriptions.
-
-\quest{TODO:\ motivate Grochow's conjecture}
 
 \begin{conj}[{\cite[Conjecture~6.3]{Gro20}}]\label{conj:grochow_det}
   Let $X$ be an $n \times n$ matrix of indeterminates and let $I_n$ be the ideal generated by the $\tfrac{n}{2} \times \tfrac{n}{2}$ minors of $X$.
@@ -1461,16 +1384,16 @@ Thus, all the tools needed for the symmetric case are given to prove the followi
 
 The main obstacle in proving \Cref{conj:sym} is thus giving an analogue of \Cref{lem:ABP_to_det} for the symmetric setting.
 Valient's construction~\cite{Val79}, connecting algebraic branching programs to determinantal complexity, gives a highly non-symmetric matrix.
-\quest{TODO:\ Study this point more.}
+In particular, all upper-left corner proper minors are upper triangular with ones on the diagonal.
 This is not an issue in the skew-symmetric case.
 \begin{rmk}\label{rmk:ABP_pfaff}
-Suppose that $g(\overline{y})$ can be computed by an $r$-vertex branching program.
-Let $A$ be the $r \times r$ matrix such that $\det(A) = g(\overline{y})$ given by \Cref{lem:ABP_to_det}.
-Define $B$ as the $2r \times 2r$ matrix $B \defeq \begin{pmatrix} 0 & A \\ -A & 0 \end{pmatrix}$.
-Then
-\[
-  \pfaff_{2r}(B) = \sqrt{\det(A)^2} = \sqrt{g(\overline{y})^2} = g(\overline{y}).
-\]
+  Suppose that $g(\overline{y})$ can be computed by an $r$-vertex branching program.
+  Let $A$ be the $r \times r$ matrix such that $\det(A) = g(\overline{y})$ given by \Cref{lem:ABP_to_det}.
+  Define $B$ as the $2r \times 2r$ matrix $B \defeq \begin{pmatrix} 0 & A \\ -A & 0 \end{pmatrix}$.
+  Then
+  \[
+    \pfaff_{2r}(B) = \sqrt{\det(A)^2} = \sqrt{g(\overline{y})^2} = g(\overline{y}).
+  \]
 \end{rmk}
 This is a key construction in the proofs of \Cref{thrm:AF_pfaff} and \Cref{thrm:pfaff_main}.
 However, we currently have no such analogous construction in the symmetric case.
@@ -1494,7 +1417,7 @@ The straightening laws for the determinantal, skew-symmetric, and even symmetric
   \end{itemize}
   These relations in the second requirement are known as the \emph{straightening relations} or \emph{straightening laws}.
 \end{defn}
-For example, the ideals considered above $I^\det_{n, m, r}$, $I^{\pfaff}_{2n, 2r}$, and $I^{\sym}_{n, r}$ all form examples of algebras with a straightening law.
+For example, the ideals considered above $I^{\det}_{n, m, r}$, $I^{\pfaff}_{2n, 2r}$, and $I^{\sym}_{n, r}$ all form examples of algebras with a straightening law.
 The coordinate rings of the Grassmannian as well as flag varieties were also some of the first studied examples of algebras with straightening laws.
 
 Studying the difference in computational power between the determinant and permanent polynomial is at the core of many questions in algebraic complexity.
@@ -1506,9 +1429,130 @@ This property gives the crucial identity \Cref{lem:Eij_left_mult}.
 However, the permanent is not alternating in the rows or columns of the matrix.
 Thus, we cannot expect that the same proof techniques as in~\cite{DG25} will give closure results for permanental ideals.
 
-\subsection{Hankel and Toeplitz Ideals}
+\subsection{Hankel Ideals}
 
-\subsection{Complexity of Straightening}
+Another case of ideals with a straightening law is the ideal generated by minors of a Hankel matrix.
+We follow~\cite{Con98} for the description of the standard monomials of the ideals of a Hankel matrix.
+We note that the description of standard monomials in the case of Hankel matrices differs to the case of standard and skew-symmetric matrices.
+Namely, we do not get the general structure of an algebra with a straightening law.
+Indeed, we will see that the product of two standard monomials need not be standard.
+
+Let $\F$ be a field.
+Let $x_{i}$ be indeterminates for $1 \leq i \leq n$.
+Let $X$ be the following matrix
+\[
+  \begin{pmatrix}
+    x_1 & x_2 & x_3 & \cdots & x_{n - 1} & x_n \\
+    x_2 & x_3 & \cdots    & \iddots       &           &     \\
+    x_3 & \cdots    & \iddots    &        &           &     \\
+    \vdots & \iddots &     &        &           &     \\
+    x_{n -1} & &    &        &           &     \\
+    x_n      & &    &        &           &
+  \end{pmatrix}
+\]
+For $1 \leq  j \leq n$, let $X_j$ be the following Hankel submatrix of $X$:
+\[
+  \begin{pmatrix}
+    x_1 & x_2 & x_3 & \cdots & x_{n - j + 1} \\
+    x_2 & x_3 & x_4 & \cdots & x_{n - j + 2} \\
+    x_3 & x_4 & x_5 & \cdots & x_{n - j + 3} \\
+    \vdots & \vdots & \vdots & \ddots & \vdots \\
+    x_{j} & x_{j + 1} & x_{j + 2} & \cdots & x_{n}
+  \end{pmatrix}.
+\]
+
+The description of the standard monomials for the Hankel setting is more involved than the description for the standard determinantal or skew-symmetric pfaffian case.
+We begin with a description of how to index minors, as well as a useful term ordering.
+\begin{defn}
+  For $a_1, \ldots, a_s$ and $b_1, \ldots, b_s$ such that $a_i + b_j - 1 \leq n$ for all $1 \leq i, j \leq s$, let $[a_1 \cdots a_s \mid b_1 \cdots b_s]$ denote the minor of $X$ with rows indexed by the $a_i$'s and columns indexed by the $b_j$'s.
+  A minor such that $a_i = i$ will be a \emph{maximal minor}.
+  We will denote maximal minors by only indexing their columns $[b_1 \cdots b_s]$
+
+  Let $>_L$ be the degree-lexicographic ordering on $\F[X]$ induced by $x_1 > \cdots > x_n$.
+  For indices $i, j$, let $i <_1 j$ if and only if $i + 1 < j$.
+  Then the $<_1$-chains $x_{a_1} \cdots x_{a_s}$, where $a_1 <_1 \cdots <_1 a_s$ are initial monomials of a minor of $X$ under $>_L$.
+\end{defn}
+
+We now describe a series of bijections which give a description of the standard monomials.
+\begin{defn}
+  The $<_1$-chains are precisely the initial monomials of many minors of $X$, but they are the initial monomials of precisely one maximal minor.
+  Thus, we have a bijection
+  \begin{align*}
+    \varphi\colon \Set{<_1-\text{chains of } \F[X]} &\tofrom \Set{\text{maximal minors of } X} \\
+    x_{a_1} \cdots x_{a_s} &\mapsto [a_1\ a_{2} - 1 \cdots a_s - s + 1].
+  \end{align*}
+\end{defn}
+
+\begin{defn}[Canonical Decomposition]
+  Let $m$ be a monomial in the $x_i$'s.
+  Then we can decompose $m$ into a product of $<_1$-chains in a ``greedy'' fashion by successively taking maximal $<_1$-chains and dividing them out from $m$ until $m$ is completely decomposed.
+  We can represent this product of $<_1$-chains in a tableau.
+  Call such a decomposition the \emph{canonical decomposition} of $m$.
+\end{defn}
+
+\begin{defn}
+  From the canonical decomposition, we get that $\varphi$ induces an injective map
+  \begin{align*}
+    \Phi\colon \Set{\text{monomials in the } x_i'\text{s}} &\into \Set{\text{products of maximal minors of } X} \\
+    m &\mapsto \varphi(m_1) \cdots \varphi(m_k)
+  \end{align*}
+  where $m = m_1 \cdots m_k$ is the canonical decomposition of $m$.
+\end{defn}
+
+\begin{defn}[Standard Monomials]
+  The \emph{standard monomials} of $\F[\overline{x}]$ are the image of $\Phi$.
+  Note that we can describe the standard monomials via tableau, so that it makes sense to speak of the \emph{shape} of a standard monomial.
+\end{defn}
+
+For $1 \leq t \leq \min\set{j, n - j + 1}$ let $I_t(X_j)$ be the ideal generated by $t \times t$ minors of $X_j$.
+\begin{lem}[{\cite[Corollary 2.2(b)]{Con98}}]
+  For $t \leq j \leq n - t + 1$, we have that $I_t(X_j) = I_t(X_t)$.
+  Thus, $I_t = I_t(X_j)$ only depends on $t$ and $n$, not on $j$.
+\end{lem}
+
+Note that products of standard monomials are not necessarily standard.
+\begin{ex}
+  Let $\mu_1 = [1, 2]$, $\mu_2 = [2]$, and $\mu_3 = [2, 4]$.
+  Then $\mu_1 \cdot \mu_2$ has initial monomial $x_1 x_2 x_3$ which corresponds to the standard monomial $[1, 2] [2] = \mu_1 \cdot \mu_2$.
+  Similarly, $\mu_2 \cdot \mu_3$ has initial monomial $x_2^2 x_5$ which corresponds to the standard monomial $[2, 4] [2] = \mu_2 \cdot \mu_3$.
+  However, $\mu_1 \cdot \mu_2 \cdot \mu_3$ has initial monomial $x_1 x_2^2 x_3 x_5$ which corresponds to $[1, 2, 3] [2]^2$ which differs from $[1, 2] [2] [2, 4]$.
+\end{ex}
+However, we can still get a basis of $I_t$ via maximal minors.
+\begin{thrm}[{\cite[Corollary 2.2(a, c)]{Con98}}]
+  For $j > t$, every $t$-minor of $X_j$ is a linear combination of $t$-minors of $X_{j - 1}$.
+  Furthermore, every $t$-minor is a linear combination of maximal $t$-minors.
+\end{thrm}
+
+Furthermore, since variables are shared between rows of a minor, it is hard to describe how linear transformations act on $X$.
+Specifically, we cannot describe $E_{i, j} X$ just by substituting variables.
+Thus, much of the proof strategy of~\cite{DG25} does not apply to the case of Hankel minor ideals.
+Specifically, we cannot simulate an increase or decrease in entries of a bitableau by applying a linear change of variables.
+However, we have the following identity:
+\begin{lem}\label{lem:shift}
+  For $a_1, \ldots, a_s$ and $b_1, \ldots, b_s$ such that $a_i + b_j - 1 \leq n$ for all $1 \leq i, j \leq s$, let $[a_1 \cdots a_s \mid b_1 \cdots b_s]$ denote the minor of $X$ with rows indexed by the $a_i$'s and columns indexed by the $b_j$'s.
+  Then
+  \[
+    \sum_{i = 2}^n x_{i - 1} \frac{\partial}{\partial x_i} [a_1 \cdots a_s \mid b_1 \cdots b_s] = \sum_{i = 1}^n [a_1 \cdots a_s \mid b_1 \cdots b_i - 1 \cdots b_s].
+  \]
+\end{lem}
+Thus, we can use a sequence of partial derivative operators to try to transform a standard monomial to a monomial describing a minor in the upper-left corner of $X$.
+
+This approach has a couple of issues.
+Consider a 1 row bitableau in the determinantal case which indexes a minor in the upper left corner.
+Then the substitution operators $\Sub_{i \to j}$ of~\cite{dCEP80}, used in the analysis of~\cite{AF22, DG25}, applied to this bitableau will leave the bitableau unchanged.
+In other words, the substitution operators leave certain bitableau unchanged.
+However, the shift operators of \Cref{lem:shift} do not have this property.
+Namely, the indices of a given standard monomial are allowed to be nonpositive integers where $x_{i} = 0$ for $i \leq 0$.
+Moreover, computing partial derivatives is hard.
+A theorem of Baur and Strassen~\cite{BS83} states that single partial derivatives are not too hard to compute
+\begin{prop}[{\cite{BS83}}]
+  Let $f(x_1, \ldots, x_n)$ be a polynomial that has a circuit $C$ of size $s$, depth $d$, and fan-in $k$.
+  Then, there exists a circuit $D$ of size $O(sk)$, depth $O(d)$, and fan-in $k$ simultaneously computing $\partial_1 f(\overline{x}), \ldots, \partial_{n} f(\overline{x})$.
+\end{prop}
+However, computing higher order partial derivatives will in general give an exponential blowup in circuit size.
+For example, computing second order partial derivatives efficiently will give faster matrix multiplication algorithms than are currently known.
+In particular, suppose that given a circuit of size $s$ computing $f(x_1, \ldots, x_n)$ one can show that a circuit computing $\frac{\partial^2 f}{\partial x_i \partial x_j}$ has size $\bigO{s + n^2}$.
+Then, one can multiply matrices in $\bigO{n^2}$~\cite{CKW11}.
 
 \printbibliography
 
