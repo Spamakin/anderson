@@ -7,6 +7,9 @@
 \title{Straightening Laws in Algebraic Complexity}
 \author{Anakin Dey}
 
+\newif\iffull
+\fullfalse
+
 \begin{document}
 
 \begin{abstract}
@@ -23,8 +26,10 @@
 
 \maketitle
 
+\iffull
 \tableofcontents
 \clearpage
+\fi
 
 \section{Introduction}
 
@@ -38,7 +43,7 @@ Algebraic complexity theory is the study of the complexity of such computations.
 
 Studying the optimality of the number of operations to compute a given polynomial is one of the core problems of algebraic complexity.
 This is known as the \emph{minimal circuit complexity} problem, which by circuit we mean an \emph{algebraic circuit} (\Cref{defn:ckt}).
-Perhaps the earliest work in this direction was a proof of optimality of \emph{Horner's Rule} (\Cref{ex:horner}) where Ostrowski showed that one cannot compute a generic degree-$d$ univariate polynomial using fewer than $d$ additions~\cite{Ost54}.
+Perhaps the earliest work in this direction was a proof of optimality of \emph{Horner's Rule} where Ostrowski showed that one cannot compute a generic degree-$d$ univariate polynomial using fewer than $d$ additions~\cite{Ost54}.
 Strassen showed that one can multiply matrices faster than the usual algorithm~\cite{Str69}, giving an improvement from $\bigO{n^3}$ to $\bigO{n^{\log_2 7}}$.
 Csanky give fast parallel algorithms for various problems in linear algebra, in particular giving a fast method for computing the determinant~\cite{Csa76}.
 Proving upper bounds on the computational complexity of certain polynomials comes down to devising new algorithms for them.
@@ -51,7 +56,7 @@ This is known as the \emph{polynomial identity testing} problem.
 A fast randomized algorithm for this problem over arbitrary fields was independently discovered by Schwartz and Zippel~\cite{Sch80, Zip79}.
 A version for finite fields was given earlier by Ore in 1922~\cite{Ore22}.
 Derandomizing algorithms for polynomial identity testing is deeply connected to proving lower bounds on minimal circuit size~\cite{NW94, KI04}.
-However, for general algebraic circuits, deterministic algorithms which are an improvement of the naive derandomization of the Schwartz-Zippel Lemma (\Cref{lem:Schwartz_Zippel}) are not known.
+However, for general algebraic circuits, deterministic algorithms which are an improvement of the naive derandomization of the Schwartz-Zippel algorithm are not known.
 Any subexponential deterministic polynomial identity testing algorithm for general circuits would yield highly nontrivial circuit complexity lower bounds.
 For further progress on derandomizing polynomial identity testing, the survey of Dutta and Lysikov is a great reference~\cite{DL25}.
 
@@ -89,7 +94,7 @@ With such a basis, we get more control over the cancellations that may occur as 
 Specifically, we get a \emph{straightening law}, which describes how to derive expressions in this combinatorial basis.
 The study of such ideals, and their coordinate rings, with straightening laws is known as \emph{standard monomial theory}.
 One of the most classical examples of standard monomial theory and straightening laws comes from the coordinate ring of the Grassmannian, whose relations are the \emph{(quadratic)-\Plucker\ relations}.
-Many good references on this topic can be found~\cite{Ful96, LB18}.
+Many good references on this topic can be found~\cite{Ful96, Stu08, LB18}.
 
 Let $V$ be an $n$-dimensional vector space over a field $\F$ with basis $\set{e_1, \ldots, e_n}$.
 We will notate by $\Lambda(n, d) \subseteq [n]^d$ the set of all ordered tuples $(i_1 < \cdots < i_d)$ where each $i_k \in [n]$.
@@ -219,6 +224,7 @@ Hodge used Young's formulation in terms of tableau in order to study the coordin
   The \emph{degree} or \emph{syntactic degree} of a circuit is the maximum degree of a polynomial computed by any of the nodes of the circuit.
 \end{defn}
 
+\iffull
 \begin{defn}[Algebraic Formulas]\label{defn:formula}
   An \emph{algebraic formula} over a field $\F$ is an algebraic circuit whose underlying graph is a tree.
 \end{defn}
@@ -234,11 +240,13 @@ Hodge used Young's formulation in terms of tableau in order to study the coordin
         This model is an inhomogeneous version of \emph{Waring Rank}.
   \end{itemize}
 \end{defn}
+\fi
 
 \begin{defn}[Minimal Circuit Size Problem]
   Given an $n$-variate degree-$d$ polynomial $f(x_1, \ldots, x_n)$, find an algebraic circuit of minimal size computing $f(x_1, \ldots, x_n)$.
 \end{defn}
 
+\iffull
 \begin{ex}\label{ex:horner}
   Let $f(x) = \sum_{i = 0}^d a_i x^i \in \F[x]$ be a univariate polynomial.
 
@@ -251,6 +259,7 @@ Hodge used Young's formulation in terms of tableau in order to study the coordin
   The proof of optimality of the number of additions for computing a generic univariate polynomial $f(x)$ in this manner was given by~\cite{Ost54}.
   The corresponding proof of optimality for multiplications was given by~\cite{Pan66}.
 \end{ex}
+\fi
 
 It turns out that ``most'' $n$-variate degree $d$ polynomials require large circuits.
 
@@ -269,7 +278,7 @@ It turns out that ``most'' $n$-variate degree $d$ polynomials require large circ
   For this union to be Zariski-dense in $\F^N$, we must have that $s \geq N$, proving the claim.
 \end{pf}
 
-A similar argument holds over fields of characteristic $p$, but we will focus throughout on fields of characteristic zero.
+A similar argument holds over fields of characteristic $p > 0$, but we will focus throughout on fields of characteristic zero.
 In algebraic complexity, we are interested in showing that certain \emph{explicit} polynomials with certain properties are hard to compute.
 Thus, \Cref{prop:most_hard} is insufficient for our purposes since it does not construct any examples of hard polynomials.
 
@@ -322,6 +331,7 @@ In fact, we can say much more about the connection between the complexity of bra
   \end{itemize}
 \end{lem}
 
+\iffull
 Algebraic branching programs are closed under homogenization, as stated in the following lemma.
 
 \begin{lem}[{\cite[Lemma 3.7]{AF22}}]\label{lem:homog_ABP}
@@ -329,6 +339,7 @@ Algebraic branching programs are closed under homogenization, as stated in the f
   Let $z$ be a new indeterminate.
   Then there is a homogeneous polynomial $\widehat{g}(\overline{y}, z)$ such that $g = \widehat{g}(\overline{y}, 1)$ and $\widehat{g}$ can be computed by an algebraic branching program on $m$ vertices.
 \end{lem}
+\fi
 
 \subsection{Complexity Classes}
 
@@ -336,6 +347,7 @@ Algebraic branching programs are closed under homogenization, as stated in the f
   The class $\VP$ is the set of polynomials $f(x_1, \ldots, x_n)$ of degree $\poly(n)$ which are computable by an algebraic circuit of size $\poly(n)$.
 \end{defn}
 
+\iffull
 \begin{defn}[$\VF$]\label{defn:VF}
   The class $\VF$ is the set of polynomials $f(x_1, \ldots, x_n)$ of degree $\poly(n)$ which are computable by an algebraic formula of size $\poly(n)$.
 \end{defn}
@@ -343,6 +355,7 @@ Algebraic branching programs are closed under homogenization, as stated in the f
 \begin{defn}[$\VBP$]\label{defn:VBP}
   The class $\VBP$ is the set of polynomials $f(x_1, \ldots, x_n)$ of degree $\poly(n)$ which are computable by an algebraic branching program of size $\poly(n)$.
 \end{defn}
+\fi
 
 \begin{defn}[$\VNP$]\label{defn:VNP}
   The class $\VNP$ is the set of polynomials $f(x_1, \ldots, x_n)$ such that there is some $g(x_1, \ldots, x_n, y_1, \ldots, y_m)$ in $\VP$, where $m = \poly(n)$, such that
@@ -362,11 +375,14 @@ We give some discussion on the restriction of $\poly(n)$ degree for $\VP$:
 \begin{rmk}
   Note that via repeated squaring, one can compute polynomials of exponential degree with small circuits, even with restrictions on the fan-in of gates.
   However, most ``interesting'' polynomials, such as the determinant and permanent, fall into a ``low-degree'' regime where the degree of the polynomial is not significantly greater than the number of variables.
+  \iffull
   Originally, Valiant was studying formulas, not circuits.
   One can easily see from \Cref{defn:formula} that a formula of depth $\Delta$ must compute a polynomial of degree $\bigO{\Delta}$ if we restrict to constant fan-in.
+  \fi
   See~\cite{Sap21} and~\cite{Gro} for more discussion.
 \end{rmk}
 
+\iffull
 \subsection{Basic Structural Results}
 
 Notice that in our definition of an algebraic circuit,\Cref{defn:ckt}, we don't allow division.
@@ -422,6 +438,7 @@ With the above discussion, we get the following chain of inclusions.
 \end{prop}
 No strict separations between any of these classes is known.
 Showing a separation between any pair of these four classes is one of the biggest open problems in algebraic complexity.
+\fi
 
 \subsubsection{Oracle Complexity}
 
@@ -448,6 +465,7 @@ We formalize this notion as follows:
   Then, for every $0 \leq i \leq d$, there exists a $g$-oracle circuit $D_i$ of size $\bigO{ds}$ and depth $\Delta+1$ that computes $\coeff_{t^i}(f)$, with its top gate being an addition gate and bottom $\Delta$ layers consisting of $d+1$ copies of $g$-oracle circuits of the form $C_\alpha$.
   Moreover, if the top gate of each $C_\alpha$ is an addition gate, then the depth bound can be improved to $\Delta$.
 \end{lem}
+\iffull
 \begin{pf}
   By definition,
   \[
@@ -523,9 +541,10 @@ We formalize this notion as follows:
 \end{pf}
 
 \begin{rmk}
-  The condition $\abs{\F} \geq d + 1$ in \Cref{lem:homogenization} is required for interpolation. 
+  The condition $\abs{\F} \geq d + 1$ in \Cref{lem:homogenization} is required for interpolation.
   We note that if $f(\overline{x})$ is given not as a black box but as a circuit, then its homogeneous components can be extracted in a gate-by-gate fashion~\cite{Str73}, which requires no lower bound on $\abs{\F}$.
 \end{rmk}
+\fi
 
 In~\cite{DG25}, we give a new tool for interpolation in the setting of algebraic complexity.
 The \emph{Isolation Lemma} of Mulmuley, Vazirani, and Vazirani~\cite{MVV87} has seen much application in combinatorics and complexity theory.
@@ -590,6 +609,8 @@ This work was then improved on to show that one only needs to provide lower boun
 \end{thrm}
 However, it is hard to obtain lower bounds in the constant depth regime.
 We have only very recently obtained lower bounds of constant depth circuit size for explicit polynomials.
+
+\iffull
 \begin{defn}[Iterated Matrix Multiplication]
   Let $n, d \in \Z_{> 0}$ be parameters.
   Let $X_1, X_2, \ldots, X_d$ be $d$ independent matrices of variables.
@@ -603,18 +624,19 @@ We have only very recently obtained lower bounds of constant depth circuit size 
   \]
   where $F_k$ is the $k$-th Fibonacci number.
 \end{thrm}
+\fi
 
 \subsection{Border Complexity}
 
 \begin{defn}[Border Computation]\label{defn:border_complexity}
-  We say that $g \in \F[x_1,\dots,x_n]$ is \emph{border computed} by a circuit $C$ over $\F(\e)$ if $C$ computes some polynomial $h \in \F(\e)[x_1,\dots,x_n]$, and $h - g \in \e \cdot \F[[\e]][x_1,\dots,x_n]$, where $\F[[\e]]$ denotes the ring of formal power series in $\e$.
+  We say that $f(\overline{x}) \in \F[x_1,\dots,x_n]$ is \emph{border computed} by a circuit $C$ over $\F(\e)$ if $C$ computes some polynomial $h \in \F(\e)[x_1,\dots,x_n]$, and $h - f \in \e \cdot \F[[\e]][x_1,\dots,x_n]$, where $\F[[\e]]$ denotes the ring of formal power series in $\e$.
   We will denote by $\overline{\size}(f)$ the size of the smallest circuit over $\F(\e)$ border computing $f(\overline{x})$.
 \end{defn}
 
 In the settings where $\F[\e][x_1,\dots,x_n]$ can be equipped with the Euclidean topology in a natural way, such as $\F = \C$ or $\R$, this would imply that $h \to g$ as $\e \mapsto 0$.
 However, this does not mean that we could just substitute $\e$ by zero in $C$ and obtain a circuit exactly computing $g$ since $C$ may use scalars in $\F(\e)$, such as $1/\e$, that are not well-defined at $\e = 0$.
 
-\begin{ex}
+\begin{ex}[{\cite{DL25}}]
   The \emph{Waring Rank} of a degree $d$ homogeneous polynomial $f(\overline{x})$ over $\C$ is the minimum $r$ such that there exist linear forms $\ell_1(\overline{x}), \ldots, \ell_r(\overline{x})$ such that
   \[
     f(\overline{x}) = \ell_1(\overline{x})^d + \cdots + \ell_r(\overline{x})^d.
@@ -625,19 +647,21 @@ However, this does not mean that we could just substitute $\e$ by zero in $C$ an
   \[
     x^{d - 1}y = \lim_{ \e \to 0 } \frac{1}{d \e} ((x + \e y)^d - x^d).
   \]
-  This example is due to~\cite{DL25}.
   Here, we say that the \emph{Border Waring Rank}, $\overline{\WR}(f)$, is equal to 2.
+  This is an example where we cannot just set $\e = 0$ and obtain a more efficient representation in our computational model.
 \end{ex}
 
+\iffull
 For any of the complexity classes we have defined above, we can define a border analogue.
 This corresponds to a Zariski closure of the complexity class when the class of polynomials is viewed as a subset of affine space via their coefficient vectors.
 We give the following definition for the closure of $\VP$, but defining the closures of $\VF$, $\VBP$, and $\VNP$ is completely analogous.
 \begin{defn}[$\overline{\VP}$]
   The class $\overline{\VP}$ is the set of polynomials $f(x_1, \ldots, x_n)$ over $\F$ of degree $\poly(n)$ which are border computable by an algebraic circuit of size $\poly(n)$ over $\F(\e)$.
 \end{defn}
+\fi
 
 An important question in algebraic complexity is asking what the power of border computation is.
-Often, this question takes the form of studying the inclusion $\mathcal{C} \subseteq \overline{\mathcal{C}}$ for some complexity class $\mathcal{C}$.
+Often, this question takes the form of studying the inclusion $\mathcal{C} \subseteq \overline{\mathcal{C}}$ for some complexity class $\mathcal{C}$ and finding a description of $\overline{\mathcal{C}} \setminus \mathcal{C}$.
 Questions of this form have already attracted much study in algebraic complexity.
 \begin{ex}
   \begin{itemize}
@@ -648,9 +672,11 @@ Questions of this form have already attracted much study in algebraic complexity
   \end{itemize}
 \end{ex}
 
+\iffull
 Another setting of border computation is asking if certain transformations and operations are more efficient in the border setting.
 For example, we know that to interpolate a degree $d$ polynomial, you must evaluate your polynomial at $d + 1$ distinct points.
 However in the border setting, we can actually border compute the coefficient $\coeff_{t^r}(f(t))$ using only $r + 1$ points.
+
 \begin{ex}[{\cite{DL25}}]
   In order to interpolate the coefficients of $f(\overline{x}, t) = \sum_{i = 0}^d \coeff_{t^i}(f) \cdot t^i$ over $\F$ as in \Cref{lem:homogenization}, one needs that $\abs{\F} \geq d + 1$.
   However, we can border compute $\coeff_{t^r}(f)$ if $\abs{\F} \geq r + 1$.
@@ -662,12 +688,14 @@ However in the border setting, we can actually border compute the coefficient $\
   \]
 
   Indeed let $g(\overline{x}, t) = \sum_{i = 0}^r \coeff_{t^i}(f) \cdot t^i$ and $h(\overline{x}, t) = f(\overline{c}, t) - g(\overline{x}, t)$.
-  Then standard interpolation on $\e \alpha_i$ gives us that there exists field constants $\beta_0, \ldots, \beta_r$ such that $\e^r \coeff_{t^r}(f) = \sum_{i = 0}^r \beta_i \cdot g(\e \alpha_i)$. Thus, we have that
+  Then standard interpolation on $\e \alpha_i$ gives us that there exists field constants $\beta_0, \ldots, \beta_r$ such that $\e^r \coeff_{t^r}(f) = \sum_{i = 0}^r \beta_i \cdot g(\e \alpha_i)$.
+  Thus, we have that
   \begin{align*}
-    & \lim_{\varepsilon \to 0} \frac{1}{\varepsilon^r} \left( \sum_{i = 0}^r \beta_i \cdot f(\overline{x}, \varepsilon \alpha_i) \right) \\
-    =& \lim_{\varepsilon \to 0} \frac{1}{\varepsilon^r} \left( \sum_{i = 0}^r \beta_i \cdot g(\overline{x}, \varepsilon \alpha_i) \right) + \lim_{\varepsilon \to 0} \frac{1}{\varepsilon^r} \left( \sum_{i = 0}^r \beta_i \cdot h(\overline{x}, \varepsilon \alpha_i) \right) \\=& \lim_{\varepsilon \to 0} \frac{1}{\varepsilon^r} \left( \sum_{i = 0}^r \beta_i \cdot g(\overline{x}, \varepsilon \alpha_i) \right) + 0 = \coeff_{t^r}(f).
+    & \lim_{\e \to 0} \frac{1}{\e^r} \left( \sum_{i = 0}^r \beta_i \cdot f(\overline{x}, \e \alpha_i) \right) \\
+    =& \lim_{\e \to 0} \frac{1}{\e^r} \left( \sum_{i = 0}^r \beta_i \cdot g(\overline{x}, \e \alpha_i) \right) + \lim_{\e \to 0} \frac{1}{\e^r} \left( \sum_{i = 0}^r \beta_i \cdot h(\overline{x}, \e \alpha_i) \right) \\=& \lim_{\e \to 0} \frac{1}{\e^r} \left( \sum_{i = 0}^r \beta_i \cdot g(\overline{x}, \e \alpha_i) \right) + 0 = \coeff_{t^r}(f).
   \end{align*}
 \end{ex}
+\fi
 
 \section{Preliminaries on Straightening Laws}
 
@@ -699,29 +727,32 @@ We can natural associate a product of minors of $X$ to a pair of Young tableau w
   An $n \times n$ determinant is homogeneous of degree $n$ so that $(S \mid T)(X)$ is a homogeneous polynomial of degree $\abs{\sigma}$.
 \end{defn}
 
+\iffull
 \begin{ex}
-    If $\sigma = (4, 2, 1)$ and $(S \mid T)$ is the bitableau
-    \[
-      (S \mid T) = \left(\ \Yvcentermath1 \left. \young(1245,36,4)\ \right\vert\ \young(1356,27,3) \ \right),
-    \]
-    then the bideterminant $(S \mid T)(X)$ is given by
-    \[
-      \begin{pmatrix}
-        x_{1, 1} & x_{1, 3} & x_{1, 5} & x_{1, 6} \\
-        x_{2, 1} & x_{2, 3} & x_{2, 5} & x_{2, 6} \\
-        x_{4, 1} & x_{4, 3} & x_{4, 5} & x_{4, 6} \\
-        x_{5, 1} & x_{5, 3} & x_{5, 5} & x_{5, 6}
-      \end{pmatrix}
-      \begin{pmatrix}
-        x_{3, 2} & x_{3, 7} \\
-        x_{6, 2} & x_{6, 7}
-      \end{pmatrix}
-      \begin{pmatrix}
-        x_{4, 3}
-      \end{pmatrix}.
-    \]
+  If $\sigma = (4, 2, 1)$ and $(S \mid T)$ is the bitableau
+  \[
+    (S \mid T) = \left(\ \Yvcentermath1 \left. \young(1245,36,4)\ \right\vert\ \young(1356,27,3) \ \right),
+  \]
+  then the bideterminant $(S \mid T)(X)$ is given by
+  \[
+    \begin{pmatrix}
+      x_{1, 1} & x_{1, 3} & x_{1, 5} & x_{1, 6} \\
+      x_{2, 1} & x_{2, 3} & x_{2, 5} & x_{2, 6} \\
+      x_{4, 1} & x_{4, 3} & x_{4, 5} & x_{4, 6} \\
+      x_{5, 1} & x_{5, 3} & x_{5, 5} & x_{5, 6}
+    \end{pmatrix}
+    \begin{pmatrix}
+      x_{3, 2} & x_{3, 7} \\
+      x_{6, 2} & x_{6, 7}
+    \end{pmatrix}
+    \begin{pmatrix}
+      x_{4, 3}
+    \end{pmatrix}.
+  \]
 \end{ex}
+\fi
 
+\iffull
 The following lemma shows that every monomial in $\F[X]$ can be expressed as a bideterminant, and hence the bideterminants span $\F[X]$ as an $\F$-vector space.
 The proof is immediate from the definition.
 \begin{lem}\label{lem:det_monomial}
@@ -737,13 +768,15 @@ The proof is immediate from the definition.
   \]
   Thus, the bideterminants span $\F[X]$.
 \end{lem}
+\fi
 
 While the bideterminants span $\F[X]$, there is a specific subset of bideterminants, the \emph{standard} bideterminants, which form an $\F$-basis of $\F[X]$.
 \begin{defn}[Standard bitableau, standard bideterminant]\label{defn:det_std}
   We call a bitableau $(S \mid T)$ and its associated bideterminant $(S \mid T)(X)$ \emph{standard} if $S$ and $T$ are both conjugate semistandard Young tableaux.
 \end{defn}
 
-The next theorem is known in the literature as the \emph{straightening law}.
+The following theorem is known in the literature as the \emph{straightening law}.
+
 \begin{thrm}[{\cite[\S 8, Theorem 3]{DRS74},~\cite[Corollary 2.3]{dCEP80}}]\label{thrm:det_straightening}
   Let $(S \mid T)(X)$ be a bideterminant of shape $\sigma$.
   Then $(S \mid T)(X)$ can be uniquely expressed as a linear combination
@@ -753,7 +786,9 @@ The next theorem is known in the literature as the \emph{straightening law}.
   where $(A \mid B)(X)$ is a standard bideterminant of shape $\tau \geq_{\lex} \sigma$, and $c_{A,B} \in \Z$ when $\operatorname{char}(\F) = 0$, while $c_{A,B} \in \Z/p\Z$ when $\operatorname{char}(\F) = p > 0$.
 \end{thrm}
 
+\iffull
 The fact that bideterminants are homogeneous polynomials, together with \Cref{lem:det_monomial} and \Cref{thrm:det_straightening}, imply the following corollary.
+\fi
 \begin{cor}\label{cor:det-basis}
   The standard bideterminants form an $\F$-basis of $\F[X]$.
   In particular, since bideterminants are homogeneous with respect to total degree, the degree-$d$ component of $\F[X]$ has as basis the standard bideterminants of shape $\sigma$ such that $\abs{\sigma} = d$.
@@ -766,6 +801,7 @@ We have the following crucial statement on the $\F$-basis of this ideal.
   Polynomials $f \in I^{\det}_{n, m, r}$ are supported by standard bideterminants of shape $\sigma$ such that $\sigma_1 \geq r$; that is, by those whose first row has length at least $r$.
 \end{prop}
 
+\iffull
 The notion of the total degree of a polynomial is too coarse for differentiating terms in the expansion of a polynomial $f \in I^{\det}_{n, m, r}$ with respect to the standard basis.
 Thus, we describe a grading of the polynomial ring $\F[X]$ that is better suited for this purpose.
 \begin{defn}\label{defn:multideg}
@@ -793,7 +829,9 @@ In particular, the multidegree of canonical and anti-canonical bideterminants wi
     The number of $1$'s in $K_{\sigma}$ is the coefficient of $\overline{e}_1$ in the multidegree, the number of $2$'s in $K_{\sigma}$ is the coefficient of $\overline{e}_2$, and so on.
     This allows us to get the values $\widehat{\sigma}_1, \ldots, \widehat{\sigma}_n$ which in turn completely determines $\sigma$.
 \end{pf}
+\fi
 
+\iffull
 \subsection{Pfaffian Ideals}
 
 We now introduce notation for Pfaffian ideals.
@@ -903,7 +941,7 @@ It follows immediately from the definition and is proven similarly to \Cref{lem:
     In particular, $[K_\sigma](X)$ is multihomogeneous of multidegree $\widehat{\sigma}_1 \overline{e}_1 + \cdots + \widehat{\sigma}_{2n} \overline{e}_{2n}$.
     Moreover, for distinct partitions $\sigma \neq \tau$, the multidegrees of $[K_\sigma](X)$ and $[K_\tau](X)$ are distinct, and the same holds for the multidegrees of $[\overline{K}_\sigma](X)$ and $[\overline{K}_\tau](X)$.
 \end{lem}
-
+\fi
 
 \section{Prior Work}
 
@@ -950,6 +988,7 @@ This result is only known in the setting of border computation over fields of ch
 \end{thrm}
 \Burgisser's result can actually be formulated in the setting of oracle complexity, so that we get a $\poly(\deg(g), n)$ size $f$-oracle circuit which approximately computes $g(\overline{x})$.
 
+\iffull
 \subsubsection{Factoring versus Polynomial Identity Testing}
 
 \begin{defn}[Polynomial Identity Testing (PIT)]\label{defn:pit}
@@ -963,12 +1002,14 @@ This result is only known in the setting of border computation over fields of ch
 \end{lem}
 
 \begin{rmk}
-Note that the bound in \Cref{lem:Schwartz_Zippel} is tight.
-Indeed choose any $d$ distinct elements $s_1, \ldots, s_d$ from $S$. Let $f(x_1, \ldots, x_n) = \prod_{i = 1}^d (x_1 - s_i)$. Then uniformly randomly sample $z_1, \ldots, z_n$ from $S$.
-Then
-\[
-  \Prob{f(z_{1}, \ldots, z_{n}) = 0} = \Prob{z_{1} \in \set{s_{1}, \ldots, s_{d} }} = \frac{d}{\abs{S}}.
-\]
+  Note that the bound in \Cref{lem:Schwartz_Zippel} is tight.
+  Indeed choose any $d$ distinct elements $s_1, \ldots, s_d$ from $S$.
+  Let $f(x_1, \ldots, x_n) = \prod_{i = 1}^d (x_1 - s_i)$.
+  Then, uniformly randomly sample $z_1, \ldots, z_n$ from $S$.
+  Then
+  \[
+    \Prob{f(z_{1}, \ldots, z_{n}) = 0} = \Prob{z_{1} \in \set{s_{1}, \ldots, s_{d} }} = \frac{d}{\abs{S}}.
+  \]
 \end{rmk}
 \Cref{lem:Schwartz_Zippel}, known in the literature as the \emph{Schwartz-Zippel Lemma}, gives an efficient randomized algorithm for polynomial identity testing by simply choosing $\abs{S} > 2d$.
 If $\abs{\F} \leq 2d$, it is common to allow the construction of a field extension for $\F$ and to evaluate $f(\overline{x})$ at this field extension.
@@ -995,6 +1036,7 @@ It turns out there is a deep connection between polynomial identity testing and 
 It is shown in~\cite{KSS15} that if one can solve polynomial identity testing for the class $\mathcal{C}$ of size $s$, $n$-variate, degree $d$ circuits over $\Q$ or $\mathbb{F}_{p^\ell}$ in time $\poly(s, n, d)$, then one can deterministically fully factorize circuits in $\mathcal{C}$ in polynomial time.
 Note that the converse direction is immediate to see.
 If one can factorize a polynomial in $\mathcal{C}$ in polynomial time, then one can determine if it is identically zero in polynomial time.
+\fi
 
 \subsubsection{More Than One Generator}
 
@@ -1037,12 +1079,14 @@ Formally, they proved the following theorem:
   Then there is a depth-three $f$-oracle circuit of size $\bigO{n^2 m^2}$ that approximately computes the $t \times t$ determinant for $t = \bigTheta{r^{1/3}}$.
 \end{thrm}
 
+\iffull
 \begin{thrm}[{\cite[Theorem~1.1]{AF22}}]\label{thrm:AF_pfaff}
   Let $\F$ be a field of characteristic zero.
   Let $X = (x_{i,j})_{1 \leq i, j \leq 2n}$ be a $2n \times 2n$ matrix of variables over $\F$ and let $I^{\pfaff}_{2n,2r} \subseteq \F[X] = \F[x_{i,j}]$ be the ideal generated by the Pfaffians of the $2r \times 2r$ principal submatrices of $X$.
   Let $f \in  I^{\pfaff}_{2n, 2r}$ be a nonzero polynomial.
   Then there is a depth-three $f$-oracle circuit of size $\bigO{n^4}$ that approximately computes the $t \times t$ Pfaffian for $t = \bigTheta{r^{1/3}}$.
 \end{thrm}
+\fi
 
 \subsection{Debordering}
 
@@ -1050,23 +1094,22 @@ In~\cite{DG25}, we deborder the results of~\cite{AF22}.
 This is done via a novel application of the Isolation Lemma: \Cref{lem:isolation_forms} and \Cref{cor:isolation_exponents}.
 
 \begin{thrm}[{Informal version of~\cite[Theorem 3.18, Corollary 3.19]{DG25}}]\label{thrm:main}
-  Let $X = (x_{i,j})_{\substack{1 \leq i \leq n \\ 1 \leq j \leq m}}$ be an $n \times m$ matrix of variables over a field $\F$.
+  Let $\F$ be a field of characteristic zero.
+  Let $X = (x_{i,j})_{\substack{1 \leq i \leq n \\ 1 \leq j \leq m}}$ be an $n \times m$ matrix of variables over $\F$.
   Let $I^{\det}_{n,m,r} \subseteq \F[X] = \F[x_{i,j} \mid 1 \leq i \leq n,\ 1 \leq j \leq m]$ be the ideal generated by the $r \times r$ minors of $X$.
   Let $f \in I^{\det}_{n,m,r}$ be a nonzero polynomial.
-  Assume that the characteristic of $\F$ is either zero or greater than $\deg(f)$.
-  Also assume that the size of $\F$ is sufficiently large.\footnote{Specifically, we require $\abs{\F}$ to be bounded below by some polynomial in $n$, $m$, and $\deg(f)$.
-    Such assumptions are standard in the literature (for instance, in work on polynomial factorization), since one can often achieve them by passing to a suitable field extension.}
-  Then there exists a depth-three $f$-oracle circuit of size $\poly(n, m, \deg(f))$ that computes the $t \times t$ determinant for $t = \bigTheta{r^{1/3}}$.
+  Then, there exists a depth-three $f$-oracle circuit of size $\poly(n, m, \deg(f))$ that computes the $t \times t$ determinant for $t = \bigTheta{r^{1/3}}$.
 \end{thrm}
 
+\iffull
 \begin{thrm}[{Informal version of~\cite[Theorem 4.10, Corollary 4.11]{DG25}}]\label{thrm:pfaff_main}
-  Let $X = (x_{i,j})_{1 \leq i < j \leq 2n}$ be a $2n \times 2n$ skew-symmetric matrix of variables over a field $\F$ so that $x_{j, i} = -x_{i, j}$ for $1 \leq j < i \leq n$ and $x_{i, i} = 0$ for $1 \leq i \leq 2n$.
+  Let $\F$ be a field of characteristic zero.
+  Let $X = (x_{i,j})_{1 \leq i < j \leq 2n}$ be a $2n \times 2n$ skew-symmetric matrix of variables over $\F$ so that $x_{j, i} = -x_{i, j}$ for $1 \leq j < i \leq n$ and $x_{i, i} = 0$ for $1 \leq i \leq 2n$.
   Let $I^{\pfaff}_{2n, 2r} \subseteq \F[X] = \F[x_{i,j} \mid 1 \leq i < j \leq 2n]$ be the ideal generated by the $2r \times 2r$ principal Pfaffians of $X$.
   Let $f \in I^{\pfaff}_{2n, 2r}$ be a nonzero polynomial.
-  Assume that the characteristic of $\F$ is either zero or greater than $\deg(f)$.
-  Also assume that the size of $\F$ is sufficiently large.
-  Then there exists a depth-three $f$-oracle circuit of size $\poly(n, \deg(f))$ that computes the $t \times t$ Pfaffian of a skew-symmetric matrix for $t = \bigTheta{r^{1/3}}$.
+  Then, there exists a depth-three $f$-oracle circuit of size $\poly(n, \deg(f))$ that computes the $t \times t$ Pfaffian of a skew-symmetric matrix for $t = \bigTheta{r^{1/3}}$.
 \end{thrm}
+\fi
 
 \subsection{Proof Overview for Determinantal Case}
 
@@ -1099,6 +1142,7 @@ Our first step will be to establish a series of linear transformations that send
   When $n$ is clear from context, we will just write $K_{\sigma}$ and $\overline{K}_{\sigma}$.
 \end{defn}
 
+\iffull
 \begin{ex}
   If $\sigma = (5, 4, 2, 1)$ and $n = 7$, then $K_\sigma$ and $\overline{K}_\sigma$ are given in \Cref{fig:canonical_tableau_ex}.
 
@@ -1112,6 +1156,16 @@ Our first step will be to establish a series of linear transformations that send
       }\label{fig:canonical_tableau_ex}
   \end{figure}
 \end{ex}
+\fi
+
+Applying the substitution operators along the full lexicographic ordering transforms a conjugate semistandard tableau into the anti-canonical tableau of the same shape:
+\begin{lem}[{\cite[stated before Corollary 1.7]{dCEP80}}]\label{lem:sub_anticanonical}
+  Let $S$ be a conjugate semistandard tableau of shape $\sigma$ such that $S$ has entries of value at most $n$.
+  Then
+  \[
+    (\Sub_{n - 1 \to n} \circ \Sub_{n - 2 \to n} \circ  \Sub_{n - 2 \to n-1} \circ \cdots \circ \Sub_{2 \to n}\circ\cdots\circ\Sub_{2 \to 3} \circ \Sub_{1 \to n} \circ \cdots \circ \Sub_{1 \to 2})(S) = \overline{K}_\sigma.
+  \]
+\end{lem}
 
 We now study how these substitution operators act on bideterminants $(S \mid T)(X)$.
 From properties of the determinant, we see that multiplying the matrix of variables $X$ by a elementary matrix $E_{i, j}$ corresponds to applying substitution operators on $S$ or $T$:
@@ -1129,6 +1183,7 @@ From properties of the determinant, we see that multiplying the matrix of variab
     \end{equation}
 \end{lem}
 
+\iffull
 \begin{defn}
   In addition to the variables $x_{i,j}$, where $i\in [n]$ and $j\in [m]$, we introduce new sets of indeterminates $\Lambda = \set{\lambda_{i, j} | 1 \leq i < j \leq n}$ and $\Xi = \set{\xi_{i, j} | 1 \leq i < j \leq m}$.
   We have that $\abs{\Lambda} = \binom{n}{2} = \bigO{n^2}$ and $\abs{\Xi} = \binom{m}{2} = \bigO{m^2}$.
@@ -1150,8 +1205,13 @@ From properties of the determinant, we see that multiplying the matrix of variab
   The substitution $X\mapsto J_{n} X J_{m}$ has the effect of replacing row $i$ with row $n-i+1$ and column $j$ with column $m-j+1$.
   This turns an anti-canonical bitableau $(\overline{K}_\sigma\mid \overline{K}_\sigma)$ into a canonical one $(K_\sigma\mid K_\sigma)$.
 \end{defn}
+\fi
 
+\iffull
 \subsubsection{Isolation of a Single Term}
+
+We can repeatedly apply \Cref{lem:Eij_left_mult} and use \Cref{lem:sub_anticanonical} to send a bidterminant to an anticanonical one, plus some error terms.
+We describe these error terms so that we may later isolate them and get a circuit just for a summation of anticanonical bideterminants.
 
 \begin{cor}\label{cor:reformuated}
   Let $f(X) \in I^{\det}_{n, m, r}$
@@ -1171,7 +1231,7 @@ From properties of the determinant, we see that multiplying the matrix of variab
   \end{enumerate}
 \end{cor}
 
-Next, we introduce i variables $Y = \set{y_1,\dots,y_n}$ and $Z = \set{z_1,\dots,z_m}$.
+Next, we introduce variables $Y = \set{y_1,\dots,y_n}$ and $Z = \set{z_1,\dots,z_m}$.
 Define the diagonal matrices
 \[
     D = \mathrm{diag}(y_1,\dots,y_n)\in\F[Y]^{n\times n} \quad\text{and}\quad D'=\mathrm{diag}(z_1,\dots,z_m)\in\F[Z]^{m\times m}.
@@ -1216,7 +1276,32 @@ such that the following hold:
     \item\label{item:required2} The tuples $(\overline{e}_k,\overline{f}_k, \overline{s}_k,\overline{t}_k)$ are distinct, where $k$ ranges over $I$.
 \end{enumerate}
 \end{lem}
+\else
 
+We can repeatedly apply \Cref{lem:Eij_left_mult} and use \Cref{lem:sub_anticanonical} to send a bideterminant to a canonical one, plus some error terms.
+We describe these error terms so that we may later isolate them and get a circuit for a single canonical bideterminant.
+
+\begin{lem}\label{lem:key}
+  Let $f(X) \in I^{\det}_{n, m, r}$ be a nonzero polynomial of degree $d$.
+  Let $\Lambda = \set{\lambda_{i, j}}$, $\Xi = \set{\xi_{i, j}}$, and $v$ be new indeterminates.
+  Then we can find linear transformations $M, N$ whose entries are in $\Z \cup \Lambda \cup \Xi \cup \set{v}$ such that the following holds:
+
+  Let $g = f(M X N) \in \F[X, \Lambda, \Xi, Y, Z, v]$.
+  View $g$ as a univariate polynomial in $v$ with coefficients in $\F[X,\Lambda,\Xi,Y,Z]$, and write $g=\sum_{i} \coeff_{v^i}(g) v^i$, where $\coeff_{v^i}(g)\in \F[X,\Lambda,\Xi,Y,Z]$ denotes the coefficient of $v^i$ in $g$.
+  Choose the smallest integer $d_{\min}$ such that  $\coeff_{v^{d_{\min}}}(g)\neq 0$.
+  Then $d_{\min}=2 \abs{K_\sigma}$ for some shape $\sigma$ with $\abs{\sigma} \leq d$ and we may write $\coeff_{v^{d_{\min}}}(g)$ as a finite sum
+  \begin{equation}\label{eq:required}
+    \coeff_{v^{d_{\min}}}(g)=\sum_{k\in I} c_k \Lambda^{\overline{e}_k}\Xi^{\overline{f}_k}Y^{\overline{s}_k}Z^{\overline{t}_k}\cdot (K_{\sigma_k}\mid K_{\sigma_k})(X),
+  \end{equation}
+  such that the following hold:
+  \begin{enumerate}
+    \item\label{item:required1} For each $k\in I$, $c_k\in\F^\times$,  $(\sigma_k)_1\geq r$, and $\abs{\sigma_k} \leq d$.
+    \item\label{item:required2} The tuples $(\overline{e}_k,\overline{f}_k, \overline{s}_k,\overline{t}_k)$ are distinct, where $k$ ranges over $I$.
+  \end{enumerate}
+\end{lem}
+\fi
+
+\iffull
 \Cref{lem:key} helps us separate a collection of terms solely containing canonical bideterminants.
 The next lemma further applies the isolation lemma to single out one term from this collection.
 
@@ -1226,7 +1311,7 @@ be a nonzero polynomial of degree $d$.
 Let $g=f(M J_n \widetilde{D} X \widetilde{D}' J_m N) \in \F[X, \Lambda, \Xi, Y, Z, v]$.
 Then there exist integers $z_t = \bigO{d(n^2+m^2)}$ for each variable $t\in \Lambda\sqcup\Xi\sqcup Y\sqcup Z$, and an integer $z_v = \bigO{d^2(n^2+m^2)}$ such that for the two variable substitution maps
 \[
-    \phi\colon t \mapsto w^{z_t} \quad\text{ for } t\in \Lambda \sqcup \Xi \sqcup Y \sqcup Z
+    \phi\colon t \mapsto w^{z_t} \quad \text{ for } t\in \Lambda \sqcup \Xi \sqcup Y \sqcup Z
 \]
 and
 \[
@@ -1235,8 +1320,10 @@ and
 we have that $h \defeq (\psi\circ\phi)(g)\in\F[X,w]$ has $\deg_w(h) = \bigO{d^3(n^3+m^3)}$, and that $\coeff_{w^i}(h) = c\cdot (K_\sigma\mid K_\sigma)(X)$ for some integer $i\leq \deg_w(h)$, where $c\in\F^\times$, $\sigma_1\geq r$ and $\abs{\sigma} \leq d$.
 \end{lem}
 
-\Cref{lem:key} helps us separate a collection of terms solely containing canonical bideterminants.
 The next lemma further applies the isolation lemma to single out one term from this collection.
+\else
+  Then, with a combination of homogenization (\Cref{lem:homogenization}) and the Isolation Lemma (\Cref{cor:isolation_exponents}), we can get a circuit computing a single canonical bideterminant.
+\fi
 
 \begin{thrm}\label{thrm:bideterminant_canonical_extraction}
     Let $f(X) \in I^{\det}_{n, m, r}$ be a nonzero polynomial of degree $d$.
@@ -1246,26 +1333,26 @@ The next lemma further applies the isolation lemma to single out one term from t
     The total number of gates and wires, excluding those between the bottom addition gates and the input gates, is $\bigO{nmd^3(n^3+m^3)}$.
 \end{thrm}
 
-\subsubsection{Projection to Determinant}
+\subsubsection{Projection to the Determinant}
 
 We have now seen that given an oracle to some nonzero $f(X) \in I^{\det}_{n, m, r}$, one can efficiently compute a canonical bideterminant efficiently with an $f$-oracle circuit.
-We now leverage the connection between algebraic branching programs
+We now leverage the connection between algebraic branching programs and determinants.
+\iffull
 The remainder of the proof follows~\cite{AF22}, which we include here for completeness.
 One key idea is exploiting the close connection between algebraic branching programs and determinants (\Cref{lem:ABP_to_det} and \Cref{lem:homog_ABP}).
+\fi
 
 We will use \Cref{thrm:bideterminant_canonical_extraction} to construct a constant-depth algebraic circuit of size $\poly(n,\deg(f))$ with $f$-oracle gates that computes the determinant.
 We start by proving the following more general theorem.
 \begin{thrm}\label{thrm:ABP_det_oracle}
-    Let $f(X) \in I^{\det}_{n, m, r}$ be a nonzero polynomial of degree $d$.
-    Let $g(y_1, \ldots, y_\ell) \in \F[\overline{y}]$ be a polynomial computable by an algebraic branching program with at most $r$ vertices.
-    Assume $\abs{\F} \geq c_0 d^3(n^3+m^3)$, where $c_0>0$ is a large enough constant.
-    Then there is a depth-three $f$-oracle circuit $\Phi$ of size $\bigO{nmd^4\ell r(n^3+m^3)}$ defined over $\F$ such that
-    \begin{itemize}
-        \item if $\characteristic(\F) = 0$ then $\Phi$ computes $g(\overline{y})$, and
-        \item if $\characteristic(\F) = p > 0$ then $\Phi$ computes $g(\overline{y})^{p^k}$ for some $k \leq \floor{\log_p(d)}$.
-    \end{itemize}
-    Furthermore, the top layer of this circuit consists of an addition gate.
+  Let $\F$ be a field of characteristic zero.
+  Let $f(X) \in I^{\det}_{n, m, r}$ be a nonzero polynomial of degree $d$.
+  Let $g(y_1, \ldots, y_\ell) \in \F[\overline{y}]$ be a polynomial computable by an algebraic branching program with at most $r$ vertices.
+  Assume $\abs{\F} \geq c_0 d^3(n^3+m^3)$, where $c_0>0$ is a large enough constant.
+  Then there is a depth-three $f$-oracle circuit $\Phi$ of size $\bigO{nmd^4\ell r(n^3+m^3)}$ defined over $\F$ computing $g(\overline{y})$.
+  Furthermore, the top layer of this circuit consists of an addition gate.
 \end{thrm}
+\iffull
 \begin{pf}
     By \Cref{lem:homog_ABP}, there is a homogeneous polynomial $\widehat{g}(\overline{y}, z) \in \F[\overline{y}, z]$ such that $\widehat{g}(\overline{y}, 1) = g(\overline{y})$ and $\widehat{g}(\overline{y}, z)$ can be computed by an algebraic branching program over $\F$ with at most $r$ vertices.
     We may add isolated vertices such that the algebraic branching program has exactly $r$ vertices.
@@ -1286,7 +1373,6 @@ We start by proving the following more general theorem.
     where $t \defeq \abs{\set{i \mid \sigma_i \geq r}} \geq 1$.
     Note that $t \leq \widehat{\sigma}_1 \leq d$.
 
-    First, suppose that $\characteristic(\F) = 0$.
     Let $\delta$ be a new indeterminate.
     Then under the map $y_i \mapsto \delta \cdot y_i$ and $z \mapsto \delta$, we have that
     \begin{gather}
@@ -1302,23 +1388,10 @@ We start by proving the following more general theorem.
     Also, as $\abs{\F} \geq c_0 d^3(n^3+m^3)$, where $c_0>0$ is a large enough constant, we may assume $\abs{\F} \geq dr+1$.
     Therefore, by \Cref{lem:homogenization}, we can compute $\coeff_{\delta^{\deg(\widehat{g})}}(h(\delta\cdot \overline{y},\delta))=g(\overline{y})$ using a depth-three $f$-oracle circuit of size
     \[
-    \bigO{\deg_\delta(h(\delta \cdot \overline{y}, \delta))\cdot nmd^3\ell(n^3+m^3)}=\bigO{nmd^4\ell r(n^3+m^3)}.
+      \bigO{\deg_\delta(h(\delta \cdot \overline{y}, \delta))\cdot nmd^3\ell(n^3+m^3)}=\bigO{nmd^4\ell r(n^3+m^3)}.
     \]
-
-    Now suppose that $\characteristic(\F) = p > 0$.
-    The above computation only needs to be modified in the case that $p \mid t$.
-    Let $k \in \N$ be the largest natural number such that $t = p^k b$ for some natural number $b$.
-    Since $p^k \leq t \leq d$, we have that $k \leq \floor{\log_p(d)}$ as claimed.
-    Then by a similar computation to \Cref{eq:det_computation_char_0}, we get that
-    \begin{equation}\label{eq:det_computation_char_p}
-        h(\delta \cdot \overline{y}, \delta) = \sum_{i = 0}^t \binom{t}{i} \delta^{i \cdot \deg(\widehat{g})} g(\overline{y})^i = 1 + b \cdot \delta^{\deg(\widehat{g}) p^k} g(\overline{y})^{p^k} + \cdots.
-    \end{equation}
-    Again, $\deg_\delta(h(\delta \cdot \overline{y}, \delta)) \leq t \cdot \deg(\widehat{g}) \leq dr$.
-    For each $\alpha \in \F$, we can construct from the depth-three $f$-oracle circuit computing $h(\overline{y},z)$ another $f$-oracle circuit $C_\alpha$ computing $h(\alpha \overline{y}, \alpha)$, whose size is $\bigO{nmd^3\ell(n^3+m^3)}$ and top gate is an addition gate.
-    Also, as $\abs{\F} \geq c_0 d^3(n^3+m^3)$, where $c_0>0$ is a large enough constant, we may assume $\abs{\F} \geq dr+1$.
-    Therefore, by \Cref{lem:homogenization}, we have a depth-three $f$-oracle circuit of size $\bigO{nmd^4\ell r(n^3+m^3)}$ computing $\coeff_{\delta^{\deg(\widehat{g})p^k}}(h(\delta\cdot \overline{y},\delta))=b\cdot g(\overline{y})^{p^k}$.
-    By dividing the multipliers on the wires connecting to the top gate by $b$, this circuit computing $b\cdot g(\overline{y})^{p^k}$ can be turned into a depth-three $f$-oracle circuit with the same underlying graph that computes $g(\overline{y})^{p^k}$.
 \end{pf}
+\fi
 
 The following corollaries are a debordering of the results~\cite[Corollary 3.9, Corollary 3.10]{AF22} of Andrews and Forbes.
 In particular, we can use \Cref{thrm:ABP_det_oracle} to construct a small constant-depth $f$-oracle circuit for the determinant, which partially resolves \Cref{conj:grochow_det} posed by Grochow as stated before.
@@ -1326,23 +1399,21 @@ In particular, we can use \Cref{thrm:ABP_det_oracle} to construct a small consta
     Let $f(X) \in I^{\det}_{n, m, r}$ be a nonzero polynomial of degree $d$.
     Let $t=\bigO{r^{1/3}}$ and let $Y$ be a $t \times t$ matrix of indeterminates.
     Assume $\abs{\F} \geq c_0 d^3(n^3+m^3)$, where $c_0>0$ is a large enough constant.
-    Then there is a depth-three $f$-oracle circuit $\Phi$ of size $\bigO{n m d^4 r t^2 (n^3+m^3)} \leq \bigO{n m d^4 r^{5/3} (n^3+m^3)}$ over $\F$ such that
-    \begin{itemize}
-        \item if $\characteristic(\F) = 0$ then $\Phi$ computes $\det_t(Y)$, and
-        \item if $\characteristic(\F) = p > 0$ then $\Phi$ computes $\det_t(Y)^{p^k}$ for some $k \leq \floor{\log_p(d)}$.
-    \end{itemize}
+    Then there is a depth-three $f$-oracle circuit $\Phi$ of size $\bigO{n m d^4 r t^2 (n^3+m^3)} \leq \bigO{n m d^4 r^{5/3} (n^3+m^3)}$ over $\F$ computing $\det_t(Y)$.
     Furthermore, the top gate of this circuit is an addition gate.
 \end{cor}
+\iffull
 \begin{pf}
-    Mahajan and Vinay~\cite[Theorem 2]{MV97} construct an algebraic branching program on $\bigO{t^3} \leq r$ vertices which computes $\det_t(Y)$.
-    Then, the total number of variables in $Y$ is $t^2 = \bigO{r^{2 / 3}}$.
-    The result then follows by applying \Cref{thrm:ABP_det_oracle}.
-  \end{pf}
+  Mahajan and Vinay~\cite[Theorem 2]{MV97} construct an algebraic branching program on $\bigO{t^3} \leq r$ vertices which computes $\det_t(Y)$.
+  Then, the total number of variables in $Y$ is $t^2 = \bigO{r^{2 / 3}}$.
+  The result then follows by applying \Cref{thrm:ABP_det_oracle}.
+\end{pf}
+\fi
 
 \section{Future Work and Open Problems}
 
-Andrews and Forbes~\cite{AF22} gave closure results for determinantal and Pfaffian ideals (\Cref{thrm:AF_det} and \Cref{thrm:AF_pfaff}).
-Subsequent work~\cite{DG25} then debordered these ideal closure results (\Cref{thrm:main} and \Cref{thrm:pfaff_main}).
+Andrews and Forbes~\cite{AF22} gave closure results for determinantal and Pfaffian ideals.
+Subsequent work~\cite{DG25} then debordered these ideal closure results.
 Both of these works relied heavily on the existence of a straightening law in order to control cancellations that may occur.
 A natural question is to ask if similar closure results can hold in other settings where straightening laws have been given.
 
@@ -1399,7 +1470,9 @@ However, our notion of standard bideterminants will differ from the determinanta
     \end{figure}
 \end{defn}
 
-The following lemma shows that every monomial in $\F[X]$ can be expressed as a bideterminant, and hence the bideterminants span $\F[X]$. The proof is immediate from the definition.
+\iffull
+The following lemma shows that every monomial in $\F[X]$ can be expressed as a bideterminant, and hence the bideterminants span $\F[X]$.
+The proof is immediate from the definition.
 \begin{lem}\label{lem:sym_det_monomial}
     A degree $d$ monomial $\prod_{i = 1}^d x_{r_i, c_i}$ where for each $1 \leq i \leq d$, $r_{i} \leq c_i$ is given by a bideterminant:
     \[
@@ -1412,6 +1485,7 @@ The following lemma shows that every monomial in $\F[X]$ can be expressed as a b
 	   \left(\ \Yvcentermath1 \left.\young(\ra,\rb,\svdots,\rd) \ \right\vert\ \young(\ca,\cb,\svdots,\cd) \ \right)(X) = \prod_{i = 1}^d x_{r_i, c_i}.
     \]
 \end{lem}
+\fi
 
 As in the determinantal case, the symmetric determinantal case also admits a straightening law.
 \begin{thrm}[{\cite[Theorem 5.1]{dCP76},~\cite[Theorem 2.2]{Conca94}}]\label{thrm:det_sym_straightening}
@@ -1420,7 +1494,7 @@ As in the determinantal case, the symmetric determinantal case also admits a str
     \[
         (S \mid T)(X) = \sum_{(A \mid B)} c_{A, B} (A \mid B)(X),
     \]
-    where the $(A \mid B)(X)$ are d-bideterminants of shape $\tau \geq_{\lex} \sigma$, and $c_{A,B} \in \mathbb{Z}$ when $\operatorname{char}(\F) = 0$, while $c_{A,B} \in \mathbb{Z}/p\mathbb{Z}$ when $\operatorname{char}(\F) = p > 0$.
+    where the $(A \mid B)(X)$ are d-bideterminants of shape $\tau \geq_{\lex} \sigma$, and $c_{A,B} \in \mathbb{Z}$.
 \end{thrm}
 
 \Cref{lem:sym_det_monomial} and \Cref{thrm:det_sym_straightening} together imply the following corollary.
@@ -1444,6 +1518,7 @@ Thus, all the tools needed for the symmetric case are given to prove the followi
 The main obstacle in proving \Cref{conj:sym} is thus giving an analogue of \Cref{lem:ABP_to_det} for the symmetric setting.
 Valient's construction~\cite{Val79}, connecting algebraic branching programs to determinantal complexity, gives a highly non-symmetric matrix.
 In particular, all upper-left corner proper minors are upper triangular with ones on the diagonal.
+\iffull
 This is not an issue in the skew-symmetric case.
 \begin{rmk}\label{rmk:ABP_pfaff}
   Suppose that $g(\overline{y})$ can be computed by an $r$-vertex branching program.
@@ -1456,6 +1531,7 @@ This is not an issue in the skew-symmetric case.
 \end{rmk}
 This is a key construction in the proofs of \Cref{thrm:AF_pfaff} and \Cref{thrm:pfaff_main}.
 However, we currently have no such analogous construction in the symmetric case.
+\fi
 
 \subsection{Algebras with Straightening Laws and Permanental Ideals}
 
@@ -1483,7 +1559,11 @@ Studying the difference in computational power between the determinant and perma
 Thus, it is natural to consider the ideal $I^{\perm}_{n, m , r}$ generated by $r \times r$ sub-permanents of an $n \times m$ matrix of variables.
 It is even known that $I^{\perm}_{n, m ,r}$ has a basis of standard bipermanents analogous to the determinantal case~\cite{Cla82}.
 However, it is not known if the coordinate ring has the structure of an algebra with a straightening law~\cite{GN25}.
+\iffull
 Furthermore, the proofs of \Cref{thrm:main}, \Cref{thrm:pfaff_main}, and even in the symmetric case \Cref{thrm:sym_det_canonical_extraction}, all crucially rely on the fact that the determinant is alternating in the rows and columns.
+\else
+Furthermore, the proofs of the determinantal (\Cref{thrm:main}) and the symmetric case (\Cref{thrm:sym_det_canonical_extraction}) both crucially rely on the fact that the determinant is alternating in the rows and columns.
+\fi
 This property gives the crucial identity \Cref{lem:Eij_left_mult}.
 However, the permanent is not alternating in the rows or columns of the matrix.
 Thus, we cannot expect that the same proof techniques as in~\cite{DG25} will give closure results for permanental ideals.
