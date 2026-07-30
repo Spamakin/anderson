@@ -132,6 +132,22 @@ One can give this the structure of an algebraic variety via the following map.
   Furthermore, $\mathfrak{q}$ is prime so that the $\Gr(n, d)$ is irreducible.
 \end{prop}
 
+Here is another way to see that the Grassmannian is irreducible.
+\begin{prop}\label{prop:Gr_irred}
+  The Grassmannian $\Gr(n, d)$ is irreducible.
+\end{prop}
+\begin{pf}
+  Recall that $\GL_n(\F)$ is irreducible.
+  Then we claim there is a surjective map $\varphi\colon \GL_n(\F) \to \Gr(d, n)$.
+  Then the proposition follows since the continuous surjective image of an irreducible space must itself be irreducible.
+
+  Let $\F^n$ have standard basis $\set{e_1, \ldots, e_n}$.
+  Then let $W = \gen{e_1, \ldots, e_d}$.
+  Let $V \in \Gr(d, n)$ with basis $\set{v_1, \ldots, v_d}$ and complete it to a basis $\set{v_1, \ldots, v_d, v_{d + 1}, v_n}$.
+  Then let $A \in \GL_n(\C)$ be the matrix with columns $v_1, \ldots, v_n$.
+  Then $A$ will map $W$ to $V$, giving a surjective polynomial map.
+\end{pf}
+
 \iffull
 
 \begin{prop}\label{prop:gr_dim}
