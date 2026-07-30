@@ -8,7 +8,7 @@
 \author{Anakin Dey}
 
 \newif\iffull
-\fullfalse
+\fulltrue
 
 \begin{document}
 
@@ -117,6 +117,20 @@ One can give this the structure of an algebraic variety via the following map.
   We will often identify the \Plucker\ coordinate $p_{j_1, \ldots, j_d}$ with the associated determinant.
 \end{defn}
 
+\iffull
+\quest{get some basic geometric results of grassmannian}
+
+\begin{prop}\label{prop:gr_irred}
+  \quest{Grassmannian is irreducible}
+\end{prop}
+
+
+\begin{prop}\label{prop:gr_dim}
+  \quest{Grassmannian dimension}
+\end{prop}
+
+\fi
+
 \begin{defn}[\Plucker\ Relations]
   For $(i_1, \ldots, i_{d - 1}) \in \Lambda(n, d - 1)$ and $(j_1, \ldots, j_{d + 1}) \in \Lambda(n, d + 1)$, define the following quadratic polynomial in the \Plucker\ coordinates:
   \[
@@ -125,11 +139,13 @@ One can give this the structure of an algebraic variety via the following map.
   The ideal $\mathfrak{q}$ of these quadratic polynomials is the ideal of \emph{\Plucker\ relations}.
 \end{defn}
 
-Note that the ideal $\mathfrak{q}$ of quadratic relations in the polynomial ring $\F[p_{\overline{j}}]$ is a prime ideal~\cite[\S 8.4, Proposition 2]{Ful96}.
 
-\begin{prop}[{\cite[Theorem 12.1.3]{LB18}}]\label{prop:Gr_ideal}
-  The zero set of $\mathfrak{q}$ is the Grassmannian $\Gr(n, d)$.
+\begin{prop}[{\cite[Theorem 12.1.3]{LB18} and~\cite[\S 8.4, Proposition 2]{Ful96}}]\label{prop:Gr_ideal}
+  The zero set of the ideal $\mathfrak{q} \subseteq \F[p_{\overline{j}}]$ of quadratic relations is the Grassmannian $\Gr(n, d)$.
+  Furthermore, $\mathfrak{q}$ is prime.
 \end{prop}
+
+This gives an alternative way to see that the $\Gr(n, d)$ is irreducible.
 
 \begin{defn}[\Plucker\ / Bracket Algebra]
   By \Cref{prop:Gr_ideal}, the coordinate ring $\F[\Gr(n, d)]$ of $\Gr(n, d)$ is given by
@@ -829,6 +845,48 @@ In particular, the multidegree of canonical and anti-canonical bideterminants wi
     The number of $1$'s in $K_{\sigma}$ is the coefficient of $\overline{e}_1$ in the multidegree, the number of $2$'s in $K_{\sigma}$ is the coefficient of $\overline{e}_2$, and so on.
     This allows us to get the values $\widehat{\sigma}_1, \ldots, \widehat{\sigma}_n$ which in turn completely determines $\sigma$.
 \end{pf}
+\fi
+
+\iffull
+\subsubsection{Determinantal Varieties}
+
+\begin{defn}[Determinantal Variety]
+  Let $\F$ be an algebraically closed field.
+  Let $V_{n, m, r} \subseteq \A_\F^{nm}$ be the set of $n \times m$ matrices of rank at most $r$.
+\end{defn}
+
+\begin{prop}
+  The variety $V_{n, m, r}$ is irreducible.
+\end{prop}
+\begin{pf}
+  Let $\widetilde{V}_{n, m, r} = \set{(M, W) \in M_{n \times m}(\F) \times \Gr(n, n - r) | W \subseteq \ker(M)}$.
+  Consider the projection map $\pi_2\colon \widetilde{V}_{n, m, r} \to \Gr(n, n - r)$.
+  Then, recall that $\Gr(n, n - r)$ is irreducible (\Cref{prop:gr_irred}, \Cref{prop:Gr_ideal}).
+  Let $W \in \Gr(n, n - r)$.
+  The fiber over $W$ of $\pi_2$ is the set of all $n \times m$ matrices $M$ which vanish on $W$.
+  This fiber is isomorphic to $\A_\F^{m \cdot r}$.
+  Thus, since $\pi_2$ surjects onto an irreducible variety and has irreducible fibers all of the same dimension, we must have that $\widetilde{V}_{n, m ,r}$ is irreducible~\cite[Theorem 11.14]{Har92}.
+
+  Consider $\pi_1\colon \widetilde{V}_{n, m, r} \to V_{n, m, r}$ given by the other projection map.
+  This map is surjective since $\pi_1^{-1}(M) = (M, \ker M)$.
+  Thus, since $\widetilde{V}_{n, m, r}$ is irreducible, we get that $V_{n, m, r}$ is irreducible.
+\end{pf}
+
+\begin{prop}
+  The variety $V_{n, m, r}$ has dimension $(n - r)r + mr$ and thus codimension $(n - r)(m - r)$.
+\end{prop}
+\begin{pf}
+  Consider the map $\pi_1$ from the prior proof.
+  In addition to it being surjective, we have that it is generically injective.
+  Specifically, consider the Zariski-dense subset of matrices which have rank equal to $r$.
+  Then for each of these matrices $M$, their kernel $\ker M$ has dimension exactly $n - r$ by Rank-Nullity.
+  Thus, the preimage of $M$ must be $(M, \ker M)$ exactly.
+  Generically, this means that each fiber is zero-dimensional so that
+  \[
+    \dim V_{n, m ,r} = \dim \widetilde{V}_{n, m, r} = \dim \Gr(n, n - r) + \dim \A_\F^{m \cdot r} = (n - r)r + mr.
+  \]
+\end{pf}
+
 \fi
 
 \iffull
