@@ -34,7 +34,8 @@
 \section{Introduction}
 
 Many problems in combinatorics, geometry, and computer science can be expressed in terms of the computation of some polynomials.
-For example, determining if a graph has a perfect matching is equivalent to determining if the determinant of it's \emph{Tutte Matrix} is identically zero~\cite{Tut47}.
+For example, determining if a graph has a perfect matching is equivalent to determining if the determinant (or Pfaffian) of it's \emph{Tutte Matrix} is identically zero~\cite{Tut47}.
+Furthermore, this gives a fast parallalizable algorithm for determining if a graph has a perfect matching as we can compute the determinant of a matrix in parallel~\cite{Csa76}.
 With this, we see that it is important to study the complexity of computing polynomials in general.
 Specifically, we study the difficulty of computing special families of polynomials such as the determinant or permanent polynomials.
 Algebraic complexity theory is the study of the complexity of such computations.
@@ -44,6 +45,7 @@ Algebraic complexity theory is the study of the complexity of such computations.
 Studying the optimality of the number of operations to compute a given polynomial is one of the core problems of algebraic complexity.
 This is known as the \emph{minimal circuit complexity} problem, which by circuit we mean an \emph{algebraic circuit} (\Cref{defn:ckt}).
 Perhaps the earliest work in this direction was a proof of optimality of \emph{Horner's Rule} where Ostrowski showed that one cannot compute a generic degree-$d$ univariate polynomial using fewer than $d$ additions~\cite{Ost54}.
+The subsequent proof of the optimality of the number of multiplications was later given by Pan~\cite{Pan66}.
 Strassen showed that one can multiply matrices faster than the usual algorithm~\cite{Str69}, giving an improvement from $\bigO{n^3}$ to $\bigO{n^{\log_2 7}}$.
 Csanky give fast parallel algorithms for various problems in linear algebra, in particular giving a fast method for computing the determinant~\cite{Csa76}.
 Proving upper bounds on the computational complexity of certain polynomials comes down to devising new algorithms for them.
@@ -995,7 +997,7 @@ Since the Pfaffian is only well-defined for skew-symmetric matrices, we cannot c
   \fi
 
   Let $\sigma$ be a partition such that the length of each row of $\sigma$ is even, and let $T$ be a Young tableau of shape $\sigma$.
-  Writing the rows as $T_i = (T(i, 1), \ldots, T(i, \sigma_i))$, the submatrix of $X$ with rows and columns given by $T_i$ is skew-symmetric as well and thus has a well-defined \emph{principal pfaffian}.
+  Writing the rows as $T_i = (T(i, 1), \ldots, T(i, \sigma_i))$, the submatrix of $X$ with rows and columns given by $T_i$ is skew-symmetric as well and thus has a well-defined \emph{principal Pfaffian}.
   The associated \emph{bipfaffian}\footnote{\cite{AF22} call this a \emph{standard monomial}.
   We deviate from this as standard monomial is a more general term which also refers to standard bideterminants and other analogues in standard monomial theory.} $[T](X)$ is the product of all such Pfaffians defined by the rows of $T$:
   \[
@@ -1569,7 +1571,7 @@ A natural question is to ask if similar closure results can hold in other settin
 
 \subsection{Symmetric Determinantal Ideals}
 
-Closure results have been given for the case of determinantal ideal as well as pfaffian ideals.
+Closure results have been given for the case of determinantal ideal as well as Pfaffian ideals.
 A natural next step is to prove analogous results for the case of principal minors of a symmetric matrix.
 
 Let $\F$ be a field.
@@ -1682,7 +1684,7 @@ This is not an issue in the skew-symmetric case.
 \begin{rmk}\label{rmk:ABP_pfaff}
   Suppose that $g(\overline{y})$ can be computed by an $r$-vertex branching program.
   Let $A$ be the $r \times r$ matrix such that $\det(A) = g(\overline{y})$ given by \Cref{lem:ABP_to_det}.
-  Define $B$ as the $2r \times 2r$ matrix $B \defeq \begin{pmatrix} 0 & A \\ -A & 0 \end{pmatrix}$.
+  Define $B$ as the $2r \times 2r$ skew-symmetric matrix $B \defeq \begin{pmatrix} 0 & A \\ -A & 0 \end{pmatrix}$.
   Then
   \[
     \pfaff_{2r}(B) = \sqrt{\det(A)^2} = \sqrt{g(\overline{y})^2} = g(\overline{y}).
@@ -1759,7 +1761,7 @@ For $1 \leq  j \leq n$, let $X_j$ be the following Hankel submatrix of $X$:
   \end{pmatrix}.
 \]
 
-The description of the standard monomials for the Hankel setting is more involved than the description for the standard determinantal or skew-symmetric pfaffian case.
+The description of the standard monomials for the Hankel setting is more involved than the description for the standard determinantal or skew-symmetric Pfaffian case.
 We begin with a description of how to index minors, as well as a useful term ordering.
 \begin{defn}
   For $a_1, \ldots, a_s$ and $b_1, \ldots, b_s$ such that $a_i + b_j - 1 \leq n$ for all $1 \leq i, j \leq s$, let $[a_1 \cdots a_s \mid b_1 \cdots b_s]$ denote the minor of $X$ with rows indexed by the $a_i$'s and columns indexed by the $b_j$'s.
