@@ -27,14 +27,7 @@
 \usetheme{sigma}
 % --------------------------------------------------------------------
 
-% one-offs
 \newcommand{\svdots}{\raisebox{-0.12\height}[0pt][0pt]{$\vdots$}}
-\newcommand{\ra}{r_1}
-\newcommand{\rb}{r_2}
-\newcommand{\rd}{r_d}
-\newcommand{\ca}{c_1}
-\newcommand{\cb}{c_2}
-\newcommand{\cd}{c_d}
 
 \DeclareMathOperator{\pfaff}{pfaff}
 \DeclareMathOperator{\sym}{sym}
@@ -148,6 +141,10 @@
         Is it strictly necessary? \pause
         Can we prove something in the border setting and \emph{deborder} the result to get an exact computation?
     \end{question}    
+\end{frame}
+
+\begin{frame}{Border Waring Rank}
+
 \end{frame}
 
 \begin{frame}{Circuit Complexity for Ideals}
@@ -322,7 +319,7 @@
     Main Tools:
     \begin{itemize}
         \item We use \emph{Straightening Laws} from Invariant Theory to express $f(X)$ in a standard basis indexed by Young tableau, \pause and leverage the combinatorics to talk about specific terms.\pause
-        \item To get a circuit for a specific basis term, we use \emph{Homogenization} as well as a new application of the \emph{Isolation Lemma}.
+        \item To get a circuit for a specific basis term, we use \emph{Interpolation} as well as a new application of the \emph{Isolation Lemma}.
     \end{itemize}
 \end{frame}
 
@@ -359,6 +356,14 @@
     \end{defn}
 \end{frame}
 
+% one-offs
+\newcommand{\ra}{r_1}
+\newcommand{\rb}{r_2}
+\newcommand{\rd}{r_d}
+\newcommand{\ca}{c_1}
+\newcommand{\cb}{c_2}
+\newcommand{\cd}{c_d}
+
 \begin{frame}{A Natural Generating Set for Determinantal Ideals}
     \begin{lem}
         A degree $d$ monomial $\prod_{i = 1}^d x_{r_i, c_i}$ is given by a bideterminant: \pause
@@ -393,19 +398,64 @@
     
 \end{frame}
 
-\begin{frame}{Shuffle Products}
 
+\begin{frame}{Shuffle Products}
+  \begin{figure}
+    \includegraphics[width=\textwidth]{images/shuffle.png}
+  \end{figure}
+  Where the summation is over all permutations $\sigma$ such that $\sigma(i_1) < \cdots < \sigma(i_p)$ and $\sigma(\ell_1) < \cdots < \sigma(\ell_q)$.
 \end{frame}
 
 \begin{frame}{Laplace Expansion}
-
+  \begin{figure}
+    \includegraphics[width=\textwidth]{images/Laplace.png}
+  \end{figure}
+  Where the summation is over all permutations $\sigma$ such that $\sigma(i_1) < \cdots < \sigma(i_p)$ and $\sigma(\ell_1) < \cdots < \sigma(\ell_q)$.
 \end{frame}
 
 \begin{frame}{Example Straightening}
+  Consider the following nonstandard tableau
+  \[
+    \left(\ \Yvcentermath1 \left. \young(23,14,2)\ \right\vert\ \young(12,13,1) \ \right)
+  \]
 
+  This is not conjugate semistandard in the first two rows, so we focus on straightening these first two rows.
 \end{frame}
 
-\begin{frame}{Proof of Grochow's Conjecture Given Theorem}
+% one-offs
+\newcommand{\da}{\dot{1}}
+\newcommand{\db}{\dot{2}}
+\newcommand{\dc}{\dot{3}}
+
+\begin{frame}{Example Straightening}
+  Shuffle:
+  \[
+    \left(\ \Yvcentermath1 \left. \young(\db\dc,\da 4)\ \right\vert\ \young(12,13) \ \right) = \left(\ \Yvcentermath1 \left. \young(23,14)\ \right\vert\ \young(12,13) \ \right) - \left(\ \Yvcentermath1 \left. \young(13,24)\ \right\vert\ \young(12,13) \ \right) + \left(\ \Yvcentermath1 \left. \young(12,34)\ \right\vert\ \young(12,13) \ \right)
+  \]
+  Laplace:
+  \begin{align*}
+    \left(\ \Yvcentermath1 \left. \young(\db\dc,\da 4)\ \right\vert\ \young(12,13) \ \right) &= \left(\ \Yvcentermath1 \left. \young(123,4)\ \right\vert\ \young(112,3) \ \right) - \left(\ \Yvcentermath1 \left. \young(123,4)\ \right\vert\ \young(312,1) \ \right) \\
+    &= - \left(\ \Yvcentermath1 \left. \young(123,4)\ \right\vert\ \young(123,1) \ \right) \\
+  \end{align*}
+  We notice that our unstraightened rows appear in the first expression so that we can solve for it.
+\end{frame}
+
+\begin{frame}{Example Straightening}
+  \[
+    \left(\Yvcentermath1 \left. \young(23,14)\ \right\vert\ \young(12,13) \right) = \left(\Yvcentermath1 \left. \young(13,24)\ \right\vert\ \young(12,13) \right) - \left(\Yvcentermath1 \left. \young(12,34)\ \right\vert\ \young(12,13) \right) - \left(\Yvcentermath1 \left. \young(123,4)\ \right\vert\ \young(123,1) \right)
+  \]
+  Thus, we get that
+  \[
+    \left(\Yvcentermath1 \left. \young(23,14,2)\ \right\vert\ \young(12,13,1) \right) = \left(\Yvcentermath1 \left. \young(13,24,2)\ \right\vert\ \young(12,13,1) \right) - \left(\Yvcentermath1 \left. \young(12,34,2)\ \right\vert\ \young(12,13,1) \right) - \left(\Yvcentermath1 \left. \young(123,4,2)\ \right\vert\ \young(123,1,1) \right)
+  \]
+  The first term is conjugate semistandard, but not the next two terms.
+
+  \vspace{10pt}
+
+  All terms that appear have the same content and they are either the same shape with lexicographically smaller filling or they have a longer shape.
+\end{frame}
+
+\begin{frame}{Main Theorem}
     \begin{conj}[{\cite[Conjecture 6.3]{Gro20}}]
         Let $f \in I^{\det}_{n, n, n / 2}$ be a nonzero polynomial.
         Then there is a constant depth $f$-oracle circuit of size $\poly(n)$ that computes the $t \times t$ determinant for some $t = n^{\bigTheta{1}}$.
@@ -500,26 +550,6 @@
     \end{lem} 
 \end{frame}
 
-\begin{frame}{Linear Operators}
-    \begin{lem}[{\cite[stated before Corollary 1.7]{dCEP80}}]
-        Let $S$ be a conjugate semistandard tableau of shape $\sigma$ such that $S$ has entries of value at most $n$.
-        Then
-        \begin{align*}
-          (\Sub_{n - 1 \to n} &\circ \Sub_{n - 2 \to n} \circ \Sub_{n - 2 \to n-1} \circ \cdots \\
-          &\circ \Sub_{2 \to n}\circ\cdots\circ\Sub_{2 \to 3} \circ \Sub_{1 \to n} \circ \cdots \circ \Sub_{1 \to 2})(S) = \overline{K}_\sigma.
-        \end{align*}
-    \end{lem} 
-
-    \pause
-
-    \begin{ex}
-        Say $n = 5$
-        \begin{align*}
-            \Yvcentermath1 \young(1234,12,1)\qquad \onslide<3>{\rightsquigarrow \qquad \young(2345,45,5)}
-        \end{align*}
-    \end{ex}
-\end{frame}
-
 \begin{frame}{Applying the Linear Operators}
     Substituting $i$ for $j$ corresponds to multiplication of $X$ by an \emph{elementary matrix} $E_{i, j}$, adding a multiple of row $j$ to row $i$.
     
@@ -535,11 +565,27 @@
     \end{lem}
 \end{frame}
 
-\begin{frame}{Applying the Linear Operators}
-    We have seen now that after applying a sequence of linear transformations $E_{i, j}$ to our matrix of variables $X$, we can send a bitableau $(S \mid T)$ of shape $\sigma$ to $(\overline{K}_\sigma \mid \overline{K}_\sigma)$.
+\begin{frame}{Applying all Substitution Operators}
+    We have seen now that after applying a sequence of substitution operators $\Sub_{i \to j}$, we can send a bitableau $(S \mid T)$ of shape $\sigma$ to $(\overline{K}_\sigma \mid \overline{K}_\sigma)$.
 
-    \pause
-    \vspace{20pt}
+    Translating this to the setting of linear operators $E_{i, j}(\lambda_{i, j})$ gives the following:
+    \begin{lem}[{\cite[Lemma 3.9]{DG25}}]
+      Let $f(X) \in I^{\det}_{n, m, r}$ be a nonzero polynomial of degree $d$.
+      Then $f(MXN)$ can be expressed as a sum
+      \begin{equation*}
+        f(MXN) = \sum_{k \in A} \widehat{c}_{k} \Lambda^{\overline{e}_k}\Xi^{\overline{f}_k}\cdot (\overline{K}_{\sigma_k}\mid \overline{K}_{\sigma_k})(X) + \sum_{\ell \in B} \widehat{c}_{\ell} \Lambda^{\overline{e}_\ell}\Xi^{\overline{f}_\ell}\cdot (S_\ell\mid T_\ell)(X)
+      \end{equation*}
+    \end{lem}
+\end{frame}
+
+\begin{frame}{Applying all Substitution Operators}
+    \begin{lem}[{\cite[Lemma 3.9]{DG25}}]
+      Let $f(X) \in I^{\det}_{n, m, r}$ be a nonzero polynomial of degree $d$.
+      Then $f(MXN)$ can be expressed as a sum
+      \begin{equation*}
+        f(MXN) = \sum_{k \in A} \widehat{c}_{k} \Lambda^{\overline{e}_k}\Xi^{\overline{f}_k}\cdot (\overline{K}_{\sigma_k}\mid \overline{K}_{\sigma_k})(X) + \sum_{\ell \in B} \widehat{c}_{\ell} \Lambda^{\overline{e}_\ell}\Xi^{\overline{f}_\ell}\cdot (S_\ell\mid T_\ell)(X)
+      \end{equation*}
+    \end{lem}
 
     Let $J_n$ be the $n \times n$ matrix with $1$'s along the anti-diagonal.\ \pause
     \begin{lem}
@@ -547,53 +593,54 @@
             (\overline{K}_\sigma \mid \overline{K}_\sigma)(J_n X J_m) = \pm (K_\sigma \mid K_\sigma)(X).
         \]
     \end{lem}
-
-    \pause
-    \vspace{20pt}
-
-    We now have linear transformations sending bitableau to canonical semistandard Young tableau.
 \end{frame}
 
-\begin{frame}{Where Does Isolation Arise?}
-  \[
-    f(X) = \sum_{k \in I} c_k (S_k \mid T_k)(X) \in I^{\det}_{n, m, r}.
-  \]
-
-  \pause
-  \vspace{20pt}
-
-  \begin{cor}
-      We have matrices $M, N$ such that
+\begin{frame}{Applying all Substitution Operators}
+    \begin{lem}[{\cite[Corollary 3.10]{DG25}}]
+      Let $f(X) \in I^{\det}_{n, m, r}$ be a nonzero polynomial of degree $d$.
+      Then $f(MXN)$ can be expressed as a sum
       \begin{equation*}
-              f(M X N) = \sum_{k \in A} \widehat{c}_{k} \Lambda^{\overline{e}_k}\Xi^{\overline{f}_k}\cdot (K_{\sigma_k}\mid K_{\sigma_k})(X) + \sum_{\ell \in B} \widehat{c}_{\ell} \Lambda^{\overline{e}_\ell}\Xi^{\overline{f}_\ell}\cdot (S_\ell\mid T_\ell)(X),
+        f(M J_n X J_m N) = \sum_{k \in A} \widehat{c}_{k} \Lambda^{\overline{e}_k}\Xi^{\overline{f}_k}\cdot (K_{\sigma_k}\mid K_{\sigma_k})(X) + \sum_{\ell \in B} \widehat{c}_{\ell} \Lambda^{\overline{e}_\ell}\Xi^{\overline{f}_\ell}\cdot (S_\ell\mid T_\ell)(X)
       \end{equation*}
-  \end{cor}
-
-  \pause
-  Upshot: linear transformations correspond to plugging in linear equations into the input for $f(X)$, \pause so this is the start of our $f$-oracle circuit.
+    \end{lem}
 \end{frame}
 
-\begin{frame}{Where Does Isolation Arise?}
-  \[
-    f(X) = \sum_{k \in I} c_k (S_k \mid T_k)(X) \in I^{\det}_{n, m, r}, \qquad \deg(f) = d.
-  \]
-
-  \vspace{20pt}
-
-  \begin{cor}
-      We have matrices $M, N$ such that
-      \begin{equation*}
-              f(M X N) = \sum_{k \in A} \widehat{c}_{k} \Lambda^{\overline{e}_k}\Xi^{\overline{f}_k}\cdot {\color{sigma@mainblue}(K_{\sigma_k}\mid K_{\sigma_k})(X)} + \sum_{\ell \in B} \widehat{c}_{\ell} \Lambda^{\overline{e}_\ell}\Xi^{\overline{f}_\ell}\cdot (S_\ell\mid T_\ell)(X),
-      \end{equation*}
-  \end{cor}
+\begin{frame}
+  Next, we introduce another variable $v$, and modify $D$ and $D'$ as follows:
+  \begin{align*}
+    \widetilde{D}  &= \mathrm{diag}(y_1 v, y_2 v^2\dots,y_n v^n )\in\F[Y,v]^{n\times n} \\
+    \widetilde{D}' &= \mathrm{diag}(z_1 v,z_2 v^2,\dots,z_m v^m)\in\F[Z,v]^{m\times m}
+  \end{align*}
+  \begin{lem}
+    Let $(S\mid T)(X)$ be a bideterminant.
+    Then
+    \[
+      (S\mid T)(\widetilde{D} X \widetilde{D}')=Y^{\overline{s}} Z^{\overline{t}} v^{\abs{S} + \abs{T}} \cdot (S\mid T)(X),
+    \]
+    where $(\overline{s},\overline{t})$ is the multidegree of $(S\mid T)(X)$.
+  \end{lem}
 \end{frame}
 
-\begin{frame}{Homogenization}
+\begin{frame}
+  \begin{lem}
+    Let $f(X) \in I^{\det}_{n, m, r}$ be a nonzero polynomial of degree $d$.
+    Let $g = f(M J_n \widetilde{D} X \widetilde{D}' J_m N) \in \F[X, \Lambda, \Xi, Y, Z, v]$.
+    \[
+      \coeff_{v^{d_{\min}}}(g)= \sum_{k\in I} c_k \Lambda^{\overline{e}_k}\Xi^{\overline{f}_k}Y^{\overline{s}_k}Z^{\overline{t}_k}\cdot (K_{\sigma_k}\mid K_{\sigma_k})(X),
+    \]
+  \end{lem}
+
+  Linear transformations just correspond to a layer of summation gates giving us an $f$-oracle circuit for the above.
+
+  Use \emph{interpolation} to get an $f$-oracle circuit computing $\coeff_{v_{d_{min}}}(g)$.
+\end{frame}
+
+\begin{frame}{Interpolation}
    \begin{defn}
         Consider a degree $d$ polynomial $g(\overline{x}, t) = \sum_{i = 0}^d \coeff_{t^i}(g) t^i$.
-        
+
         \vspace{-10pt}
-    \end{defn} 
+    \end{defn}
 
     \pause
 
@@ -601,13 +648,13 @@
         Say $g$ is computed by a size $s$, depth $\Delta$ $f$-oracle circuit with top $\Sigma$-gate.
 
         \pause
-        
+
         \begin{minipage}[c]{0.45\textwidth}
             \begin{figure}
                 \centering
                 \includegraphics[width=0.625\textwidth]{images/homog.png}
             \end{figure}
-        \end{minipage}% 
+        \end{minipage}%
         \begin{minipage}[c]{0.55\textwidth}
             Then, we can compute $\coeff_{t^i}(g)$ by a size $\bigO{ds}$, depth $\Delta$ $f$-oracle circuit.
         \end{minipage}
@@ -615,15 +662,15 @@
     \end{lem}
 \end{frame}
 
-\begin{frame}{Proof of Homogenization: Interpolation}
+\begin{frame}{Proof of Interpolation: Interpolation}
     Let $\alpha_1, \ldots, \alpha_{d + 1}$ be $d + 1$ distinct elements in $\mathbb{F}$.
     \[
         \begin{pmatrix}
-            \alpha_1^d & \alpha_1^{d - 1} & \cdots & \alpha_1 & 1 \\ 
-            \alpha_2^d & \alpha_2^{d - 1} & \cdots & \alpha_2 & 1 \\ 
+            \alpha_1^d & \alpha_1^{d - 1} & \cdots & \alpha_1 & 1 \\
+            \alpha_2^d & \alpha_2^{d - 1} & \cdots & \alpha_2 & 1 \\
             \vdots & \vdots & \ddots & \vdots & \vdots \\
-            \alpha_{d}^d & \alpha_{d}^{d - 1} & \cdots & \alpha_{d} & 1 \\ 
-            \alpha_{d + 1}^d & \alpha_{d + 1}^{d - 1} & \cdots & \alpha_{d + 1} & 1 
+            \alpha_{d}^d & \alpha_{d}^{d - 1} & \cdots & \alpha_{d} & 1 \\
+            \alpha_{d + 1}^d & \alpha_{d + 1}^{d - 1} & \cdots & \alpha_{d + 1} & 1
         \end{pmatrix}
         \begin{pmatrix}
             \coeff_{t^d}(f) \\
@@ -639,7 +686,7 @@
             \vdots \\
             f(\overline{x},\alpha_d) \\
             f(\overline{x},\alpha_{d+1})
-        \end{pmatrix}        
+        \end{pmatrix}
     \]
 
     \pause
@@ -647,7 +694,7 @@
     This left matrix is a \emph{Vandermonde} matrix and is invertible since the $\alpha_i$ are all distinct.
 \end{frame}
 
-\begin{frame}{Proof of Homogenization: Interpolation}
+\begin{frame}{Proof of Interpolation: Interpolation}
     \[
         \begin{pmatrix}
             \coeff_{t^d}(f) \\
@@ -670,7 +717,7 @@
             \vdots \\
             f(\overline{x},\alpha_d) \\
             f(\overline{x},\alpha_{d+1})
-        \end{pmatrix} 
+        \end{pmatrix}
     \]
 
     \pause
@@ -680,12 +727,27 @@
     \end{equation*}
 \end{frame}
 
- 
+
 % \begin{frame}{Aside: Interpolation in Border Setting}
-%     
+%
 % \end{frame}
 
-\begin{frame}{Issues with Homogenization}
+
+\begin{frame}{Where Does Isolation Arise?}
+  We now have an $f$-oracle circuit to compute
+  \[
+    \sum_{k\in I} c_k \Lambda^{\overline{e}_k}\Xi^{\overline{f}_k}Y^{\overline{s}_k}Z^{\overline{t}_k}\cdot (K_{\sigma_k}\mid K_{\sigma_k})(X)
+  \]
+  We want an $f$-oracle circuit for a single $i \in I$.
+
+  Our proof shows that for each $k \in I$, the tuple $(\overline{e}_k, \overline{f}_k, \overline{s}_k, \overline{t}_k)$ is distinct.
+
+  Interpolation is \emph{\textcolor{sigma@alertred}{insufficient}} for our purposes.
+  % Why? Interpolating with multiple variables is expensive
+  % Kronecker is also expensive
+\end{frame}
+
+\begin{frame}{Issues with Interpolation}
     If a circuit border computes $g(\overline{x})$, then it computes
     \[
       g(\overline{x}) + \e^q \tilde{g}(\overline{x}, \e), \qquad q \geq 1.
@@ -694,16 +756,16 @@
     \pause
     \vspace{10pt}
     
-    \emph{Idea:} Homogenize with respect to $\varepsilon$.
+    \emph{Idea:} Interpolate with respect to $\varepsilon$.
     
     \pause
     \vspace{10pt}
     
-    \emph{Problem:} $q$ can be \emph{arbitrarily large} 
+    \emph{Problem:} $q$ can be \emph{exponentially large}
 
     \pause
     
-    \qquad $\implies$ Homogenization gives \emph{large circuit}.
+    \qquad $\implies$ Interpolation gives \emph{large circuit}.
 \end{frame}
 
 \begin{frame}{Idea: Kronecker Substitution}
@@ -725,7 +787,7 @@
 
     \pause
     
-    \qquad $\implies$ Homogenization gives \emph{large circuit}.
+    \qquad $\implies$ Interpolation gives \emph{large circuit}.
 \end{frame}
 
 \begin{frame}{Isolation Lemma}
@@ -779,7 +841,7 @@
 
         \pause
 
-        The Isolation Lemma shows that the $z_1, \ldots, z_\ell$ can be choose to be small \pause $\implies$ unique lowest $\deg_w$-term \pause and homogenization w.r.t $w$ is small.
+        The Isolation Lemma shows that the $z_1, \ldots, z_\ell$ can be choose to be small \pause $\implies$ unique lowest $\deg_w$-term \pause and interpolation w.r.t $w$ is small.
     \end{lem}
 \end{frame}
 
@@ -803,15 +865,51 @@
 \end{frame}
 
 \begin{frame}{Symmetric Analogue?}
-    The focus on determinantal ideals and pfaffian ideals stem from \emph{invariant theory}.\ \pause
-    Are there other natural settings to study from there?
+  Let $x_{i, j}$ be indeterminates for $1 \leq i \leq j \leq n$ and let $x_{j, i} \defeq x_{i, j}$ for $1 \leq j < i \leq n$.
+  Thus, $X = (x_{i, j})_{1 \leq i, j \leq n}$ is a symmetric $n \times n$ matrix.
+  \begin{conj}\label{conj:sym}
+    Let $I^{\sym}_{n, r} \subseteq \F[X]$ be the ideal generated by the $r \times r$ minors of $X$.
+    Let $f \in I^{\sym}_{n, r}$ be a nonzero polynomial.
+    Then there exists a constant-depth $f$-oracle circuit of size $\poly(n, \deg(f))$ that computes the $t \times t$ determinant of a symmetric matrix for $t = \poly(n)$.
+  \end{conj}
+\end{frame}
 
-    \pause
-    \vspace{20pt}
-    
-    \begin{question}
-        Is there an analogue to our results for the ideal of determinants of a symmetric matrix?
-    \end{question}
+\begin{frame}{Symmetric Basis}
+  \begin{defn}[d-tableau, d-determinant]
+    Following~\cite{Con94}, we say a bitableau $(S \mid T)$ of shape $\sigma$ and its associated bideterminant $(S \mid T)(X)$ are \emph{d-tableau} and \emph{d-bideterminants} respectively if $S$ and $T$ are both conjugate semistandard Young tableau and if furthermore the single tableau formed by stacking alternating rows of $S$ and $T$,
+    \[
+      \newcommand{\saa}{S_1}
+      \newcommand{\taa}{T_1}
+      \newcommand{\sbb}{S_2}
+      \newcommand{\tbb}{T_2}
+      \newcommand{\scc}{S_k}
+      \newcommand{\tcc}{T_k}
+      \young(\saa,\taa,\svdots,\svdots,\scc,\tcc)
+    \]
+    is conjugate semistandard.
+  \end{defn}
+\end{frame}
+
+\begin{frame}{Straightening for Symmetric Determinantal Ideals}
+  \begin{thrm}[{\cite[Theorem 5.1]{dCP76},~\cite[Theorem 2.2]{Con94}}]
+    Let $(S \mid T)$ be a bitableau of shape $\sigma$.
+    Then $(S \mid T)(X)$ can be uniquely expressed as a linear combination
+    \[
+      (S \mid T)(X) = \sum_{(A \mid B)} c_{A, B} (A \mid B)(X),
+    \]
+    where the $(A \mid B)(X)$ are d-bideterminants of shape $\tau \geq \sigma$, and $c_{A,B} \in \mathbb{Z}$.
+  \end{thrm}
+\end{frame}
+
+\begin{frame}{Partial Progress}
+  \begin{thrm}
+    Let $f(X) \in I^{\sym}_{n, r}$ be a nonzero polynomial, $d$ the total degree of $f$, and $f(X) = \sum_{k \in [s]} \alpha_k (S_k \mid T_k)(X)$ the expansion of $f(X)$ in the d-bideterminant basis where $(S_k \mid T_k)$ is of shape $\sigma_k$ and each $\alpha_k \in \F$ is nonzero.
+    Then there exists a partition $\sigma$ and a depth-three $f$-oracle circuit of size $\bigO{d^3 n^7}$ computing $\alpha [K_\sigma](X)$ for some nonzero $\alpha \in \F$.
+  \end{thrm}
+
+  \pause
+
+  Our main roadblock for fully resolving the symmetric case is the reduction from a product of determinants to a single determinant.
 \end{frame}
 
 \begin{frame}{Roadblocks for the Permanent}
@@ -831,6 +929,78 @@
     \[
         (S \mid T)(E_{i, j}(\lambda)X) = \pm \lambda^{h_{i}^{j}(S)} (\Sub_{i \to j}(S) \mid T)(X) + \sum_{h = 0}^{h_{i}^{j}(S) - 1} \lambda^h \sum_{S' \in \mathcal{C}^{h}_{i \to j}(S)} \pm  (S' \mid T)(X).
     \]
+\end{frame}
+
+\begin{frame}{Algebras with Straightening Laws}
+  \begin{defn}[{\cite{Eis80}}]
+    Let $A$ be a ring, $H \subseteq A$ is a poset.
+    A \emph{standard monomial} is a product $a_1 \cdots a_k$ such that $a_i \in H$ and $a_1 \leq \cdots \leq a_k$.
+
+    Let $R$ be a ring, $A$ an $R$-algebra, and $H \subseteq A$ a finite poset which generates $A$ as an $R$-algebra.
+    $A$ is an \emph{Algebra with a Straightening Law} if
+    \begin{itemize}
+    \item $A$ is a free $R$-module with a basis given by the standard monomials
+    \item if $\alpha, \beta \in H$ are incomparable, and if
+          \[
+          \alpha \beta = \sum_{i = 1}^m r_i \gamma_{i, 1} \cdots  \gamma_{i, k_i}
+          \]
+          where $0 \neq r_i \in R$ and each $\gamma_{i, 1} \cdots  \gamma_{i, k_i}$ is a standard monomial, we must have that for all $1 \leq i \leq m$ that $\gamma_{i, 1} \leq \alpha, \beta$.
+    \end{itemize}
+    These relations in the second requirement are known as the \emph{straightening relations} or \emph{straightening laws}.
+  \end{defn}
+\end{frame}
+
+\begin{frame}{Hankel Ideals}
+  Let $\F$ be a field.
+  Let $x_{i}$ be indeterminates for $1 \leq i \leq n$.
+  For $1 \leq  j \leq n$, let $X_j$ be the following Hankel matrix:
+  \[
+    \begin{pmatrix}
+      x_1 & x_2 & x_3 & \cdots & x_{n - j + 1} \\
+      x_2 & x_3 & x_4 & \cdots & x_{n - j + 2} \\
+      x_3 & x_4 & x_5 & \cdots & x_{n - j + 3} \\
+      \vdots & \vdots & \vdots & \ddots & \vdots \\
+      x_{j} & x_{j + 1} & x_{j + 2} & \cdots & x_{n}
+    \end{pmatrix}.
+  \]
+  For $1 \leq r \leq \min\set{j, n - j + 1}$ let $I_r(X_j)$ be the ideal generated by $r \times r$ minors of $X_j$.
+\end{frame}
+
+\begin{frame}{Hankel Ideals}
+  The ideals $I_r(X_j)$ do not have the structure of an algebra with a straightening law.
+
+  In particular, the product of standard monomials need not be standard.
+
+  We still conjecture the following:
+  \begin{conj}
+    Let $I_r(X_j) \subseteq \F[x_1, \ldots, x_n]$ be the ideal generated by the $r \times r$ minors of $X_j$.
+    Let $f \in I_r(X_j)$ be a nonzero polynomial.
+    Then there exists a constant-depth $f$-oracle circuit of size $\poly(n, \deg(f))$ that computes the $t \times t$ determinant of a Hankel matrix for $t = \poly(n)$.
+  \end{conj}
+\end{frame}
+
+\begin{frame}{Failure of Prior Strategy}
+  In the general determinantal, skew-symmetric, and symmetric cases we analyzed the behavior of $E_{i, j}(\lambda)$.
+
+  This no longer works:
+  \[
+    \begin{pmatrix}
+      1 & \lambda & 0 \\
+      0 & 1 & 0 \\
+      0 & 0 & 1
+    \end{pmatrix}
+    \begin{pmatrix}
+      x_1 & x_2 & x_3 \\
+      x_2 & x_3 & x_4 \\
+      x_3 & x_4 & x_5
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+      x_1 + \lambda x_2 & x_2 + \lambda x_3 & x_3 + \lambda x_4 \\
+      x_2 & x_3 & x_4 \\
+      x_3 & x_4 & x_5
+    \end{pmatrix}
+  \]
 \end{frame}
 
 % Quotes are fun, find some to use!
@@ -857,9 +1027,9 @@
         \item \quoteAuthorDate{Algebra is generous; she often gives more than is asked of her.}{Jean Le Rond d'Alembert}
     \end{center}
 
-    {\tiny
-        Slides can be found on my site \href{https://anakin.phd/}{anakin.phd}
-    }
+    % {\tiny
+    %     Slides can be found on my site \href{https://anakin.phd/}{anakin.phd}
+    % }
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Bibliography}
