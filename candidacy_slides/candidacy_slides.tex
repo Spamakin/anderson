@@ -103,6 +103,8 @@
 \begin{frame}{Horner's Rule}
   Let $f(x) = \sum_{i = 0}^d a_i x^i \in \F[x]$ be a univariate polynomial.
 
+  \pause
+
   \begin{ex}\label{ex:horner}
     \emph{Horner's Rule} gives a recurrence for efficiently computing $f(x)$:
     \[
@@ -110,8 +112,10 @@
     \]
   \end{ex}
 
+  \pause
+
   \begin{itemize}
-  \item This gives a circuit using exactly $d$ additions and $d$ multiplications
+  \item This gives a circuit using exactly $d$ additions and $d$ multiplications. \pause
   \item The number of additions is optimal~\cite{Ost54}.
   \item The number of multiplications is optimal~\cite{Pan66}.
   \end{itemize}
@@ -120,7 +124,7 @@
 \begin{frame}{Hard Polynomials Exist}
   \begin{prop}\label{prop:most_hard}
     Let $\F$ be a field of characteristic zero.
-    Then most $n$-variate polynomials of degree $\leq d$ require circuits of size $N \defeq \binom{n + d}{d}$.
+    Then ``most'' $n$-variate polynomials of degree $\leq d$ require circuits of size $N \defeq \binom{n + d}{d}$.
   \end{prop}
 
   \begin{sketch}
@@ -138,6 +142,7 @@
   \begin{conj}\label{conj:det_vs_perm}
     Let $\F$ be a field, $\mathrm{char}(\F) \neq 2$, $X = (x_{i, j})$ be $n \times n$ matrix of variables.
 
+    \pause
     \vspace{10pt}
 
     Suppose that $A$ is an $m \times m$ matrix with entries in $\F[X]_{\leq 1}$ such that
@@ -145,6 +150,7 @@
       \det_m(A) = \perm_n(X).
     \]
 
+    \pause
     \vspace{10pt}
 
     Then $m$ must be superpolynomial in $n$.
@@ -165,7 +171,7 @@
     \begin{defn}
     We say a circuit \emph{border computes} $g(\overline{x})$ over $\F$ if it computes
     \[
-        g(\overline{x}) + \varepsilon^q \tilde{g}(\overline{x}, \varepsilon) \in \mathbb{F}(\varepsilon)[\overline{x}], \qquad q \geq 1.
+        g(\overline{x}) + \varepsilon^q \tilde{g}(\overline{x}, \varepsilon) \in \mathbb{F}[[\varepsilon]][\overline{x}], \qquad q \geq 1.
     \]
     \end{defn}
 
@@ -187,8 +193,10 @@
 \end{frame}
 
 \begin{frame}{Border Waring Rank}
+  \pause
+
   \begin{defn}
-    The \emph{Waring Rank}, $\WR(f)$ of a degree $d$ form $f(\overline{x})$ over $\C$ is the minimum $r$ such that there exist linear forms $\ell_1(\overline{x}), \ldots, \ell_r(\overline{x})$ such that
+    The \emph{Waring Rank}, $\WR(f)$, of a degree $d$ form $f(\overline{x})$ over $\C$ is the minimum $r$ such that there exist linear forms $\ell_1(\overline{x}), \ldots, \ell_r(\overline{x})$ such that
     \[
       f(\overline{x}) = \ell_1(\overline{x})^d + \cdots + \ell_r(\overline{x})^d.
     \]
@@ -197,17 +205,20 @@
   \pause
 
   \begin{ex}[{\cite{DL25}}]
-    Note that $\WR(x^{d - 1} y) = d$~\cite{Old40}.
-    However, we have that
+    We have that $\WR(x^{d - 1} y) = d$~\cite{Old40}.\ \pause
+    However,
     \[
       x^{d - 1}y = \lim_{ \e \to 0 } \frac{1}{d \e} ((x + \e y)^d - x^d).
     \]
+
+    \pause
+
     Thus, the \emph{Border Waring Rank}, $\overline{\WR}(f)$, is equal to 2.
+
+    \pause
 
     In other words, $\Set{f(x, y) \in \C[x, y]_{\leq d} \mid \WR(f) = 2}$ is not Zariski-closed.
   \end{ex}
-
-  This is an example where we cannot just set $\e = 0$.
 \end{frame}
 
 \begin{frame}{Circuit Complexity for Ideals}
@@ -300,16 +311,20 @@
 \end{frame}
 
 \begin{frame}{Trivial Statements can Arise}
+  \pause
+
   \begin{question}
       Suppose $0 \neq f \in \gen{g_1, \ldots, g_k}$.
       Can we compute any of the generators $g_i$ efficiently with an $f$-oracle circuit?
-  \end{question}
+    \end{question}
+
+    \pause
 
   \begin{ex}
     \begin{itemize}
-    \item Let $I \defeq \ideal{\perm_n, \det_n - \perm_n}$.
-    \item It is conjectured that $\perm_n$, and thus $\det_n - \perm_n$, requires superpolynomial circuits.
-    \item However, $\det_n = \perm_n + (\det_n - \perm_n) \in I$ is known to have a circuit of size $\poly(n)$ computing it.
+    \item Let $I \defeq \ideal{\perm_n, \det_n - \perm_n}$.\ \pause
+    \item It is conjectured that $\perm_n$, and thus $\det_n - \perm_n$, requires superpolynomial circuits.\ \pause
+    \item However, $\det_n = \perm_n + (\det_n - \perm_n) \in I$ is known to have a circuit of size $\poly(n)$ computing it.\ \pause
     \end{itemize}
   \end{ex}
 
@@ -339,14 +354,14 @@
     
     \begin{conj}[{\cite[Conjecture 6.3]{Gro20}}]
         Let $f \in I^{\det}_{n, n, n / 2}$ be a nonzero polynomial.\ \pause
-        There is a constant depth $f$-oracle circuit of size $\poly(n)$ that computes the $t \times t$ determinant, $t = n^{\bigTheta{1}}$.
+        There is a constant depth $f$-oracle circuit of size $\poly(n)$ that computes the $t \times t$ determinant, $t = \poly(n)$.
     \end{conj}
 \end{frame}
 
 \begin{frame}{What does the Oracle Give Us?}
     \begin{conj}[{\cite[Conjecture 6.3]{Gro20}}]
         Let $f \in I^{\det}_{n, n, n / 2}$ be a nonzero polynomial.
-        There is a constant depth $f$-oracle circuit of size $\poly(n)$ that computes the $t \times t$ determinant, $t = n^{\bigTheta{1}}$.
+        There is a constant depth $f$-oracle circuit of size $\poly(n)$ that computes the $t \times t$ determinant, $t = \poly(n)$.
     \end{conj}
 
     \pause
@@ -362,7 +377,7 @@
 \begin{frame}{Closure Results in Determinantal Ideals}    
     \begin{thrm}[{\cite[Theorem 1.1]{AF22}}]
         Let $f \in I^{\det}_{n, m, r}$ be a nonzero polynomial.
-        Then there is a depth-three $f$-oracle circuit of size $\bigO{n^2 m^2}$ that \emph{border computes} the $t \times t$ determinant for some $t = \bigTheta{r^{1 / 3}}$.
+        Then there is a depth-three $f$-oracle circuit of size $\bigO{n^2 m^2}$ that \emph{border computes} the $t \times t$ determinant for some $t = \poly\pqty{r^{1 / 3}}$.
     \end{thrm}
 
     \pause
@@ -375,7 +390,7 @@
 \begin{frame}{Closure Results in Determinantal Ideals}
     \begin{thrm}[{\cite[Theorem 1.5]{DG25}}]
         Let $f \in I^{\det}_{n, m, r}$ be a nonzero polynomial.
-        Then there is a depth-three $f$-oracle circuit of size $\poly(n, m, \deg(f))$ that \emph{exactly computes} the $t \times t$ determinant for some $t = \bigTheta{r^{1 / 3}}$.
+        Then there is a depth-three $f$-oracle circuit of size $\poly(n, m, \deg(f))$ that \emph{exactly computes} the $t \times t$ determinant for some $t = \poly\pqty{r^{1 / 3}}$.
     \end{thrm}
 
     \pause
@@ -391,9 +406,12 @@
 % \frame{\sectionpage}
 
 \begin{frame}{Dealing with Cancellations}
+
+  \pause
+
   \begin{itemize}
-  \item We saw earlier that we have to be careful of cancellations when working with ideals.
-  \item Working with the monomial basis is hard since determinants have exponentially many terms.
+  \item We saw earlier that we have to be careful of cancellations when working with ideals.\ \pause
+  \item Working with the monomial basis is hard since determinants have exponentially many terms.\ \pause
   \item Thus, we will work with a different basis for $I^{\det}_{n, m, r}$ which is described combinatorially with Young tabelau.
   \end{itemize}
 \end{frame}
@@ -448,6 +466,9 @@
 \end{frame}
 
 \begin{frame}{A Natural Generating Set for Determinantal Ideals}
+
+  \pause
+
   \begin{thrm}[{\cite[\S 8, Theorem 3]{DRS74},~\cite[Corollary 2.3]{dCEP80}}]
     Let $(S \mid T)(X)$ be a bideterminant of shape $\sigma$.
     \pause
@@ -455,19 +476,22 @@
     \[
         (S \mid T)(X) = \sum_{(A \mid B)} c_{A, B} (A \mid B)(X),
     \]
-    where $A$ and $B$ are \emph{conjugate semistandard}.
+    where $A$ and $B$ are \emph{conjugate semistandard}: strictly increasing along rows, weakling increasing down columns.
   \end{thrm}
+\end{frame}
+
+\begin{frame}{A Natural Generating Set for Determinantal Ideals}
 
   \pause
 
   Since $I^{\det}_{n, m, r}$ is generated by the $r \times r$ minors, the bideterminants in our basis should have at least one determinant of length at least $r$.
 
   \pause
-  
+
   \begin{prop}[{\cite[Corollary 1.7]{BC03}}]
     The ideal $I^{\det}_{n, m, r}$ has as basis the conjugate semistandard bideterminants of shape $\sigma$ whose first row has length at least $r$.
   \end{prop}
-    
+
 \end{frame}
 
 
@@ -530,14 +554,14 @@
 \begin{frame}{Main Theorem}
     \begin{conj}[{\cite[Conjecture 6.3]{Gro20}}]
         Let $f \in I^{\det}_{n, n, n / 2}$ be a nonzero polynomial.
-        Then there is a constant depth $f$-oracle circuit of size $\poly(n)$ that computes the $t \times t$ determinant for some $t = n^{\bigTheta{1}}$.
+        Then there is a constant depth $f$-oracle circuit of size $\poly(n)$ that computes the $t \times t$ determinant for some $t = \poly(n)$.
     \end{conj}
 
     \pause
     
     \begin{thrm}[{\cite[Theorem 1.5]{DG25}}]
         Let $f \in I^{\det}_{n, m, r}$ be a nonzero polynomial.
-        Then there is a depth-three $f$-oracle circuit of size $\poly(n, m, \deg(f))$ that \emph{exactly computes} the $t \times t$ determinant for some $t = \bigTheta{r^{1 / 3}}$.
+        Then there is a depth-three $f$-oracle circuit of size $\poly(n, m, \deg(f))$ that \emph{exactly computes} the $t \times t$ determinant for some $t = \poly\pqty{r^{1 / 3}}$.
     \end{thrm}
 \end{frame}
 
@@ -622,14 +646,32 @@
     \end{lem} 
 \end{frame}
 
-\begin{frame}{Applying the Linear Operators}
-    Substituting $i$ for $j$ corresponds to multiplication of $X$ by an \emph{elementary matrix} $E_{i, j}$, adding a multiple of row $j$ to row $i$.
+\begin{frame}{Linear Operators}
+    In fact, after enough applications we arrive at \emph{anticanonical} tableau: \pause
+    \begin{lem}[{\cite[stated before Corollary 1.7]{dCEP80}}]
+        Let $S$ be a conjugate semistandard tableau of shape $\sigma$ such that $S$ has entries of value at most $n$.
+        \pause
+        Then
+        \begin{align*}
+          (\Sub_{n - 1 \to n} &\circ \Sub_{n - 2 \to n} \circ \Sub_{n - 2 \to n-1} \circ \cdots \\
+          &\circ \Sub_{2 \to n}\circ\cdots\circ\Sub_{2 \to 3} \circ \Sub_{1 \to n} \circ \cdots \circ \Sub_{1 \to 2})(S) = \overline{K}_\sigma.
+        \end{align*}
+    \end{lem}
+
+    Let $\sigma = (4, 2, 1)$:
+    \begin{align*}
+      (\overline{K}_\sigma \mid \overline{K}_\sigma)(X) &= \left(\ \Yvcentermath1 \left. \young(3456,56,6)\ \right\vert\ \young(3456,56,6) \ \right)(X) \\
+                                  &= \text{product of upper-left minors}.
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Linear Operators}
+    Substituting $i$ for $j$ corresponds to multiplication of $X$ by an \emph{elementary matrix} $E_{i, j}(\lambda)$, adding $\lambda$ times row $j$ to row $i$.
     
     \pause
   
     \begin{lem}
         Let $\lambda$ be a new indeterminate and let $(S \mid T)$ be a bitableau.\ \pause
-        Then we have that
         \[
             (S \mid T)(E_{i, j}(\lambda)X) \pause = \pm \lambda^{h_{i}^{j}(S)} (\Sub_{i \to j}(S) \mid T)(X) \pause + \sum_{h = 0}^{h_{i}^{j}(S) - 1} \lambda^h \sum_{S' \in \mathcal{C}^{h}_{i \to j}(S)} \pm  (S' \mid T)(X).
         \]
@@ -638,9 +680,32 @@
 \end{frame}
 
 \begin{frame}{Applying all Substitution Operators}
-    We have seen now that after applying a sequence of substitution operators $\Sub_{i \to j}$, we can send a bitableau $(S \mid T)$ of shape $\sigma$ to $(\overline{K}_\sigma \mid \overline{K}_\sigma)$.
+  \vspace{10pt}
+    \begin{lem}[{\cite[stated before Corollary 1.7]{dCEP80}}]
+        Let $S$ be a conjugate semistandard tableau of shape $\sigma$ such that $S$ has entries of value at most $n$.
+        \pause
+        Then
+        \begin{align*}
+          (\Sub_{n - 1 \to n} &\circ \Sub_{n - 2 \to n} \circ \Sub_{n - 2 \to n-1} \circ \cdots \\
+          &\circ \Sub_{2 \to n}\circ\cdots\circ\Sub_{2 \to 3} \circ \Sub_{1 \to n} \circ \cdots \circ \Sub_{1 \to 2})(S) = \overline{K}_\sigma.
+        \end{align*}
+    \end{lem}
 
-    % TODO: Define M, N
+    \pause
+    \vspace{-20pt}
+
+    \begin{align*}
+      M ={}& E_{1, 2}(\lambda_{1, 2}) \cdots E_{1, n}(\lambda_{1, n}) E_{2, 3}(\lambda_{2, 3}) \cdots E_{2, n}(\lambda_{2, n}) \\
+           &\cdots E_{n - 2, n - 1}(\lambda_{n - 2, n - 1}) E_{n - 2, n}(\lambda_{n - 2, n}) E_{n - 1, n}(\lambda_{n - 1, n})
+    \end{align*}
+    \begin{align*}
+      N ={}& E_{m - 1, m}(\xi_{m - 1, m})^{\top} E_{m - 2, m}(\xi_{m - 2, m})^\top E_{m - 2, m - 1}(\xi_{m - 2, m - 1})^\top \\ &
+                                                                                                                                  \cdots E_{2, m}(\xi_{2, m})^{\top} \cdots E_{2, 3}(\xi_{2, 3})^\top E_{1, m}(\xi_{1, m})^\top \cdots E_{1, 2}(\xi_{1, 2})^\top.
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Applying all Substitution Operators}
+    We have seen now that after applying a sequence of substitution operators $\Sub_{i \to j}$, we can send a bitableau $(S \mid T)$ of shape $\sigma$ to $(\overline{K}_\sigma \mid \overline{K}_\sigma)$.
 
     Translating this to the setting of linear operators $E_{i, j}(\lambda_{i, j})$ gives the following:
     \begin{lem}[{\cite[Lemma 3.9]{DG25}}]
@@ -661,6 +726,8 @@
       \end{equation*}
     \end{lem}
 
+    \pause
+
     Let $J_n$ be the $n \times n$ matrix with $1$'s along the anti-diagonal.\ \pause
     \begin{lem}
         \[
@@ -674,31 +741,46 @@
       Let $f(X) \in I^{\det}_{n, m, r}$ be a nonzero polynomial of degree $d$.
       Then $f(MXN)$ can be expressed as a sum
       \begin{equation*}
-        f(M J_n X J_m N) = \sum_{k \in A} \widehat{c}_{k} \Lambda^{\overline{e}_k}\Xi^{\overline{f}_k}\cdot (K_{\sigma_k}\mid K_{\sigma_k})(X) + \sum_{\ell \in B} \widehat{c}_{\ell} \Lambda^{\overline{e}_\ell}\Xi^{\overline{f}_\ell}\cdot (S_\ell\mid T_\ell)(X)
+        f(M J_n X J_m N) = {\sum_{k \in A} \widehat{c}_{k} \Lambda^{\overline{e}_k}\Xi^{\overline{f}_k}\cdot (K_{\sigma_k}\mid K_{\sigma_k})(X)} + \sum_{\ell \in B} \widehat{c}_{\ell} \Lambda^{\overline{e}_\ell}\Xi^{\overline{f}_\ell}\cdot (S_\ell\mid T_\ell)(X)
       \end{equation*}
     \end{lem}
 \end{frame}
 
-\begin{frame}
-  Let $y_1, \ldots, y_n, z_1, \ldots, z_m, v$ be indeterminates.
+\begin{frame}{Applying all Substitution Operators}
+    \begin{lem}[{\cite[Corollary 3.10]{DG25}}]
+      Let $f(X) \in I^{\det}_{n, m, r}$ be a nonzero polynomial of degree $d$.
+      Then $f(MXN)$ can be expressed as a sum
+      \begin{equation*}
+        f(M J_n X J_m N) = {\color{sigma@mainblue}\sum_{k \in A} \widehat{c}_{k} \Lambda^{\overline{e}_k}\Xi^{\overline{f}_k}\cdot (K_{\sigma_k}\mid K_{\sigma_k})(X)} + \sum_{\ell \in B} \widehat{c}_{\ell} \Lambda^{\overline{e}_\ell}\Xi^{\overline{f}_\ell}\cdot (S_\ell\mid T_\ell)(X)
+      \end{equation*}
+    \end{lem}
+\end{frame}
+
+\begin{frame}{Distinguishing Terms}
   \begin{align*}
-    \widetilde{D}  &= \mathrm{diag}(y_1 v, y_2 v^2\dots,y_n v^n )\in\F[Y,v]^{n\times n} \\
-    \widetilde{D}' &= \mathrm{diag}(z_1 v,z_2 v^2,\dots,z_m v^m)\in\F[Z,v]^{m\times m}
+    D  &= \mathrm{diag}(y_1 v, y_2 v^2\dots,y_n v^n )\in\F[Y,v]^{n\times n} \\
+    D' &= \mathrm{diag}(z_1 v,z_2 v^2,\dots,z_m v^m)\in\F[Z,v]^{m\times m}
   \end{align*}
+
+  \pause
+
   \begin{lem}
     Let $(S\mid T)(X)$ be a bideterminant.
     Then
     \[
-      (S\mid T)(\widetilde{D} X \widetilde{D}')=Y^{\overline{s}} Z^{\overline{t}} v^{\abs{S} + \abs{T}} \cdot (S\mid T)(X),
+      (S\mid T)(D X D')=Y^{\overline{s}} Z^{\overline{t}} v^{\abs{S} + \abs{T}} \cdot (S\mid T)(X).
     \]
-    where $(\overline{s},\overline{t})$ is the multidegree of $(S\mid T)(X)$.
+    \begin{itemize}
+    \item $(\overline{s},\overline{t})$ is the multidegree of $(S\mid T)(X)$: $\mathrm{mdeg}(x_{i, j}) = e_i \oplus e_j$
+    \item $\abs{S}$ is the sum of the entries in $S$.
+    \end{itemize}
   \end{lem}
 \end{frame}
 
-\begin{frame}
+\begin{frame}{Distinguishing Terms}
   \begin{lem}
     Let $f(X) \in I^{\det}_{n, m, r}$ be a nonzero polynomial of degree $d$.
-    Let $g = f(M J_n \widetilde{D} X \widetilde{D}' J_m N) \in \F[X, \Lambda, \Xi, Y, Z, v]$.
+    Let $g = f(M J_n D X D' J_m N) \in \F[X, \Lambda, \Xi, Y, Z, v]$.
     \[
       \coeff_{v^{d_{\min}}}(g)= \sum_{k\in I} c_k \Lambda^{\overline{e}_k}\Xi^{\overline{f}_k}Y^{\overline{s}_k}Z^{\overline{t}_k}\cdot (K_{\sigma_k}\mid K_{\sigma_k})(X),
     \]
@@ -808,20 +890,37 @@
 
 
 \begin{frame}{Where Does Isolation Arise?}
+
+  \pause
+
   We now have an $f$-oracle circuit to compute
   \[
-    \sum_{k\in I} c_k \Lambda^{\overline{e}_k}\Xi^{\overline{f}_k}Y^{\overline{s}_k}Z^{\overline{t}_k}\cdot (K_{\sigma_k}\mid K_{\sigma_k})(X)
+    g(X) = \sum_{k\in I} c_k \Lambda^{\overline{e}_k}\Xi^{\overline{f}_k}Y^{\overline{s}_k}Z^{\overline{t}_k}\cdot {\color{sigma@mainblue}(K_{\sigma_k}\mid K_{\sigma_k})(X)} \in \F[\Lambda, \Xi, Y, Z][X].
   \]
-  We want an $f$-oracle circuit for a single $i \in I$.
 
-  Our proof shows that for each $k \in I$, the tuple $(\overline{e}_k, \overline{f}_k, \overline{s}_k, \overline{t}_k)$ is distinct.
+  \pause
 
-  Interpolation is \emph{\textcolor{sigma@alertred}{insufficient}} for our purposes.
-  % Why? Interpolating with multiple variables is expensive
-  % Kronecker is also expensive
+  We want an $f$-oracle circuit for a \emph{single} $k \in I$.
+
+  \pause
+  \vspace{10pt}
+
+  \emph{Idea:} Interpolate with respect to $\Lambda \cup \Xi \cup Y \cup Z$.
+
+  \pause
+  \vspace{10pt}
+
+  \emph{Problem:} Interpolating with respect to multiple variables is \textcolor{sigma@alertred}{\textit{expensive}}.
 \end{frame}
 
 \begin{frame}{Issues with Interpolation}
+
+  \emph{Setup:} We want to \emph{isolate} some coefficient $c_{\overline{e}}$ in $g(\overline{x}) = \sum_{\overline{e} \in \mathcal{L}} c_{\overline{e}} {\overline{x}}^{\overline{e}}$.
+
+  \pause
+
+  \emph{Recall:} Prior work~\cite{AF22} gave ideal closure results in the border setting.
+
     If a circuit border computes $g(\overline{x})$, then it computes
     \[
       g(\overline{x}) + \e^q \tilde{g}(\overline{x}, \e), \qquad q \geq 1.
@@ -843,43 +942,44 @@
 \end{frame}
 
 \begin{frame}{Idea: Kronecker Substitution}
-    Say there is a specific coefficient $c_{\overline{e}}$ in $g(\overline{x}) = \sum_{\overline{e} \in \mathcal{L}} c_{\overline{e}} {\overline{x}}^{\overline{e}}$ we want to \emph{isolate}.
 
-    \pause
-    
-    \begin{lem}
-        Suppose that $\deg(g) \leq d$, \pause then the \emph{Kronecker substitution}
-        \[
-            x_i \mapsto w^{d^i}
-        \]
-        maps distinct monomials to distinct monomials.
-    \end{lem}
+  \emph{Setup:} We want to \emph{isolate} some coefficient $c_{\overline{e}}$ in $g(\overline{x}) = \sum_{\overline{e} \in \mathcal{L}} c_{\overline{e}} {\overline{x}}^{\overline{e}}$.
 
-    \pause
+  \pause
 
-    \emph{Problem:} The resulting polynomial has \emph{large degree}.
+  \begin{lem}
+    Suppose that $\deg(g) \leq d$, \pause then the \emph{Kronecker substitution}
+    \[
+      x_i \mapsto w^{d^i}
+    \]
+    maps distinct monomials to distinct monomials.
+  \end{lem}
 
-    \pause
-    
-    \qquad $\implies$ Interpolation gives \emph{large circuit}.
+  \pause
+
+  \emph{Problem:} The resulting polynomial has \emph{large degree}.
+
+  \pause
+
+  \qquad $\implies$ Interpolation gives \emph{large circuit}.
 \end{frame}
 
 \begin{frame}{Isolation Lemma}
-    Say there is a specific coefficient $c_{\overline{e}}$ in $g(\overline{x}) = \sum_{\overline{e}} c_{\overline{e}} {\overline{x}}^{\overline{e}}$ we want to \emph{isolate}.
+  \emph{Setup:} We want to \emph{isolate} some coefficient $c_{\overline{e}}$ in $g(\overline{x}) = \sum_{\overline{e} \in \mathcal{L}} c_{\overline{e}} {\overline{x}}^{\overline{e}}$.
+
+  \pause
+  
+  \begin{lem}[{\cite[Lemma 4]{KS01}}]
+    Linear programs with \textcolor{sigma@alertred}{\textit{random}} cost functions will have a unique minimum.
+    \begin{figure}
+      \centering
+      \includegraphics[width=0.375\textwidth]{images/rand_lp.png}
+    \end{figure}
 
     \pause
-    
-    \begin{lem}[{\cite[Lemma 4]{KS01}}]
-        Linear programs with \textcolor{sigma@alertred}{\textit{random}} cost functions will have a unique minimum.
-        \begin{figure}
-            \centering
-            \includegraphics[width=0.375\textwidth]{images/rand_lp.png}
-        \end{figure}
-        
-        \pause
-        
-        Moreover, if the linear equations have bounded integer coefficients, then evaluation at \textcolor{sigma@alertred}{\textit{small, random}} values has a unique minimum.
-    \end{lem}
+
+    Moreover, if the linear equations have bounded integer coefficients, then evaluation at \textcolor{sigma@alertred}{\textit{small, random}} values has a unique minimum.
+  \end{lem}
 \end{frame}
 
 \begin{frame}{Isolation Lemma}
@@ -915,7 +1015,7 @@
 
         \pause
 
-        The Isolation Lemma shows that the $z_1, \ldots, z_\ell$ can be choose to be small \pause $\implies$ unique lowest $\deg_w$-term \pause and interpolation w.r.t $w$ is small.
+        The Isolation Lemma shows that the $z_1, \ldots, z_\ell$ can be chosen to be small \pause $\implies\ \exists$ unique lowest $\deg_w$-term \pause and interpolation w.r.t $w$ is small.
     \end{lem}
 \end{frame}
 
@@ -933,7 +1033,7 @@
 
     \begin{thrm}[{\cite[Theorem 1.6]{DG25}}]
         Let $f \in I^{\pfaff}_{2n, 2r}$ be a nonzero polynomial.
-        Then there is a depth-three $f$-oracle circuit of size $\poly(n, \deg(f))$ that \emph{exactly computes} the $t \times t$ pfaffian for some $t = \bigTheta{r^{1 / 3}}$.
+        Then there is a depth-three $f$-oracle circuit of size $\poly(n, \deg(f))$ that \emph{exactly computes} the $t \times t$ Pfaffian for some $t = \poly\pqty{r^{1 / 3}}$.
     \end{thrm}
     
 \end{frame}
