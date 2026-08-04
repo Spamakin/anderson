@@ -19,6 +19,7 @@
 
 % ---- Paper Specific ----
 \usepackage{youngtab}
+\apptocmd{\det}{\nolimits}{}{}
 
 % ---- Random math utilities ----
 \usepackage{centernot}
@@ -50,12 +51,6 @@
 }
 \usepackage{cleveref}
 \usepackage[noadjust]{cite}
-
-% ---- Coding ----
-\usepackage{minted}
-\setminted{linenos=true, breaklines=true, breakanywhere=true, style=default}
-\usemintedstyle{monokai}
-\renewcommand\theFancyVerbLine{\small\arabic{FancyVerbLine}}
 
 % -------------------------------------------------------------------------
 %  Formatting junk
@@ -98,6 +93,7 @@
     notefont=\bfseries,
 ]{solution}
 \declaretheorem[style=solution, numbered=no, name=Proof]{pf}
+\declaretheorem[style=solution, numbered=no, name=Sketch]{sketch}
 
 % -------------------------------------------------------------------------
 %  Common abbreviations and words with accents
@@ -211,6 +207,7 @@
 \DeclareMathOperator{\rel}{rel}
 \DeclareMathOperator{\rad}{rad}
 \DeclareMathOperator{\size}{size}
+\DeclareMathOperator{\WR}{WR}
 
 \newcommand*\argmax{\operatornamewithlimits{arg\,max}}
 \newcommand*\argmin{\operatornamewithlimits{arg\,min}}
