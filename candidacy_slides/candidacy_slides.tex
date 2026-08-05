@@ -620,8 +620,8 @@
   \emph{Goal:} Use $f(X)$ as an oracle to compute a canonical bideterminant.
 \end{frame}
   
-\begin{frame}{Linear Operators}
-    \begin{defn}[Substitution operator~\cite{dCEP80}]
+\begin{frame}{Substitution}
+    \begin{defn}[Substitution Sperator~\cite{dCEP80}]
         For $i < j$, the operator $\mathrm{Sub}_{i \to j}$ takes a tableau $S$ and returns the tableau $S'$ formed by taking each row of $S$ which has an $i$ but not a $j$, replacing that $i$ with $j$, and sorting the row in increasing order.
 
         \pause
@@ -636,25 +636,30 @@
     \end{defn}
 \end{frame}
 
-\begin{frame}{Linear Operators}
-    These operators send conjugate semistandard tableau to conjugate semistandard tableau.
+\begin{frame}{Substitution}
+  These operators send conjugate semistandard tableau to conjugate semistandard tableau.
 
-    \pause
-    
-    In fact, after enough applications we arrive at \emph{anticanonical} tableau: \pause
-    \begin{lem}[{\cite[stated before Corollary 1.7]{dCEP80}}]
-        Let $S$ be a conjugate semistandard tableau of shape $\sigma$ such that $S$ has entries of value at most $n$.
-        \pause
-        Then
-        \begin{align*}
-          (\Sub_{n - 1 \to n} &\circ \Sub_{n - 2 \to n} \circ \Sub_{n - 2 \to n-1} \circ \cdots \\
-          &\circ \Sub_{2 \to n}\circ\cdots\circ\Sub_{2 \to 3} \circ \Sub_{1 \to n} \circ \cdots \circ \Sub_{1 \to 2})(S) = \overline{K}_\sigma.
-        \end{align*}
-    \end{lem} 
+  \pause
+
+  In fact, after enough applications we arrive at \emph{anticanonical} tableau:
+  \pause
+
+  Let $\sigma = (4, 2, 1)$ and $n = m = 6$:
+  \begin{align*}
+    (\overline{K}_\sigma \mid \overline{K}_\sigma)(X) &= \left(\ \Yvcentermath1 \left. \young(3456,56,6)\ \right\vert\ \young(3456,56,6) \ \right)(X) \\
+                                                      &= \text{product of lower-right minors}.
+  \end{align*}
 \end{frame}
 
-\begin{frame}{Linear Operators}
-  \vspace{10pt}
+\begin{frame}{Substitution}
+
+  \vspace{12pt}
+
+  These operators send conjugate semistandard tableau to conjugate semistandard tableau.
+
+  In fact, after enough applications we arrive at \emph{anticanonical} tableau:
+
+  \pause
 
   \begin{lem}[{\cite[stated before Corollary 1.7]{dCEP80}}]
     Let $S$ be a conjugate semistandard tableau of shape $\sigma$ such that $S$ has entries of value at most $n$.
@@ -665,13 +670,6 @@
     \end{align*}
   \end{lem}
 
-  \pause
-
-  Let $\sigma = (4, 2, 1)$ and $n = m = 6$:
-  \begin{align*}
-    (\overline{K}_\sigma \mid \overline{K}_\sigma)(X) &= \left(\ \Yvcentermath1 \left. \young(3456,56,6)\ \right\vert\ \young(3456,56,6) \ \right)(X) \\
-                                &= \text{product of lower-right minors}.
-  \end{align*}
 \end{frame}
 
 \begin{frame}{Linear Operators}
@@ -793,7 +791,7 @@
     Let $f(X) \in I^{\det}_{n, m, r}$ be a nonzero polynomial of degree $d$.
     Let $g = f(M J_n D X D' J_m N) \in \F[X, \Lambda, \Xi, Y, Z, v]$.
     \[
-      \coeff_{v^{d_{\min}}}(g)= \sum_{k\in I} c_k \Lambda^{\overline{e}_k}\Xi^{\overline{f}_k}Y^{\overline{s}_k}Z^{\overline{t}_k}\cdot (K_{\sigma_k}\mid K_{\sigma_k})(X).
+      \coeff_{v^{d_{\min}}}(g) = \sum_{k\in I} c_k \Lambda^{\overline{e}_k}\Xi^{\overline{f}_k}Y^{\overline{s}_k}Z^{\overline{t}_k}\cdot (K_{\sigma_k}\mid K_{\sigma_k})(X).
     \]
   \end{lem}
 
@@ -915,7 +913,7 @@
 
   We now have an $f$-oracle circuit to compute
   \[
-    g(X) = \sum_{k\in I} c_k \Lambda^{\overline{e}_k}\Xi^{\overline{f}_k}Y^{\overline{s}_k}Z^{\overline{t}_k}\cdot {\color{sigma@mainblue}(K_{\sigma_k}\mid K_{\sigma_k})(X)} \in \F[\Lambda, \Xi, Y, Z][X].
+    \coeff_{v^{d_{\min}}}(g) = \sum_{k\in I} c_k \Lambda^{\overline{e}_k}\Xi^{\overline{f}_k}Y^{\overline{s}_k}Z^{\overline{t}_k}\cdot {\color{sigma@mainblue}(K_{\sigma_k}\mid K_{\sigma_k})(X)} \in \F[\Lambda, \Xi, Y, Z][X].
   \]
 
   \pause
