@@ -162,6 +162,13 @@
 
     Then $m$ must be \emph{superpolynomial} in $n$.
   \end{conj}
+
+  \pause
+
+  \begin{itemize}
+  \item We know of $\poly(m)$-sized circuits for $\det_m$
+  \item It turns out the conjecture is equivalent to saying that $\perm_n$ requires superpolynomial-sized circuits
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{Border Complexity}
@@ -170,7 +177,7 @@
     \pause
     \vspace{10pt}
 
-    Instead of working over a field $\F$\pause, we take a parameter $\e$, allow our coefficients to be rational functions in $\e$, and let $\e$ tend to $0$.
+    Instead of working over a field $\F$\pause, we take a parameter $\e$, allow our coefficients to be in $\F(\e)$, and let $\e$ tend to $0$.
 
     \pause
     \vspace{10pt}
@@ -476,7 +483,7 @@
   \begin{thrm}[{\cite[\S 8, Theorem 3]{DRS74},~\cite[Corollary 2.3]{dCEP80}}]
     Let $(S \mid T)(X)$ be a bideterminant of shape $\sigma$.
     \pause
-    Then $(S \mid T)(X)$ can be uniquely expressed as a linear combination
+    Then $(S \mid T)(X)$ can be uniquely expressed as an integral linear combination
     \[
         (S \mid T)(X) = \sum_{(A \mid B)} c_{A, B} (A \mid B)(X), \qquad c_{A, B} \in \Z
     \]
